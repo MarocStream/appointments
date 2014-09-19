@@ -1,0 +1,36 @@
+#header {
+  div.login {
+
+    a, span {
+      background: none;
+      float: right;
+    }
+    span {
+      padding-left: 5px;
+    }
+    div {
+      float: right;
+    }
+  }
+}
+#main {
+  input[type=email],input[type=text],input[type=password] {
+    width: 300px;
+  }
+  input[type=submit] {
+    padding: 4px;
+    border: 1px solid #eee;
+    font: normal 1em Verdana, sans-serif;
+    color: #4284B0;
+    cursor: pointer;
+  }
+  input[type=submit]:hover {
+    color: #FFF;
+  }
+  form div {
+    padding: 10px;
+  }
+  .indent {
+    margin-left: 10px;
+  }
+}

@@ -8,17 +8,71 @@
 </head>
 <body>
 
-<p class="navbar-text pull-right">
-  <% if user_signed_in? %>
-      Logged in as <strong><%= current_user.email %></strong>.
-      <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-      <%= link_to 'Logout', destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-  <% else %>
-      <%= link_to 'Sign up', new_user_registration_path, :class => 'navbar-link'  %> |
-      <%= link_to 'Login', new_user_session_path, :class => 'navbar-link'  %>
-  <% end %>
+  <div id="wrap">
+    <div id="header">
+      <h1 id="logo" align="center">the<span class="green">washington</span>travel<span class="gray">clinic</span></h1>
+      <h2 id="slogan" align="right">healthcare for travelers and more ...</h2>
+      <div class="login">
+        <% if user_signed_in? %>
+            <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>
+            <span>|</span>
+            <%= link_to 'Logout', destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+            <div>Logged in as <strong><%= current_user.email %></strong>.</div>
+        <% else %>
+            <%= link_to 'Sign up', new_user_registration_path, :class => 'navbar-link'  %>
+            <span>|</span>
+            <%= link_to 'Login', new_user_session_path, :class => 'navbar-link'  %>
+        <% end %>
+      </div>
+      <!-- Menu Tabs -->
+      <ul>
+        <li>
+          <a href="http://www.washingtontravelclinic.com/"><span>Home</span></a>
+        </li>
+        <li>
+          <a href="http://www.washingtontravelclinic.com/about"><span>About Us</span></a>
+        </li>
+        <li>
+          <a href="http://www.washingtontravelclinic.com/policies"><span>Policies</span></a>
+        </li>
+        <li>
+          <a href="http://www.washingtontravelclinic.com/pricing"><span>Pricing</span></a>
+        </li>
+        <li id="current">
+          <a href="scheduling"><span>Scheduling</span></a>
+        </li>
+        <li>
+          <a href="http://www.washingtontravelclinic.com/contact"><span>Contact</span></a>
+        </li>
+        <li>
+          <a href="http://www.washingtontravelclinic.com/FAQ"><span>FAQ</span></a>
+        </li>
+        <li>
+          <a href="http://www.washingtontravelclinic.com/links"><span>Links</span></a>
+        </li>
+      </ul>
+      <div id="globe"> <%= image_tag "logo.png", class: 'no-border', width: 45, height: 45 %>
+      </div>
+    </div>
 
-<%= yield %>
+
+
+  	<div id="content-wrap">
+    	<%= image_tag "headerphoto15.jpg", width: 1100, height: 120, class: 'no-border' %>
+    	<div id="main">
+        <p class="navbar-text pull-right">
+          <%= yield %>
+        </p>
+      </div>
+
+
+      <div id="footer">
+      	<div class="footer-left"></div>
+      	<div class="footer-right"></div>
+
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
