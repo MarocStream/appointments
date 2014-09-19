@@ -35,14 +35,19 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
 gem 'unicorn'
-gem 'capistrano-nginx-unicorn', group: :development
-
-# Use Capistrano for deployment
-gem 'capistrano-rails', group: :development
-
 gem 'devise'
 
-gem 'rspec-rails'
+group :development, :test do
+  gem 'capistrano-nginx-unicorn'
+
+  # Use Capistrano for deployment
+  gem 'capistrano-rails'
+
+  gem 'rspec-rails'
+  gem 'minitest'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
