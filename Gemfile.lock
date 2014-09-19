@@ -27,6 +27,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    angularjs-rails (1.2.22)
     arel (5.0.1.20140414130214)
     bcrypt (3.1.7)
     builder (3.2.2)
@@ -161,6 +162,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  angularjs-rails
   bcrypt (~> 3.1.7)
   capistrano-nginx-unicorn
   capistrano-rails
