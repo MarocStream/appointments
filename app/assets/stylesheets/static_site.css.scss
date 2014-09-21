@@ -11,7 +11,7 @@ body {
 	padding: 0;
 	font: .70em/1.5em  Verdana, Tahoma, Helvetica, sans-serif;
 	color: #333;
-	background: #A9BAC3 url(bg.gif) repeat-x;
+	background: #A9BAC3 url(image-path('bg.gif')) repeat-x;
 	text-align: center;
 	letter-spacing:.03em;
 }
@@ -195,7 +195,7 @@ top: 55px;
 #header {
 	position: relative;
 	height: 85px;
-	background: #000 url(headerbg.gif) repeat-x 0% 100%;
+	background: #000 url(image-path('headerbg.gif')) repeat-x 0% 100%;
 }
 #header h1#logo {
 	position: absolute;
@@ -239,18 +239,18 @@ top: 55px;
 	border: 1px solid #f2f2f2;
 	font-size: 95%;
 }
-.post-footer .date {
-	background:  url(clock.gif) no-repeat left center;
-	padding-left: 20px; margin: 0 10px 0 5px;
-}
-.post-footer .comments {
-	background:  url(comment.gif) no-repeat left center;
-	padding-left: 20px; margin: 0 10px 0 5px;
-}
-.post-footer .readmore {
-	background:  url(page.gif) no-repeat left center;
-	padding-left: 20px; margin: 0 10px 0 5px;
-}
+// .post-footer .date {
+// 	background:  url(image-path('clock.gif')) no-repeat left center;
+// 	padding-left: 20px; margin: 0 10px 0 5px;
+// }
+// .post-footer .comments {
+// 	background:  url(image-path('comment.gif')) no-repeat left center;
+// 	padding-left: 20px; margin: 0 10px 0 5px;
+// }
+// .post-footer .readmore {
+// 	background:  url(image-path('page.gif')) no-repeat left center;
+// 	padding-left: 20px; margin: 0 10px 0 5px;
+// }
 
 .faqs	{
 	cursor:pointer;
@@ -358,7 +358,7 @@ top: 55px;
 }
 #header a {
    float:left;
-   background: url(tableft.gif) no-repeat left top;
+   background: url(image-path('tableft.gif')) no-repeat left top;
    margin:0;
    padding:0 0 0 4px;
    text-decoration:none;
@@ -366,7 +366,7 @@ top: 55px;
 #header a span {
    float:left;
    display:block;
-   background: url(tabright.gif) no-repeat right top;
+   background: url(image-path('tabright.gif')) no-repeat right top;
    padding:6px 15px 3px 8px;
    color: #FFF;
 }
@@ -486,27 +486,27 @@ button.punch {
     width: 800px;
     z-index: 2;
 }
-div.loader {
-    background: url("loading.gif") no-repeat scroll 0 0 transparent;
-    height: 32px;
-    width: 32px;
-	display: none;
-	z-index: 9999;
-	top: 40%;
-	left: 50%;
-	position: absolute;
-	margin-left: -10px;
-}
-div.close {
-    background: url("closebox.png") no-repeat scroll 0 0 transparent;
-    bottom: 24px;
-    cursor: pointer;
-    float: right;
-    height: 30px;
-    left: 27px;
-    position: relative;
-    width: 30px;
-}
+// div.loader {
+//     background: url(image-path('loading.gif')) no-repeat scroll 0 0 transparent;
+//     height: 32px;
+//     width: 32px;
+// 	display: none;
+// 	z-index: 9999;
+// 	top: 40%;
+// 	left: 50%;
+// 	position: absolute;
+// 	margin-left: -10px;
+// }
+// div.close {
+//     background: url(image-path('closebox.png')) no-repeat scroll 0 0 transparent;
+//     bottom: 24px;
+//     cursor: pointer;
+//     float: right;
+//     height: 30px;
+//     left: 27px;
+//     position: relative;
+//     width: 30px;
+// }
 span.ecs_tooltip {
     background: none repeat scroll 0 0 #000000;
     border-radius: 2px 2px 2px 2px;
