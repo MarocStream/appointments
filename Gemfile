@@ -38,7 +38,7 @@ gem 'unicorn'
 gem 'devise'
 
 group :development, :test do
-  gem 'capistrano-nginx-unicorn'
+  gem 'capistrano-unicorn-nginx'
 
   # Use Capistrano for deployment
   gem 'capistrano-rails'
