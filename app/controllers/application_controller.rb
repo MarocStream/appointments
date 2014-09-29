@@ -4,8 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  
-  before_action :authenticate_user!
 
   protected
 
@@ -13,6 +11,15 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) do |user|
       if current_user.admin?
         user.permit(:admin)
+      end
+    end
+  end
+
+  def require_admin!
+    unless current_user && current_user.admin?
+      respond_to do |format|
+        format.html { redirect_to root_url, alert: 'Access denied'}
+        format.json { head :unauthorized }
       end
     end
   end

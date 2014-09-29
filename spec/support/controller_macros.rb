@@ -13,4 +13,10 @@ module ControllerMacros
       sign_in user
     end
   end
+
+  def log_out
+    before(:each) do
+      sign_out :user
+    end
+  end
 end

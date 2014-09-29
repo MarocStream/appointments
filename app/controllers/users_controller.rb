@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_admin!
+  before_action :authenticate_user!
+  before_action :require_admin!, except: :profile
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -12,6 +13,13 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+  end
+
+  # GET /users/profile
+  # GET /users/profile.json
+  def profile
+    @user = current_user
+    render :show
   end
 
   # PATCH/PUT /users/1
@@ -43,15 +51,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-    def require_admin!
-      unless current_user && current_user.admin?
-        respond_to do |format|
-          format.html { redirect_to root_url, alert: 'Access denied'}
-          format.json { head :unauthorized }
-        end
-      end
-    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919012358) do
+ActiveRecord::Schema.define(version: 20140929014906) do
+
+  create_table "appointment_types", force: true do |t|
+    t.string   "name"
+    t.integer  "duration"
+    t.integer  "prep_duration"
+    t.integer  "post_duration"
+    t.string   "color_class"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "appointments", force: true do |t|
+    t.integer  "user_id"
+    t.datetime "start"
+    t.integer  "appointment_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "appointments", ["appointment_type_id"], name: "index_appointments_on_appointment_type_id"
+  add_index "appointments", ["user_id"], name: "index_appointments_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

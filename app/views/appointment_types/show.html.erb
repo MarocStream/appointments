@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @appointment_type.name %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @appointment_type.duration %>
+</p>
+
+<p>
+  <strong>Prep duration:</strong>
+  <%= @appointment_type.prep_duration %>
+</p>
+
+<p>
+  <strong>Post duration:</strong>
+  <%= @appointment_type.post_duration %>
+</p>
+
+<p>
+  <strong>Color class:</strong>
+  <%= @appointment_type.color_class %>
+</p>
+
+<%= link_to 'Edit', edit_appointment_type_path(@appointment_type) %> |
+<%= link_to 'Back', appointment_types_path %>

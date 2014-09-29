@@ -1,13 +1,21 @@
 Rails.application.routes.draw do
   devise_for :users
+  get "/users/profile", controller: :users, action: :profile
   scope "/admin" do
     resources :users, except: [:create]
+    resources :appointment_types
+    resources :appointments
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
+  root 'appointments#index'
+
+  resources :appointment_types
+
+  resources :appointments
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

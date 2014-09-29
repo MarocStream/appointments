@@ -55,6 +55,27 @@ describe UsersController do
     end
   end
 
+  describe "GET profile" do
+    context "anonymous users" do
+      log_out
+      it "requires login" do
+        get :profile
+        response.should_not be_ok
+      end
+    end
+    it "allows non-admins" do
+      get :profile
+      assigns(:user).should eq(subject.current_user)
+    end
+    context "admins" do
+      login_admin
+      it "assigns the requested user as @user" do
+        get :profile
+        assigns(:user).should eq(subject.current_user)
+      end
+    end
+  end
+
   describe "PUT update" do
     it "disallows non-admins" do
       put :update, {:id => User.first.to_param, :user => {"first" => "name"}}
