@@ -7,4 +7,14 @@ class Appointment < ActiveRecord::Base
 
   validates_presence_of :user, :appointment_type, :start
 
+  scope :for_user, ->(user) {
+    if user && user.patient?
+      where(user_id: user.id)
+    elsif user && user.admin_or_staff?
+      where({})
+    else
+      where(user_id: -1)
+    end
+  }
+
 end

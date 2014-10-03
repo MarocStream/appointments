@@ -26,18 +26,102 @@ describe AppointmentsController do
   let(:valid_session) { {} }
 
   describe "GET index" do
-    it "assigns all appointments as @appointments" do
-      appointment = create(:appointment)
-      get :index, {}, valid_session
-      assigns(:appointments).should eq([appointment])
+    context "for anonymous users gives back appointments" do
+      log_out
+
+      it "without the user_id" do
+        appointment = create(:appointment)
+        get :index, {}, valid_session
+        assigns(:appointments).first.user_id.should be_nil
+      end
+    end
+
+    context "for logged in users gives back appointments" do
+      login_user
+
+      before :each do
+        appointments = [create(:appointment), create(:appointment, user_id: @user.id)]
+        get :index, {}, valid_session
+      end
+
+      describe "others appointments" do
+        it "without the user_id" do
+          assigns(:appointments).first.user_id.should be_nil
+        end
+      end
+
+      describe "my appointments" do
+        it "with my user object" do
+          assigns(:appointments).second.user.should == @user
+        end
+      end
+
+    end
+
+    context "for admin users" do
+      login_admin
+
+      before :each do
+        appointments = [create(:appointment), create(:appointment)]
+        get :index, {}, valid_session
+      end
+
+      describe "others appointments" do
+        it "with the user object" do
+          assigns(:appointments).each do |a|
+            a.user.should_not be_nil
+          end
+        end
+      end
+
     end
   end
 
   describe "GET show" do
-    it "assigns the requested appointment as @appointment" do
-      appointment = create(:appointment)
-      get :show, {:id => appointment.to_param}, valid_session
-      assigns(:appointment).should eq(appointment)
+    shared_examples_for "allowing access" do
+      it "sets the appointment" do
+        get :show, {:id => appointment.to_param}, valid_session
+        assigns(:appointment).should_not be_nil
+      end
+    end
+    shared_examples_for "rejecting access" do
+      it "raises error" do
+        expect { get :show, {:id => appointment.to_param}, valid_session }.to raise_error
+      end
+    end
+    context "for anonymous users" do
+      log_out
+      let(:appointment) { create(:appointment) }
+      it_behaves_like 'rejecting access'
+    end
+
+    context "for patients" do
+      login_user
+
+      context "for their own appointments" do
+        let(:appointment) { create(:appointment, user_id: @user.id) }
+        it_behaves_like 'allowing access'
+      end
+
+      context "for others appointments" do
+        let(:appointment) { create(:appointment) }
+        it_behaves_like 'rejecting access'
+      end
+
+    end
+
+    context "for admins" do
+      login_admin
+
+      context "for their own appointments" do
+        let(:appointment) { create(:appointment, user_id: @admin.id) }
+        it_behaves_like 'allowing access'
+      end
+
+      context "for others appointments" do
+        let(:appointment) { create(:appointment) }
+        it_behaves_like 'allowing access'
+      end
     end
   end
 
@@ -49,10 +133,51 @@ describe AppointmentsController do
   end
 
   describe "GET edit" do
-    it "assigns the requested appointment as @appointment" do
-      appointment = create(:appointment)
-      get :edit, {:id => appointment.to_param}, valid_session
-      assigns(:appointment).should eq(appointment)
+    shared_examples_for "allowing access" do
+      it "are given their appointments" do
+        get :edit, {:id => appointment.to_param}, valid_session
+        assigns(:appointment).should_not be_nil
+      end
+    end
+
+    shared_examples_for "rejecting access" do
+      it "are rejected" do
+        expect { get :edit, {:id => appointment.to_param}, valid_session }.to raise_error
+      end
+    end
+
+    context "for anonymous users" do
+      log_out
+      let(:appointment) { create(:appointment) }
+      it_behaves_like 'rejecting access'
+    end
+
+    context "for patients" do
+      login_user
+
+      context "for their own appointments" do
+        let(:appointment) { create(:appointment, user_id: @user.id) }
+        it_behaves_like 'allowing access'
+      end
+
+      context "for others appointments" do
+        let(:appointment) { create(:appointment) }
+        it_behaves_like 'rejecting access'
+      end
+    end
+
+    context "for admins" do
+      login_admin
+
+      context "for their own appointments" do
+        let(:appointment) { create(:appointment, user_id: @admin.id) }
+        it_behaves_like 'allowing access'
+      end
+
+      context "for others appointments" do
+        let(:appointment) { create(:appointment) }
+        it_behaves_like 'allowing access'
+      end
     end
   end
 
@@ -97,61 +222,140 @@ describe AppointmentsController do
   end
 
   describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested appointment" do
-        appointment = create(:appointment)
-        # Assuming there are no other appointments in the database, this
-        # specifies that the Appointment created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Appointment.any_instance.should_receive(:update).with({ "user_id" => "1" })
-        put :update, {:id => appointment.to_param, :appointment => { "user_id" => "1" }}, valid_session
+    shared_examples_for "allowing_access" do
+      describe "with valid params" do
+        it "updates the requested appointment" do
+          # Assuming there are no other appointments in the database, this
+          # specifies that the Appointment created on the previous line
+          # receives the :update_attributes message with whatever params are
+          # submitted in the request.
+          Appointment.any_instance.should_receive(:update).with({ "user_id" => "1" })
+          put :update, {:id => appointment.to_param, :appointment => { "user_id" => "1" }}, valid_session
+        end
+
+        it "assigns the requested appointment as @appointment" do
+          put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session
+          assigns(:appointment).should eq(appointment)
+        end
+
+        it "redirects to the appointment" do
+          put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session
+          response.should redirect_to(appointment)
+        end
       end
 
-      it "assigns the requested appointment as @appointment" do
-        appointment = create(:appointment)
-        put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session
-        assigns(:appointment).should eq(appointment)
-      end
+      describe "with invalid params" do
+        it "assigns the appointment as @appointment" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Appointment.any_instance.stub(:save).and_return(false)
+          put :update, {:id => appointment.to_param, :appointment => { "user_id" => "invalid value" }}, valid_session
+          assigns(:appointment).should eq(appointment)
+        end
 
-      it "redirects to the appointment" do
-        appointment = create(:appointment)
-        put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session
-        response.should redirect_to(appointment)
+        it "re-renders the 'edit' template" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Appointment.any_instance.stub(:save).and_return(false)
+          put :update, {:id => appointment.to_param, :appointment => { "user_id" => "invalid value" }}, valid_session
+          response.should render_template("edit")
+        end
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the appointment as @appointment" do
-        appointment = create(:appointment)
-        # Trigger the behavior that occurs when invalid params are submitted
-        Appointment.any_instance.stub(:save).and_return(false)
-        put :update, {:id => appointment.to_param, :appointment => { "user_id" => "invalid value" }}, valid_session
-        assigns(:appointment).should eq(appointment)
+    shared_examples_for "rejecting_access" do
+      it "raises error" do
+        expect { put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session }.to raise_error
+      end
+    end
+
+    context "for anonymous users" do
+      let(:appointment) { create(:appointment) }
+      it_behaves_like 'rejecting_access'
+    end
+    context "for patient users" do
+      login_user
+
+      context "for their own appointments"do
+        let(:appointment) { create(:appointment, user_id: @user.id) }
+        it_behaves_like 'allowing_access'
       end
 
-      it "re-renders the 'edit' template" do
-        appointment = create(:appointment)
-        # Trigger the behavior that occurs when invalid params are submitted
-        Appointment.any_instance.stub(:save).and_return(false)
-        put :update, {:id => appointment.to_param, :appointment => { "user_id" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+      context "for others appointments"do
+        let(:appointment) { create(:appointment) }
+        it_behaves_like 'rejecting_access'
+      end
+    end
+    context "for admin users" do
+      login_admin
+
+      context "for their own appointments"do
+        let(:appointment) { create(:appointment, user_id: @admin.id) }
+        it_behaves_like 'allowing_access'
+      end
+
+      context "for others appointments"do
+        let(:appointment) { create(:appointment) }
+        it_behaves_like 'allowing_access'
       end
     end
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested appointment" do
-      appointment = create(:appointment)
-      expect {
+
+    shared_examples_for "allowing access" do
+      it "destroys the requested appointment" do
+        appointment # invoke let
+        expect {
+          delete :destroy, {:id => appointment.to_param}, valid_session
+        }.to change(Appointment, :count).by(-1)
+      end
+
+      it "redirects to the appointments list" do
         delete :destroy, {:id => appointment.to_param}, valid_session
-      }.to change(Appointment, :count).by(-1)
+        response.should redirect_to(appointments_url)
+      end
     end
 
-    it "redirects to the appointments list" do
-      appointment = create(:appointment)
-      delete :destroy, {:id => appointment.to_param}, valid_session
-      response.should redirect_to(appointments_url)
+    shared_examples_for "rejecting access" do
+      it 'raises error' do
+        expect {
+          delete :destroy, {:id => appointment.to_param}, valid_session
+        }.to raise_error
+      end
+    end
+
+    context "for anonymous users" do
+      log_out
+      let(:appointment) { create(:appointment) }
+      it_behaves_like 'rejecting access'
+    end
+
+    context "for patient users" do
+      login_user
+
+      context "for their own appointments" do
+        let(:appointment) { create(:appointment, user_id: @user.id) }
+        it_behaves_like 'allowing access'
+      end
+
+      context "for others appointments" do
+        let(:appointment) { create(:appointment) }
+        it_behaves_like 'rejecting access'
+      end
+    end
+
+    context "for admins" do
+      login_admin
+
+      context "for their own appointments" do
+        let(:appointment) { create(:appointment, user_id: @admin.id) }
+        it_behaves_like 'allowing access'
+      end
+
+      context "for others appointments" do
+        let(:appointment) { create(:appointment) }
+        it_behaves_like 'allowing access'
+      end
+
     end
   end
 

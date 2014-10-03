@@ -1,15 +1,24 @@
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+  before_action :check_access, only: [:show, :edit, :update, :destroy]
 
   # GET /appointments
   # GET /appointments.json
   def index
-    @appointments = Appointment.all
+    @appointments = Appointment.includes(:user, :appointment_type).all.to_a.map! do |appointment|
+      if cannot_access?(appointment)
+        appointment.user = nil
+        appointment
+      else
+        appointment
+      end
+    end
   end
 
   # GET /appointments/1
   # GET /appointments/1.json
   def show
+
   end
 
   # GET /appointments/new
@@ -64,11 +73,25 @@ class AppointmentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_appointment
-      @appointment = Appointment.find(params[:id])
+      @appointment = Appointment.includes(:user, :appointment_type).for_user(current_user).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
       params.require(:appointment).permit(:user_id, :start, :appointment_type_id)
+    end
+
+    def check_access
+      if cannot_access?(@appointment)
+        respond_to do |format|
+          message = 'You may only access your own appointments.'
+          format.html { redirect_to root_path, alert: message}
+          format.json { render json: {errors: {appointment_access: message}}}
+        end
+      end
+    end
+
+    def cannot_access?(appointment)
+      current_user.nil? || (appointment.user != current_user && current_user.patient?)
     end
 end
