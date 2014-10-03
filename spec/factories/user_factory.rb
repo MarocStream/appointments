@@ -12,7 +12,7 @@ FactoryGirl.define do
     first "Admin"
     last  "User"
     sequence(:email){|n| "admin#{n}@example.com" }
-    admin true
+    role 'admin'
     password 'password'
     password_confirmation 'password'
   end

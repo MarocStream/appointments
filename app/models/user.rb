@@ -5,5 +5,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :appointments
-  
+
+  enum role: {patient: 0, staff: 1, admin: 1}
+
+  def admin_or_staff?
+    Rails.logger.error "ROLE: #{self.role}"
+    self.staff? || self.admin?
+  end
+
 end
