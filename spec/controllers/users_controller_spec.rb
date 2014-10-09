@@ -106,7 +106,7 @@ describe UsersController do
         it "redirects to the user" do
           user = create(:user)
           put :update, {:id => user.to_param, :user => user_attributes}
-          response.should redirect_to(user)
+          response.should redirect_to(admin_user_path(user))
         end
       end
 
@@ -142,7 +142,7 @@ describe UsersController do
       it "redirects to the users list" do
         user = create(:user)
         delete :destroy, {:id => user.to_param}
-        response.should redirect_to(users_url)
+        response.should redirect_to(admin_users_url)
       end
     end
   end

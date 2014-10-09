@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
   get "/users/profile", controller: :users, action: :profile
   scope "/admin" do
-    resources :users, except: [:create]
-    resources :appointment_types
-    resources :appointments
+    resources :users, except: [:create], as: :admin_users
+    resources :appointment_types, as: :admin_appointment_types
+    resources :appointments, as: :admin_appointments
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

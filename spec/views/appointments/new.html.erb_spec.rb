@@ -14,7 +14,7 @@ describe "appointments/new" do
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form[action=?][method=?]", appointments_path, "post" do
       assert_select "input#appointment_user_id[name=?]", "appointment[user_id]"
-      assert_select "input#appointment_appointment_type_id[name=?]", "appointment[appointment_type_id]"
+      assert_select "select#appointment_appointment_type_id[name=?]", "appointment[appointment_type_id]"
     end
   end
 end

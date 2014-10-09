@@ -11,17 +11,21 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
-  </div>
+  <% if current_user && current_user.admin_or_staff? %>
+    <div class="field">
+      <%= f.label :user_id %><br>
+      <%= f.collection_select :user_id, User.all, :id, :display, prompt: 'Choose a user' %>
+    </div>
+  <% else %>
+    <%= f.hidden_field :user_id %>
+  <% end %>
   <div class="field">
     <%= f.label :start %><br>
     <%= f.datetime_select :start %>
   </div>
   <div class="field">
     <%= f.label :appointment_type_id %><br>
-    <%= f.number_field :appointment_type_id %>
+    <%= f.collection_select :appointment_type_id, AppointmentType.all, :id, :name, prompt: 'Choose Appointment Type' %>
   </div>
   <div class="actions">
     <%= f.submit %>

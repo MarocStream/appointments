@@ -13,9 +13,9 @@
   <tbody>
     <% @appointments.each do |appointment| %>
       <tr>
-        <td><%= appointment.user_id %></td>
-        <td><%= appointment.start %></td>
-        <td><%= appointment.appointment_type_id %></td>
+        <td><%= appointment.user.display %></td>
+        <td><%= time_ago_in_words(appointment.start) %> <%= appointment.start > Time.now ? "" : "overdue" %></td>
+        <td><%= appointment.appointment_type.name %></td>
         <td><%= link_to 'Show', appointment %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
         <td><%= link_to 'Destroy', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>

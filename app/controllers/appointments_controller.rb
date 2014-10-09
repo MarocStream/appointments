@@ -78,7 +78,12 @@ class AppointmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
-      params.require(:appointment).permit(:user_id, :start, :appointment_type_id)
+      if current_user.nil? || current_user.patient?
+        user_id = current_user.try(:id) ? current_user.id.to_s : nil # Keep id as a string or nil
+        params.require(:appointment).permit(:start, :appointment_type_id).merge!(user_id: user_id)
+      else
+        params.require(:appointment).permit(:user_id, :start, :appointment_type_id)
+      end
     end
 
     def check_access

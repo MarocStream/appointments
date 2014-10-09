@@ -186,21 +186,68 @@ describe AppointmentsController do
 
       let(:appointment_attributes) { build(:appointment).as_json }
 
-      it "creates a new Appointment" do
-        expect {
+      shared_examples_for "successfully" do
+
+        it "creates a new Appointment" do
+          expect {
+            post :create, {:appointment => appointment_attributes }, valid_session
+          }.to change(Appointment, :count).by(1)
+        end
+
+        it "assigns a newly created appointment as @appointment" do
           post :create, {:appointment => appointment_attributes }, valid_session
-        }.to change(Appointment, :count).by(1)
+          assigns(:appointment).should be_a(Appointment)
+          assigns(:appointment).should be_persisted
+        end
+
+        it "redirects to the created appointment" do
+          post :create, {:appointment => appointment_attributes }, valid_session
+          response.should redirect_to(Appointment.last)
+        end
+
       end
 
-      it "assigns a newly created appointment as @appointment" do
-        post :create, {:appointment => appointment_attributes }, valid_session
-        assigns(:appointment).should be_a(Appointment)
-        assigns(:appointment).should be_persisted
+      shared_examples_for "failure" do
+        it "cannot create new appointments" do
+          post :create, {:appointment => appointment_attributes, format: :json}, valid_session
+          response.should be_unprocessable
+        end
       end
 
-      it "redirects to the created appointment" do
-        post :create, {:appointment => appointment_attributes }, valid_session
-        response.should redirect_to(Appointment.last)
+      context "for anonymous users" do
+        log_out
+        context "create for others" do
+          it_behaves_like "failure"
+        end
+      end
+      context "for a patient user" do
+        login_user
+        context "create for myself" do
+          before :each do
+            appointment_attributes[:user_id] = @user.id
+          end
+          it_behaves_like "successfully"
+        end
+        context "create for others (actually creates for self)" do
+          it_behaves_like "successfully"
+          it "creates with my id" do
+            post :create, {:appointment => appointment_attributes }, valid_session
+            assigns(:appointment).should be_a(Appointment)
+            assigns(:appointment).user_id.should == @user.id
+          end
+        end
+      end
+      context "for an admin user" do
+        login_admin
+        context "create for myself" do
+          before :each do
+            appointment_attributes[:user_id] = @admin.id
+          end
+          it_behaves_like "successfully"
+        end
+        context "create for others" do
+          it_behaves_like "successfully"
+        end
       end
     end
 
@@ -224,22 +271,25 @@ describe AppointmentsController do
   describe "PUT update" do
     shared_examples_for "allowing_access" do
       describe "with valid params" do
+
+        let(:appointment_attributes) { build(:appointment).as_json }
+
         it "updates the requested appointment" do
           # Assuming there are no other appointments in the database, this
           # specifies that the Appointment created on the previous line
           # receives the :update_attributes message with whatever params are
           # submitted in the request.
-          Appointment.any_instance.should_receive(:update).with({ "user_id" => "1" })
-          put :update, {:id => appointment.to_param, :appointment => { "user_id" => "1" }}, valid_session
+          Appointment.any_instance.should_receive(:update).with({ "user_id" => user.id.to_s })
+          put :update, {:id => appointment.to_param, :appointment => { "user_id" => user.id.to_s }}, valid_session
         end
 
         it "assigns the requested appointment as @appointment" do
-          put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session
+          put :update, {:id => appointment.to_param, :appointment => appointment_attributes}, valid_session
           assigns(:appointment).should eq(appointment)
         end
 
         it "redirects to the appointment" do
-          put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session
+          put :update, {:id => appointment.to_param, :appointment => appointment_attributes}, valid_session
           response.should redirect_to(appointment)
         end
       end
@@ -276,11 +326,13 @@ describe AppointmentsController do
 
       context "for their own appointments"do
         let(:appointment) { create(:appointment, user_id: @user.id) }
+        let(:user) { @user }
         it_behaves_like 'allowing_access'
       end
 
       context "for others appointments"do
         let(:appointment) { create(:appointment) }
+        let(:user) { @user }
         it_behaves_like 'rejecting_access'
       end
     end
@@ -289,11 +341,13 @@ describe AppointmentsController do
 
       context "for their own appointments"do
         let(:appointment) { create(:appointment, user_id: @admin.id) }
+        let(:user) { @admin }
         it_behaves_like 'allowing_access'
       end
 
       context "for others appointments"do
         let(:appointment) { create(:appointment) }
+        let(:user) { @admin }
         it_behaves_like 'allowing_access'
       end
     end

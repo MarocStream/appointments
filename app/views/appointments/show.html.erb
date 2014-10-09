@@ -2,7 +2,7 @@
 
 <p>
   <strong>User:</strong>
-  <%= @appointment.user_id %>
+  <%= @appointment.user.display %>
 </p>
 
 <p>
@@ -12,7 +12,7 @@
 
 <p>
   <strong>Appointment type:</strong>
-  <%= @appointment.appointment_type_id %>
+  <%= @appointment.appointment_type.name %>
 </p>
 
 <%= link_to 'Edit', edit_appointment_path(@appointment) %> |

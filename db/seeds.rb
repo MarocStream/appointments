@@ -32,4 +32,9 @@ unless Rails.env.test?
     password_confirmation: 'password',
     role: User.roles[:admin])
   puts 'Created admin@test.com/password as an admin account.'
+  
+  AppointmentType.create!(name: 'Not-Feeling-Well Visit', duration: 30, prep_duration: 5, post_duration: 10, color_class: 'red')
+  AppointmentType.create!(name: 'Short Visit/Follow-Up', duration: 10, prep_duration: 0, post_duration: 0, color_class: 'blue')
+  AppointmentType.create!(name: 'TB Test', duration: 15, prep_duration: 5, post_duration: 0, color_class: 'yellow')
+  AppointmentType.create!(name: 'Trqvel-Related Visit', duration: 20, prep_duration: 0, post_duration: 5, color_class: 'orange')
 end

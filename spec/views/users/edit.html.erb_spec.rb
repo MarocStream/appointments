@@ -9,7 +9,7 @@ describe "users/edit" do
     render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "form[action=?][method=?]", user_path(@user), "post" do
+    assert_select "form[action=?][method=?]", admin_user_path(@user), "post" do
     end
   end
 end
