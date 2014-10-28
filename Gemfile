@@ -12,7 +12,8 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer',  platforms: :ruby
+gem "less-rails"
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -23,6 +24,7 @@ gem 'jbuilder', '~> 2.0'
 
 # Angular for a richer calendar application
 gem 'angularjs-rails'
+gem 'bower-rails'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
@@ -44,10 +46,15 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
 
+  # Testing frameworks
   gem 'rspec-rails'
   gem 'minitest'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
+  gem 'jasmine-rails'
+
+  # Frontend
+  gem 'angular-rails-templates'
 end
 
 # Use debugger

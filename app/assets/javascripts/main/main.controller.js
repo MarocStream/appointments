@@ -6,11 +6,11 @@ angular.module('calendarApp')
     $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
       $modal.open({
           resolve: {
-            event: function () { 
-              return event; 
+            event: function () {
+              return event;
             }
           },
-          templateUrl: 'app/appointmentModal/appointmentModal.html',
+          templateUrl: 'modal/appointment.html',
           controller: 'AppointmentmodalCtrl'
         });
       if($scope.currentEvent) {
@@ -32,7 +32,7 @@ angular.module('calendarApp')
     $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
        $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
     };
-  
+
     /* config object */
     $scope.uiConfig = {
       calendar:{

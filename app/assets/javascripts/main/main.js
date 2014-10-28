@@ -4,7 +4,7 @@ angular.module('calendarApp')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'app/main/main.html',
+        templateUrl: 'main.html',
         controller: 'MainCtrl'
       });
   });

@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('calendarApp', [
+  'templates',
   'ngCookies',
   'ngResource',
   'ngSanitize',
   'ui.bootstrap',
   'ngRoute',
-  'btford.socket-io',
+  // 'btford.socket-io',
   'ui.calendar'
 ])
   .config(function ($routeProvider, $locationProvider) {
