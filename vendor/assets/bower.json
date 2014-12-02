@@ -9,5 +9,8 @@
     "angular-ui-bootstrap-bower": "latest",
     "angular-ui-calendar": "latest",
     "lodash": "latest"
+  },
+  "resolutions": {
+    "jquery": "1.10.2"
   }
 }
