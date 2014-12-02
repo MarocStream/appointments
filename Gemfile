@@ -52,10 +52,10 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'jasmine-rails'
-
-  # Frontend
-  gem 'angular-rails-templates'
 end
+
+# Frontend
+gem 'angular-rails-templates'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
