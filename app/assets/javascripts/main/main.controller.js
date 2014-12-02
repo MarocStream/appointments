@@ -36,19 +36,19 @@ angular.module('calendarApp')
     /* config object */
     $scope.uiConfig = {
       calendar:{
-        height: 450,
+        height: 1000,
         editable: false,
         header:{
-          left: '',
-          center: '',
-          right: ''
+          left: 'month agendaWeek agendaDay',
+          center: 'title',
+          right: 'today prev,next'
         },
         hiddenDays: [0,6],
         eventClick: $scope.alertOnEventClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize,
-        minTime: "07:00:00",
-        maxTime: "19:00:00",
+        minTime: "05:00:00",
+        maxTime: "22:00:00",
       }
     };
 

@@ -1,7 +1,6 @@
 {
   "name": "dsl-generated dependencies",
   "dependencies": {
-    "bootstrap": "latest",
     "angular": "1.2.26",
     "angular-cookies": "1.2.26",
     "angular-resource": "1.2.26",
@@ -10,8 +9,5 @@
     "angular-ui-bootstrap-bower": "latest",
     "angular-ui-calendar": "latest",
     "lodash": "latest"
-  },
-  "resolutions": {
-    "jquery": "~2.x"
   }
 }
