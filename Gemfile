@@ -45,6 +45,7 @@ group :development, :test do
   # Use Capistrano for deployment
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
+  gem 'capistrano-bower'
 
   # Testing frameworks
   gem 'rspec-rails'
