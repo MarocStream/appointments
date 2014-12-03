@@ -1,10 +1,11 @@
-<!-- <div ng-show="calendarLoaded"> -->
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="col-md-12">
-      <div class="well"></div>
-      <div id="appointment-calendar" ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources" calendar="appointmentCalendar"></div>
+    <div class="col-md-12" ng-controller="AppointmentsCtrl">
+      <div class="well">
+        {{appointments}}
+        {{types}}
+      </div>
+      <div id="appointment-calendar" ui-calendar="uiConfig.calendar" class="calendar" ng-model="appointments" calendar="appointmentCalendar"></div>
     </div>
   </div>
 </div>
-<!-- </div> -->

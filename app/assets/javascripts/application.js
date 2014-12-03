@@ -20,6 +20,8 @@
 //= require angular-resource
 //= require angular-sanitize
 //= require angular-route
+//= require angular-restmod
+//= require angular-restmod/dist/styles/ams.min
 //= require angular-ui-bootstrap-bower/ui-bootstrap.js
 //= require lodash
 //= require fullcalendar
@@ -28,4 +30,5 @@
 //= require main/main
 //= require main/main.controller
 //= require appointments/appointments.service
-//= require appointments/modal/appointment.controller
+//= require appointments/appointments.controller
+//= require appointments/types.service

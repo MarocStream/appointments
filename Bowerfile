@@ -10,3 +10,6 @@ asset 'angular-route', '1.2.26'
 asset 'angular-ui-bootstrap-bower'
 asset 'angular-ui-calendar'
 asset 'lodash'
+asset 'angular-restmod'
+
+resolution "jquery", "2.1.1"

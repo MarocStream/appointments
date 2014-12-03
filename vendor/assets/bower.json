@@ -8,9 +8,10 @@
     "angular-route": "1.2.26",
     "angular-ui-bootstrap-bower": "latest",
     "angular-ui-calendar": "latest",
-    "lodash": "latest"
+    "lodash": "latest",
+    "angular-restmod": "latest"
   },
   "resolutions": {
-    "jquery": "1.10.2"
+    "jquery": "2.1.1"
   }
 }
