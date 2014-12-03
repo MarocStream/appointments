@@ -29,7 +29,7 @@ set :linked_files, %w{config/database.yml db/staging.sqlite3}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+set :default_env, ENV.to_hash.slice("DEVISE_SECRET", "SECRET_KEY_BASE")
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
