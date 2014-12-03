@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('calendarApp')
-.controller('MainCtrl', function($scope, $timeout, Appointments, $modal) {
+.controller('MainCtrl', ['$scope', '$timeout', 'Appointments', '$modal', function($scope, $timeout, Appointments, $modal) {
     /* alert on eventClick */
     $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
       $modal.open({
@@ -95,4 +95,4 @@ angular.module('calendarApp')
     // $scope.$on('$destroy', function () {
     //   socket.unsyncUpdates('thing');
     // });
-  });
+  }]);

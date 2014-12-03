@@ -10,14 +10,14 @@ angular.module('calendarApp', [
   // 'btford.socket-io',
   'ui.calendar'
 ])
-  .config(function ($routeProvider, $locationProvider) {
+  .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
       .otherwise({
         redirectTo: '/'
       });
 
     $locationProvider.html5Mode(true);
-  })
+  }])
   .constant('Config', {
     appointmentTypes: [{
       label: 'Twenty',
