@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('calendarApp')
-  .controller('AppointmentmodalCtrl', function ($scope, $modalInstance, event, Config) {
+  .controller('AppointmentmodalCtrl', ['$scope', '$modalInstance', 'event', 'Config', function ($scope, $modalInstance, event, Config) {
       'use strict';
 
       var z = 12;
@@ -10,7 +10,7 @@ angular.module('calendarApp')
 
       $scope.$watch('event.type', function(oldVal, newVal) {
       	if(oldVal !== newVal) {
-      		//Calculate 
+      		//Calculate
       		alert($scope.event.type.label);
       	}
       });
@@ -26,4 +26,4 @@ angular.module('calendarApp')
         $modalInstance.close();
       }
 
-  });
+  }]);
