@@ -1,7 +1,7 @@
 angular.module('calendarApp')
 
 .service 'Appointments', ['restmod', (restmod)->
-  restmod.model('/appointments.json')
+  restmod.model('/appointments').mix('AMSApi')
 ]
   	# // var date = new Date();
     # // var d = date.getDate();

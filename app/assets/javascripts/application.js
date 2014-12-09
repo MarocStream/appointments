@@ -23,6 +23,7 @@
 //= require angular-restmod
 //= require angular-restmod/dist/styles/ams.min
 //= require angular-ui-bootstrap-bower/ui-bootstrap.js
+//= require angular-ui-bootstrap-bower/ui-bootstrap-tpls
 //= require lodash
 //= require fullcalendar
 //= require angular-ui-calendar
@@ -32,3 +33,4 @@
 //= require appointments/appointments.service
 //= require appointments/appointments.controller
 //= require appointments/types.service
+//= require appointments/editor/modal.controller

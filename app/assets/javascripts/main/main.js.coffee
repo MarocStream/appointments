@@ -1,7 +1,8 @@
 angular.module('calendarApp')
-.config ['$routeProvider', ($routeProvider)->
+.config ['$routeProvider', '$httpProvider', ($routeProvider, $httpProvider)->
   $routeProvider
     .when '/',
       templateUrl: 'main.html'
       controller: 'MainCtrl'
+  $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest'
 ]

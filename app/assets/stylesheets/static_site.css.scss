@@ -6,16 +6,15 @@
 /* top elements */
 * { padding: 0; margin: 0; }
 
-body {
+body#washington-travel {
 	margin: 0;
 	padding: 0;
-	font: .70em/1.5em  Verdana, Tahoma, Helvetica, sans-serif;
+	// font: .70em/1.5em  Verdana, Tahoma, Helvetica, sans-serif;
 	color: #333;
 	background: #A9BAC3 url(image-path('bg.gif')) repeat-x;
 	text-align: center;
 	letter-spacing:.03em;
 }
-
 
 
 /* links */
@@ -29,14 +28,18 @@ a:hover {
 	background-color: inherit;
 }
 
-h7
-{
-position:absolute;
-left:20px;
-top:10px;
+h7 {
+	position:absolute;
+	left:20px;
+	top:10px;
 }
 
 /* headers */
+body#washington-travel #header #logo {
+	font: bold 1em 'Trebuchet MS', Arial, Sans-serif;
+	color: #6297BC;
+}
+
 h1, h2, h3 {
 	font: bold 1em 'Trebuchet MS', Arial, Sans-serif;
 	color: #333;
@@ -192,22 +195,24 @@ left: 20px;
 top: 55px;
 }
 /* header */
-#header {
-	position: relative;
-	height: 85px;
-	background: #000 url(image-path('headerbg.gif')) repeat-x 0% 100%;
-}
-#header h1#logo {
-	position: absolute;
-	margin: 0; padding: 0;
-	font: bolder 46px 'Trebuchet MS', Arial, Sans-serif;
-	letter-spacing: -2px;
-	text-transform: lowercase;
-	top: 0; left: 5px;
+body#washington-travel {
+	#header {
+		position: relative;
+		height: 85px;
+		background: #000 url(image-path('headerbg.gif')) repeat-x 0% 100%;
+	}
+	#header h1#logo {
+		position: absolute;
+		margin: 0; padding: 0;
+		font: bolder 46px 'Trebuchet MS', Arial, Sans-serif;
+		letter-spacing: -2px;
+		text-transform: lowercase;
+		top: 0; left: 5px;
+	}
 }
 #header h2#slogan {
 	position: absolute;
-	top:27px; left: 535px;
+	top:17px; left: 535px;
 	color: #666666;
 	text-indent: 0px;
 	font: bold 12px Tahoma, 'trebuchet MS', Sans-serif;
@@ -218,12 +223,14 @@ top: 55px;
 	top: 0; right: -12px;
 }
 
+
 /* main */
 #main {
 	float: left;
 	margin-left: 15px;
 	padding: 0;
-	width: 50%;
+	// width: 50%;
+	width: 100%;
 }
 
 #main2 {
@@ -344,7 +351,7 @@ top: 55px;
 
 /* menu tabs */
 #header ul {
-	z-index: 999999;
+	z-index: 9;
 	position: absolute;
    margin:0; padding: 0;
    list-style:none;

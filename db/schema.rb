@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141003020457) do
+ActiveRecord::Schema.define(version: 20141209035503) do
 
   create_table "appointment_types", force: true do |t|
     t.string   "name"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20141003020457) do
     t.string   "color_class"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "text_color"
   end
 
   create_table "appointments", force: true do |t|

@@ -1,11 +1,14 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="AppointmentsCtrl">
   <div class="row-fluid">
-    <div class="col-md-12" ng-controller="AppointmentsCtrl">
+    <div id="add-appointment-button" class="col-md-12">
+      <a href="#" ng-click="addAppointment()" class="btn btn-primary">Add Appointment</a>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="col-md-12">
       <div class="well">
-        {{appointments}}
-        {{types}}
+        <div id="appointment-calendar" ui-calendar="uiConfig.calendar" class="calendar" ng-model="appointments"></div>
       </div>
-      <div id="appointment-calendar" ui-calendar="uiConfig.calendar" class="calendar" ng-model="appointments" calendar="appointmentCalendar"></div>
     </div>
   </div>
 </div>
