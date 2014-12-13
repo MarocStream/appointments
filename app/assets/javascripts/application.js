@@ -30,6 +30,7 @@
 //= require calendar
 //= require main/main
 //= require main/main.controller
+//= require users.service
 //= require appointments/appointments.service
 //= require appointments/appointments.controller
 //= require appointments/types.service
