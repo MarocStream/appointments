@@ -2,7 +2,6 @@
   <h3 class="modal-title">Make Appointment</h3>
 </div>
 <div class="modal-body appointment-modal">
-  {{appointment}}
   <div class="row">
     <div class="col-md-6 text-right">
       <label>Appointment for:</label>
@@ -13,10 +12,18 @@
   </div>
   <div class="row">
     <div class="col-md-6 text-right">
+      <label>On date:</label>
+    </div>
+    <div class="col-md-6">
+      <span class="pull-left">{{appointment.start | date: 'longDate'}}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 text-right">
       <label for="new_appointment_type_id">Type of visit:</label>
     </div>
     <div class="col-md-6">
-      <select class="pull-left" id="new_appointment_type_id" ng-model="appointment.appointmentTypeId" ng-options="type.id as type.name for type in types"/>
+      <select ng-init="appointment.appointmentTypeId = appointment.appointmentTypeId || types[0].id" class="pull-left" id="new_appointment_type_id2" ng-model="appointment.appointmentTypeId" ng-options="type.id as type.name for type in types"/>
     </div>
   </div>
   <div class="row">
@@ -29,6 +36,7 @@
   </div>
 </div>
 <div class="modal-footer">
+  <button class="btn btn-danger pull-left"  ng-click="remove()" ng-show="appointment.id">Remove</buttron>
   <button class="btn btn-primary" ng-click="ok()">OK</button>
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

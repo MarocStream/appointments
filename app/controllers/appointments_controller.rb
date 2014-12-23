@@ -73,7 +73,7 @@ class AppointmentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_appointment
-      @appointment = Appointment.includes(:user, :appointment_type).for_user(current_user).find(params[:id])
+      @appointment = Appointment.includes(:user, :appointment_type).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

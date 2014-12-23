@@ -6,3 +6,10 @@ angular.module('calendarApp')
       controller: 'MainCtrl'
   $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest'
 ]
+
+.factory 'DateParseFilter', ()->
+  (value)->
+    date = new Date()
+    date.setTime(Date.parse(value))
+    console.log "Parsing #{value} into date: #{date}"
+    date

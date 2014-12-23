@@ -1,4 +1,4 @@
-<h1>Listing appointments</h1>
+<!-- <h1>Listing appointments</h1>
 
 <table>
   <thead>
@@ -14,7 +14,7 @@
     <% @appointments.each do |appointment| %>
       <tr>
         <td><%= appointment.user.display %></td>
-        <td><%= time_ago_in_words(appointment.start) %> <%= appointment.start > Time.now ? "" : "overdue" %></td>
+        <td><%= time_ago_in_words(appointment.start) %> <%= appointment.start > Time.now ? "" : "overdue" %> (<%= appointment.start %>)</td>
         <td><%= appointment.appointment_type.name %></td>
         <td><%= link_to 'Show', appointment %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
@@ -24,9 +24,7 @@
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Appointment', new_appointment_path %>
+<%= link_to 'New Appointment', new_appointment_path %> -->
 
 <div id="calendarApp" ng-app="calendarApp">
   <div ng-view=""></div>

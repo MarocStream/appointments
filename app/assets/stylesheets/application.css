@@ -12,6 +12,6 @@
  *
  *= require_tree .
  *= require bootstrap
- *= require fullcalendar/fullcalendar
+ *= require fullcalendar/dist/fullcalendar
  *= require_self
  */

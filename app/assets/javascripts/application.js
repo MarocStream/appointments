@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require turbolinks
 //= require angular
 //= require angular-rails-templates
@@ -20,11 +21,13 @@
 //= require angular-resource
 //= require angular-sanitize
 //= require angular-route
-//= require angular-restmod
-//= require angular-restmod/dist/styles/ams.min
+//= require angular-restmod/dist/angular-restmod-bundle
+//= require angular-restmod/dist/styles/ams
+//= require angular-restmod/dist/plugins/dirty
 //= require angular-ui-bootstrap-bower/ui-bootstrap.js
 //= require angular-ui-bootstrap-bower/ui-bootstrap-tpls
 //= require lodash
+//= require moment
 //= require fullcalendar
 //= require angular-ui-calendar
 //= require calendar
