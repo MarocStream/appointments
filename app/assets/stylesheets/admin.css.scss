@@ -1,0 +1,23 @@
+.bs-glyphicons li {
+  width: 32%;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.bs-glyphicons .glyphicon {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+}
+
+.bs-glyphicons .glyphicon-class {
+  display: block;
+  text-align: center;
+}
+
+.bs-glyphicons-list {
+  padding-left: 0;
+  list-style: none;
+}

@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
 
   has_many :appointments
 
-  enum role: {patient: 0, staff: 1, admin: 1}
+  enum role: {patient: 0, staff: 1, admin: 2}
+  enum gender: {male: 0, female: 1}
 
   def admin_or_staff?
     self.staff? || self.admin?

@@ -1,4 +1,4 @@
-<%= form_for(@appointment_type) do |f| %>
+<%= form_for([:admin, @appointment_type]) do |f| %>
   <% if @appointment_type.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@appointment_type.errors.count, "error") %> prohibited this appointment_type from being saved:</h2>
@@ -29,7 +29,11 @@
   </div>
   <div class="field">
     <%= f.label :color_class %><br>
-    <%= f.text_field :color_class %>
+    <%= f.select :color_class %>
+  </div>
+  <div class="field">
+    <%= f.label :text_color %><br>
+    <%= f.select :text_color %>
   </div>
   <div class="actions">
     <%= f.submit %>

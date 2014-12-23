@@ -1,24 +1,15 @@
 <h2>Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :first, 'Name' %>
-    <%= f.text_field :first, placeholder: 'First' %>
-    <%= f.text_field :middle, placeholder: 'MI' %>
-    <%= f.text_field :last, placeholder: 'Last' %>
+  <%= render 'form', {f: f} %>
+
+  <div class="form-group form-group-lg">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit "Sign up", class: 'btn btn-primary' %>
+    </div>
   </div>
-
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
-
-  <div><%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
-
-  <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
-
-  <div><%= f.submit "Sign up" %></div>
 <% end %>
 
 <div class="indent">

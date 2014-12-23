@@ -1,4 +1,4 @@
-<h1>Listing appointment_types</h1>
+<h1>Listing All Appointment Types</h1>
 
 <table>
   <thead>
@@ -8,7 +8,8 @@
       <th>Prep duration</th>
       <th>Post duration</th>
       <th>Color class</th>
-      <th colspan="3"></th>
+      <th>Text Color</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -20,9 +21,9 @@
         <td><%= appointment_type.prep_duration %></td>
         <td><%= appointment_type.post_duration %></td>
         <td><%= appointment_type.color_class %></td>
+        <td><%= appointment_type.text_color %></td>
         <td><%= link_to 'Show', appointment_type %></td>
-        <td><%= link_to 'Edit', edit_appointment_type_path(appointment_type) %></td>
-        <td><%= link_to 'Destroy', appointment_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_admin_appointment_type_path(appointment_type) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +31,4 @@
 
 <br>
 
-<%= link_to 'New Appointment type', new_appointment_type_path %>
+<%= link_to 'New Appointment type', new_admin_appointment_type_path %>

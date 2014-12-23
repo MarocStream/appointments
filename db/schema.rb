@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141209035503) do
+ActiveRecord::Schema.define(version: 20141223044740) do
 
   create_table "appointment_types", force: true do |t|
     t.string   "name"
@@ -52,6 +52,9 @@ ActiveRecord::Schema.define(version: 20141209035503) do
     t.string   "last"
     t.string   "middle"
     t.integer  "role",                   default: 0
+    t.date     "dob"
+    t.integer  "gender"
+    t.string   "business"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

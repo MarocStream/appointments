@@ -21,9 +21,14 @@
 </p>
 
 <p>
-  <strong>Color class:</strong>
+  <strong>Color:</strong>
   <%= @appointment_type.color_class %>
 </p>
 
-<%= link_to 'Edit', edit_appointment_type_path(@appointment_type) %> |
-<%= link_to 'Back', appointment_types_path %>
+<p>
+  <strong>Text color:</strong>
+  <%= @appointment_type.color_class %>
+</p>
+
+<%= link_to 'Edit', edit_admin_appointment_type_path(@appointment_type) %> |
+<%= link_to 'Back', admin_appointment_types_path %>

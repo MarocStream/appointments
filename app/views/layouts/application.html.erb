@@ -14,14 +14,18 @@
       <h2 id="slogan" align="right">healthcare for travelers and more ...</h2>
       <div class="login">
         <% if user_signed_in? %>
-            <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>
+          <%= link_to 'Logout', destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+          <span>|</span>
+          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>
+          <% if current_user.admin_or_staff? %>
             <span>|</span>
-            <%= link_to 'Logout', destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-            <div>Logged in as <strong><%= current_user.email %></strong>.</div>
+            <div><%= link_to 'Admin', admin_index_path %></div>
+          <% end %>
+          <div>Logged in as <strong><%= current_user.email %></strong>.</div>
         <% else %>
-            <%= link_to 'Sign up', new_user_registration_path, :class => 'navbar-link'  %>
-            <span>|</span>
-            <%= link_to 'Login', new_user_session_path, :class => 'navbar-link'  %>
+          <%= link_to 'Sign up', new_user_registration_path, :class => 'navbar-link'  %>
+          <span>|</span>
+          <%= link_to 'Login', new_user_session_path, :class => 'navbar-link'  %>
         <% end %>
       </div>
       <!-- Menu Tabs -->
@@ -60,9 +64,9 @@
   	<div id="content-wrap">
     	<%= image_tag "headerphoto15.jpg", width: 1100, height: 120, class: 'no-border' %>
     	<div id="main">
-        <p class="navbar-text pull-right">
+        <div class="container-fluid">
           <%= yield %>
-        </p>
+        </div>
       </div>
 
 

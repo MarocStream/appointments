@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   get "/users/profile", controller: :users, action: :profile
   scope "/admin" do
+    get "/", controller: :admin, action: :index, as: :admin_index
     resources :users, except: [:create], as: :admin_users
     resources :appointment_types, as: :admin_appointment_types
     resources :appointments, as: :admin_appointments
@@ -13,7 +14,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'appointments#index'
 
-  resources :appointment_types
+  resources :appointment_types, only: [:index, :show], format: :json
 
   resources :appointments
 
