@@ -1,5 +1,11 @@
 angular.module('calendarApp')
 
 .service 'Users', ['restmod', (restmod)->
-  restmod.model('/users').mix('AMSApi')
+  restmod.model('/users').mix('AMSApi').mix
+    $extend:
+      Record:
+        isPatient: ->
+          @role == null || @role == "patient"
+        isStaffOrAdmin: ->
+          @role == "staff" || @role == "admin"
 ]

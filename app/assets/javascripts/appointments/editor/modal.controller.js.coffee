@@ -1,8 +1,8 @@
 angular.module('calendarApp')
 
 .controller 'AppointmentModalController',
-['$scope', 'appointment', '$modalInstance', 'AppointmentTypes', 'Appointments', 'Users',
-($scope,    appointment,   $modalInstance,   AppointmentTypes,   Appointments,   Users)->
+['$scope', 'appointment', '$modalInstance', 'AppointmentTypes', 'Appointments', 'Users', '$rootScope',
+($scope,    appointment,   $modalInstance,   AppointmentTypes,   Appointments,   Users,   $rootScope)->
 
   $scope.appointment = appointment || Appointments.$build()
   if $scope.appointment.start
@@ -16,9 +16,8 @@ angular.module('calendarApp')
   AppointmentTypes.$search().$then (types)->
     $scope.types = types
     $scope.appointment.appointmentTypeId ||= types[0].id
-  Users.$find('profile').$then (user)->
-    $scope.appointment.user = user
-    # $scope.appointment.user_id = user.id
+
+  $scope.appointment.userId ||= $rootScope.user.id
 
   $scope.ok = ()->
     console.log "Closing appointment with start date of #{$scope.appointment.start}"

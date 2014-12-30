@@ -6,8 +6,12 @@
     <div class="col-md-6 text-right">
       <label>Appointment for:</label>
     </div>
-    <div class="col-md-6">
-      <span class="pull-left">{{appointment.user.display}}</span>
+    <div class="col-md-6" ng-if="user.isPatient()">
+      <span class="pull-left">{{user.display}}</span>
+    </div>
+    <div class="col-md-6" ng-if="user.isStaffOrAdmin()">
+      <!-- Need user selection directive here -->
+      <input ng-model="appointment.userId" class="pull-left"/>
     </div>
   </div>
   <div class="row">
