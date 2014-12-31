@@ -9,6 +9,7 @@
     "angular-ui-bootstrap-bower": "latest",
     "angular-ui-calendar": "0.9.0-beta.1",
     "lodash": "latest",
+    "jquery-ui": "latest",
     "angular-restmod": "latest"
   },
   "resolutions": {
