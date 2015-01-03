@@ -1,6 +1,13 @@
-<h1>Listing All Appointment Types</h1>
+<div class="row">
+  <div class="col-lg-8">
+    <h1>Listing All Appointment Types</h1>
+  </div>
+  <div class+"col-lg-4">
+    <%= link_to 'New Appointment Type', new_admin_appointment_type_path, class: 'btn btn-default pull-right' %>
+  </div>
+</div>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
@@ -16,19 +23,15 @@
   <tbody>
     <% @appointment_types.each do |appointment_type| %>
       <tr>
-        <td><%= appointment_type.name %></td>
+        <td><%= link_to appointment_type.name, appointment_type %></td>
         <td><%= appointment_type.duration %></td>
         <td><%= appointment_type.prep_duration %></td>
         <td><%= appointment_type.post_duration %></td>
         <td><%= appointment_type.color_class %></td>
         <td><%= appointment_type.text_color %></td>
-        <td><%= link_to 'Show', appointment_type %></td>
-        <td><%= link_to 'Edit', edit_admin_appointment_type_path(appointment_type) %></td>
+        <td><%= link_to content_tag(:i, 'Edit', class: 'glyphicon glyphicon-edit'), edit_admin_appointment_type_path(appointment_type) %></td>
+        <td><%= link_to content_tag(:i, 'Remove', class: 'glyphicon glyphicon-trash'), admin_appointment_type_path(appointment_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Appointment type', new_admin_appointment_type_path %>

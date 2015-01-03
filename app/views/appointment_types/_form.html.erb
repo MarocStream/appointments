@@ -29,11 +29,11 @@
   </div>
   <div class="field">
     <%= f.label :color_class %><br>
-    <%= f.select :color_class %>
+    <%= f.select :color_class, options_for_select(appointment_type_colors, @appointment_type.color_class) %>
   </div>
   <div class="field">
     <%= f.label :text_color %><br>
-    <%= f.select :text_color %>
+    <%= f.select :text_color, options_for_select(appointment_type_colors, @appointment_type.text_color) %>
   </div>
   <div class="actions">
     <%= f.submit %>

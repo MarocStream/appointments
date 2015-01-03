@@ -1,23 +1,41 @@
-<h1>Listing users</h1>
+<div class="row">
+  <div class="col-md-8">
+    <h1>Listing users</h1>
+  </div>
+  <div class="col-md-4">
+    <%= link_to 'New User', new_admin_user_path, class: 'btn btn-default pull-right' %>
+  </div>
+</div>
 
-<table>
+<div class="row">
+  <%= form_tag admin_users_path, method: :get, remote: true, format: :js, id: 'user-search-form' do %>
+    <div class="col-lg-6">
+      <div class="input-group">
+        <%= text_field_tag :search, '', class: 'form-control', placeholder: 'Name, email, phone, date of birth', onkeyup: "javascript:$('#user-search-form').submit()" %>
+        <span class="input-group-btn">
+          <%= button_tag class: 'btn btn-default glyphicon glyphicon-search' do %>
+            <input type="submit" value="submit" class="hidden" />
+          <% end %>
+        </span>
+      </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+  <% end %>
+</div>
+<table id="users-table" class="table table-striped">
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Date of Birth</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @users.each do |user| %>
-      <tr>
-        <td><%= link_to 'Show', admin_user_path(user) %></td>
-        <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
-        <td><%= link_to 'Destroy', admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <%= render 'user_row', user: user %>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New User', new_admin_user_path %>

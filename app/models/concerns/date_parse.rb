@@ -7,7 +7,7 @@ module DateParse
     # online did not work, theres gotta be a better way...
     def reformat_date field
       define_method "#{field}=" do |d|
-        self[field] = Date.strptime(d, "%m/%d/%Y")
+        self[field] = Date.strptime(d, "%m/%d/%Y") unless d.blank?
       end
     end
   end

@@ -12,6 +12,12 @@ class User < ActiveRecord::Base
 
   reformat_date :dob
 
+  scope :search, ->(q) {
+    q_reg = "%#{q}%"
+    where("first LIKE ? OR middle LIKE ? OR last LIKE ? OR phone LIKE ?",
+    q_reg, q_reg, q_reg, q_reg)
+  }
+
   def admin_or_staff?
     self.staff? || self.admin?
   end

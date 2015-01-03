@@ -1,0 +1,4 @@
+$('#users-table tbody').children().remove();
+<% @users.each do |user| %>
+  $('#users-table tbody').append("<%= escape_javascript(render 'user_row', user: user) %>");
+<% end %>
