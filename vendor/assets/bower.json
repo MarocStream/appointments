@@ -10,7 +10,8 @@
     "angular-ui-calendar": "0.9.0-beta.1",
     "lodash": "latest",
     "jquery-ui": "latest",
-    "angular-restmod": "latest"
+    "angular-restmod": "latest",
+    "bootstrap": "latest"
   },
   "resolutions": {
     "jquery": "2.1.1"

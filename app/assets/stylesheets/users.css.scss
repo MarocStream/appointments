@@ -3,3 +3,9 @@
     display: inline;
   }
 }
+
+// Unsure why this is needed
+.form-group.form-group-lg .input-group.date {
+  padding-right: 15px;
+  padding-left: 15px;
+}

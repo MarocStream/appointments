@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin!, except: :profile
+  before_action :require_admin!, except: [:profile, :update_profile]
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -22,6 +22,11 @@ class UsersController < ApplicationController
     render :show
   end
 
+  def update_profile
+    @user = current_user
+    update
+  end
+
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
@@ -30,9 +35,18 @@ class UsersController < ApplicationController
       params[:user].delete(:password_confirmation)
     end
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to admin_user_url(@user), notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: admin_user_url(@user) }
+      if current_user.patient? && user_params[:current_password].blank?
+        @user.errors.add(:current_password, 'cannot be blank')
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      elsif current_user.patient? && @user.update_with_password(user_params) || current_user.admin_or_staff? && @user.update_without_password(user_params)
+        if current_user.admin_or_staff?
+          format.html { redirect_to admin_user_url(@user), notice: 'User was successfully updated.' }
+          format.json { render :show, status: :ok, location: admin_user_url(@user) }
+        else
+          format.html { redirect_to root_path, notice: 'Your profile was successfully updated.' }
+          format.json { render :show, status: :ok, location: profile_url }
+        end
       else
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -60,7 +74,9 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       if current_user.admin_or_staff?
-        params.require(:user).permit(:email, :password, :password_confirmation, :first, :middle, :last)
+        params.require(:user).permit(:email, :gender, :dob, :password, :password_confirmation, :first, :middle, :last)
+      elsif current_user.patient? && action_name == 'update_profile'
+        params.require(:user).permit(:email, :current_password, :gender, :dob, :password, :password_confirmation, :first, :middle, :last)
       end
     end
 end

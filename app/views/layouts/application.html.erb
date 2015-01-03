@@ -16,7 +16,7 @@
         <% if user_signed_in? %>
           <%= link_to 'Logout', destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
           <span>|</span>
-          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>
+          <%= link_to 'Edit profile', profile_path, :class => 'navbar-link' %>
           <% if current_user.admin_or_staff? %>
             <span>|</span>
             <div><%= link_to 'Admin', admin_index_path %></div>
@@ -64,6 +64,7 @@
   	<div id="content-wrap">
     	<%= image_tag "headerphoto15.jpg", width: 1100, height: 120, class: 'no-border' %>
     	<div id="main">
+        <%= render partial: "layouts/flash_messages", flash: flash %>
         <div class="container-fluid">
           <%= yield %>
         </div>

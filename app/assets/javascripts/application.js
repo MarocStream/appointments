@@ -26,6 +26,7 @@
 //= require angular-restmod/dist/plugins/dirty
 //= require angular-ui-bootstrap-bower/ui-bootstrap.js
 //= require angular-ui-bootstrap-bower/ui-bootstrap-tpls
+//= require bootstrap
 //= require lodash
 //= require moment
 //= require fullcalendar
@@ -38,3 +39,4 @@
 //= require appointments/appointments.controller
 //= require appointments/types.service
 //= require appointments/editor/modal.controller
+//= require bootstrap-datepicker

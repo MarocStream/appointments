@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   devise_for :users
-  get "/users/profile", controller: :users, action: :profile
+  get "/users/profile", controller: :users, action: :profile, as: :profile
+  put "/users/profile", controller: :users, action: :update_profile, as: :update_profile
   scope "/admin" do
     get "/", controller: :admin, action: :index, as: :admin_index
     resources :users, except: [:create], as: :admin_users

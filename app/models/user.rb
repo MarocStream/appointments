@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include DateParse
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -8,6 +9,8 @@ class User < ActiveRecord::Base
 
   enum role: {patient: 0, staff: 1, admin: 2}
   enum gender: {male: 0, female: 1}
+
+  reformat_date :dob
 
   def admin_or_staff?
     self.staff? || self.admin?

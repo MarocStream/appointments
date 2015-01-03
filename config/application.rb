@@ -22,5 +22,9 @@ module Appointments
 
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
     config.assets.precompile << /\.(?:svg|eot|woff|ttf)\z/
+
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance|
+      "<span class='has-error'>#{html_tag}</span>".html_safe
+    }
   end
 end
