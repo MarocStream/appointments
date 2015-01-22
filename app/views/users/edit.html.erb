@@ -1,10 +1,10 @@
 <h2>Edit <%= current_user == @user ? 'Your Profile' : 'Patient' %></h2>
-
-<%= form_for(@user, url: update_profile_path, html: { method: :put, class: 'form-horizontal'}) do |f| %>
+<% url = current_user == @user ? update_profile_path : admin_user_path(@user) %>
+<%= form_for(@user, url: url, html: { method: :put, class: 'form-horizontal'}) do |f| %>
   <%= devise_error_messages! %>
 
   <%= render 'devise/registrations/form', {f: f} %>
-
+  <%= hidden_field_tag :referer, @referer %>
   <div class="form-group form-group-lg">
     <div class="col-sm-offset-2 col-sm-10">
       <%= f.submit "Update", class: 'btn btn-primary' %>
@@ -16,7 +16,7 @@
 <h3>Cancel <%= current_user == @user ? 'my account' : 'patient account' %></h3>
 
 <div class="well">
-  <% if current_user.admin_or_staff? %>
+  <% if current_user.admin_or_staff? && @user != current_user %>
     <%= button_to "Remove patient", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %>
   <% else %>
     Unhappy?

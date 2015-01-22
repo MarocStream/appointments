@@ -12,7 +12,12 @@ unless Rails.env.test?
     last: 'User',
     email: 'test@test.com',
     password: 'password',
-    password_confirmation: 'password')
+    password_confirmation: 'password',
+    dob: 40.years.ago.to_date.to_s,
+    gender: 'male',
+    phones_attributes: [
+      {country: 1, number: 12345678, kind: 0}
+    ])
   puts 'Created test@test.com/password as a patient account.'
   User.create!(
     first: 'Staff',
@@ -21,7 +26,12 @@ unless Rails.env.test?
     email: 'staff@test.com',
     password: 'password',
     password_confirmation: 'password',
-    role: User.roles[:staff])
+    role: User.roles[:staff],
+    dob: 25.years.ago.to_date.to_s,
+    gender: 'female',
+    phones_attributes: [
+      {country: 1, number: 12345678, kind: 0}
+    ])
   puts 'Created staff@test.com/password as a staff account.'
   User.create!(
     first: 'Admin',
@@ -30,7 +40,12 @@ unless Rails.env.test?
     email: 'admin@test.com',
     password: 'password',
     password_confirmation: 'password',
-    role: User.roles[:admin])
+    role: User.roles[:admin],
+    dob: 30.years.ago.to_date.to_s,
+    gender: 'female',
+    phones_attributes: [
+      {country: 1, number: 12345678, kind: 0}
+    ])
   puts 'Created admin@test.com/password as an admin account.'
 
   AppointmentType.create!(name: 'Not-Feeling-Well Visit', duration: 30, prep_duration: 5, post_duration: 10, color_class: 'red', text_color: 'white')

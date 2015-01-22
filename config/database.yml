@@ -5,25 +5,39 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
+  adapter: mysql2
   pool: 5
   timeout: 5000
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: appointments_development
+  host: localhost
+  username: root
+  socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: appointments_test
+  host: localhost
+  username: root
+  socket: /tmp/mysql.sock
 
 staging:
   <<: *default
-  database: db/staging.sqlite3
+  database: appointments
+  host: localhost
+  username: user
+  password:
+  socket: /tmp/mysql.sock
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: appointments
+  host: localhost
+  username: user
+  password:
+  socket: /tmp/mysql.sock

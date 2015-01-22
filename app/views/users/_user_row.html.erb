@@ -2,6 +2,8 @@
   <td><%= link_to user.reverse_display, admin_user_path(user) %></td>
   <td><%= mail_to(user.email) %></td>
   <td><%= user.dob %></td>
+  <% phone = user.phones.first %>
+  <td><%= number_to_phone(phone.number, area_code: true, country_code: phone.country, extension: phone.extension) %></td>
   <td><%= link_to content_tag(:i, 'Edit', class: 'glyphicon glyphicon-edit'), edit_admin_user_path(user) %></td>
   <td><%= link_to content_tag(:i, 'Remove', class: 'glyphicon glyphicon-trash'), admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
 </tr>

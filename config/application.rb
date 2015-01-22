@@ -26,5 +26,7 @@ module Appointments
     config.action_view.field_error_proc = Proc.new { |html_tag, instance|
       "<span class='has-error'>#{html_tag}</span>".html_safe
     }
+
+    I18n.default_locale = 'en-US'
   end
 end

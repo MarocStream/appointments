@@ -6,16 +6,27 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :appointments
+  has_many :phones
+
+  validates :phones, presence: true
 
   enum role: {patient: 0, staff: 1, admin: 2}
   enum gender: {male: 0, female: 1}
 
   reformat_date :dob
 
+  accepts_nested_attributes_for :phones, allow_destroy: true
+
   scope :search, ->(q) {
-    q_reg = "%#{q}%"
-    where("first LIKE ? OR middle LIKE ? OR last LIKE ? OR phone LIKE ?",
-    q_reg, q_reg, q_reg, q_reg)
+    date = ['/', '-', '.'].reduce(nil) {|final,sep| final || Date.strptime(q, ['%m','%d','%Y'].join(sep)) rescue nil } || (Date.parse(q) rescue nil)
+    if date
+      dates = [:year, :month, :day].inject(Array.wrap(date)) {|d,t| d + [date - 1.send(t), date + 1.send(t)] }
+      where(Array.new(dates.size) { "dob  = ? " }.join("OR "), *dates)
+    else
+      q_reg = "%#{q}%"
+      joins(:phones).where("first LIKE ? OR middle LIKE ? OR last LIKE ? OR phones.number LIKE ?",
+      q_reg, q_reg, q_reg, q_reg)
+    end
   }
 
   def admin_or_staff?

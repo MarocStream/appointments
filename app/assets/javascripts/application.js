@@ -40,3 +40,19 @@
 //= require appointments/types.service
 //= require appointments/editor/modal.controller
 //= require bootstrap-datepicker
+
+
+
+function add_fields(link, association, content, wrap) {
+  var new_id = new Date().getTime();
+  var regexp = new RegExp("new_" + association, "g");
+  new_content = content.replace(regexp, new_id)
+  if(wrap != null){
+    new_content = $(wrap).append(new_content);
+  }
+  $(link).after(new_content);
+}
+
+function destroy_fields(link) {
+  $(link).hide().find('[id$=destroy]').val('true')
+}

@@ -1,0 +1,21 @@
+<%= f.label :number, 'Phone', class: 'col-sm-2 control-label' %>
+<%= f.hidden_field :id %>
+<div class="col-sm-2">
+  <%= f.select :kind, options_for_select(Phone.kinds.map {|label,i| [label.titleize, label]}, f.object.kind), {}, class: 'form-control' %>
+</div>
+<div class="col-sm-1">
+  <%= f.text_field :country, class: 'form-control', value: f.object.country || 1 %>
+</div>
+<div class="col-sm-4">
+  <%= f.text_field :number, class: 'form-control', placeholder: 'Phone number' %>
+</div>
+<div class="col-sm-2">
+  <%= f.text_field :extension, class: 'form-control', placeholder: 'Extension' %>
+</div>
+<% if defined?(render_delete) && render_delete || !defined?(render_delete) %>
+  <div class="col-sm-1">
+    <%= link_to_destroy_fields f, selector: '$(this).closest(".form-group")', class: 'btn btn-danger btn-lg' do %>
+      <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"/>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<% f.object.phones.each.with_index do |phone, index| %>
+  <%= f.fields_for :phones, phone do |p| %>
+    <div class="form-group form-group-lg selector-phones">
+      <%= render partial: 'phone_fields', locals: {f: p, render_delete: index != 0} %>
+      <% if index == 0 %>
+        <div class="col-sm-1">
+          <%= link_to_add_fields f, :phones, class: "btn btn-default btn-lg", title: "Add phone", selector: '$(this).closest(".selector-phones").siblings(".selector-phones").last()', wrap: '<div class="form-group form-group-lg selector-phones"/>' do %>
+          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
