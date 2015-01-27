@@ -12,8 +12,18 @@
  *
  *= require_tree .
  *= require bootstrap
- *= require bootstrap-datepicker3
+ *= require bootstrap-datetimepicker
  *= require fullcalendar/dist/fullcalendar
  *= require bootstrap-tags
  *= require_self
  */
+
+
+.announcement {
+  opacity: 0.7;
+  width: 95%;
+  margin: 10px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+}

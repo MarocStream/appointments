@@ -1,0 +1,16 @@
+// Place all the styles related to the announcements controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+textarea#announcement_content.form-control {
+  height: 75px;
+}
+
+#end_date_container {
+  padding: 0px;
+}
+
+#announcement {
+  margin: 10px;
+}

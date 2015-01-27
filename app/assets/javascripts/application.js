@@ -40,9 +40,10 @@
 //= require appointments/appointments.controller
 //= require appointments/types.service
 //= require appointments/editor/modal.controller
-//= require bootstrap-datepicker
+//= require bootstrap-datetimepicker
 //= require bootstrap-tags
 //= require user_profile
+//= require announcements
 
 
 function add_fields(link, association, content, wrap) {

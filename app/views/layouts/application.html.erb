@@ -55,7 +55,15 @@
           <a href="http://www.washingtontravelclinic.com/links"><span>Links</span></a>
         </li>
       </ul>
-      <div id="globe"> <%= image_tag "logo.png", class: 'no-border', width: 45, height: 45 %>
+      <div id="globe">
+        <%= image_tag "logo.png", class: 'no-border', width: 45, height: 45 %>
+        <% if @announcements.present? %>
+          <div class="well announcement">
+            <% (@announcements || []).each do |a| %>
+              <%= a.content %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
 

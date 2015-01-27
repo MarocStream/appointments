@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :get_announcements
 
   protected
 
@@ -22,6 +23,14 @@ class ApplicationController < ActionController::Base
         format.json { head :unauthorized }
       end
     end
+  end
+
+  def get_announcements
+    @announcements = Announcement.show(current_announcement_kind)
+  end
+
+  def current_announcement_kind
+    (current_user && current_user.admin_or_staff? && Announcement.kinds[:staff]) || Announcement.kinds[:patient]
   end
 
 end

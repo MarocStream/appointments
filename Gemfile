@@ -17,7 +17,7 @@ gem "less-rails"
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap3-datetimepicker-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 gem 'jquery-turbolinks'

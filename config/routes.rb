@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :announcements
+
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   devise_for :users
   get "/users/profile", controller: :users, action: :profile, as: :profile
@@ -8,6 +10,7 @@ Rails.application.routes.draw do
     resources :users, except: [:create], as: :admin_users
     resources :appointment_types, as: :admin_appointment_types
     resources :appointments, as: :admin_appointments
+    resources :announcements, as: :admin_announcements
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
