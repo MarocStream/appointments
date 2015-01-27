@@ -1,0 +1,40 @@
+<div class="form-group form-group-lg">
+  <%= f.label :street, 'Address', class: 'col-sm-2 control-label' %>
+  <%= f.hidden_field :id %>
+  <div class="col-sm-9">
+    <%= f.text_field :street, class: 'form-control', placeholder: '123 Some Pl.' %>
+  </div>
+  <% if defined?(render_add) && render_add %>
+    <div class="col-sm-1">
+      <%= link_to_add_fields parent_f, :addresses, class: "btn btn-default btn-lg", title: "Add address", selector: '$(this).closest(".selector-addresses").siblings(".selector-addresses").andSelf().last()', wrap: '<div class="selector-addresses"/>' do %>
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+      <% end %>
+    </div>
+  <% end %>
+  <% if defined?(render_delete) && render_delete || !defined?(render_delete) %>
+    <div class="col-sm-1">
+      <%= link_to_destroy_fields f, selector: '$(this).closest(".selector-addresses")', class: 'btn btn-danger btn-lg' do %>
+        <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"/>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<div class="form-group form-group-lg">
+  <div class="col-sm-offset-2 col-sm-10">
+    <%= f.text_field :apt, class: 'form-control', placeholder: 'Apt #456 (optional)' %>
+  </div>
+</div>
+<div class="form-group form-group-lg">
+  <div class="col-sm-offset-2 col-sm-2">
+    <%= f.text_field :postcode, class: 'form-control', placeholder: 'Zip/Postcode' %>
+  </div>
+  <div class="col-sm-4">
+    <%= f.text_field :city, class: 'form-control', placeholder: 'City' %>
+  </div>
+  <div class="col-sm-2">
+    <%= f.text_field :state, class: 'form-control', placeholder: 'State/Province' %>
+  </div>
+  <div class="col-sm-2">
+    <%= f.text_field :country, class: 'form-control', placeholder: 'Country' %>
+  </div>
+</div>

@@ -27,6 +27,6 @@ module Appointments
       "<span class='has-error'>#{html_tag}</span>".html_safe
     }
 
-    I18n.default_locale = 'en-US'
+    # I18n.default_locale = 'en-US'
   end
 end

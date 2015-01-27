@@ -10,7 +10,10 @@
   <%= f.text_field :number, class: 'form-control', placeholder: 'Phone number' %>
 </div>
 <div class="col-sm-2">
-  <%= f.text_field :extension, class: 'form-control', placeholder: 'Extension' %>
+  <div class="input-group">
+    <span class="input-group-addon">x</span>
+    <%= f.text_field :extension, class: 'form-control', placeholder: 'Extension' %>
+  </div>
 </div>
 <% if defined?(render_delete) && render_delete || !defined?(render_delete) %>
   <div class="col-sm-1">

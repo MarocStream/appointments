@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery-ui
 //= require turbolinks
@@ -40,7 +41,8 @@
 //= require appointments/types.service
 //= require appointments/editor/modal.controller
 //= require bootstrap-datepicker
-
+//= require bootstrap-tags
+//= require user_profile
 
 
 function add_fields(link, association, content, wrap) {

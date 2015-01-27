@@ -5,4 +5,13 @@ body {
   #main {
     padding-top: 5px;
   }
+
+  #family {
+    .tags .tag.label {
+      line-height: 1.85;
+    }
+    input.tags-input {
+      height: 46px;
+    }
+  }
 }

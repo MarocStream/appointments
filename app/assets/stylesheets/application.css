@@ -14,5 +14,6 @@
  *= require bootstrap
  *= require bootstrap-datepicker3
  *= require fullcalendar/dist/fullcalendar
+ *= require bootstrap-tags
  *= require_self
  */

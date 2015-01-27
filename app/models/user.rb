@@ -7,15 +7,17 @@ class User < ActiveRecord::Base
 
   has_many :appointments
   has_many :phones
+  has_many :addresses
 
   validates :phones, presence: true
+  validates :addresses, presence: true
 
   enum role: {patient: 0, staff: 1, admin: 2}
   enum gender: {male: 0, female: 1}
 
   reformat_date :dob
 
-  accepts_nested_attributes_for :phones, allow_destroy: true
+  accepts_nested_attributes_for :phones, :addresses, allow_destroy: true
 
   scope :search, ->(q) {
     date = ['/', '-', '.'].reduce(nil) {|final,sep| final || Date.strptime(q, ['%m','%d','%Y'].join(sep)) rescue nil } || (Date.parse(q) rescue nil)

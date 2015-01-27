@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150122035052) do
+ActiveRecord::Schema.define(version: 20150127031529) do
+
+  create_table "addresses", force: true do |t|
+    t.string   "street"
+    t.string   "apt"
+    t.string   "postcode"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
 
   create_table "appointment_types", force: true do |t|
     t.string   "name"
@@ -66,6 +78,7 @@ ActiveRecord::Schema.define(version: 20150122035052) do
     t.integer  "gender"
     t.string   "business"
     t.string   "phone"
+    t.string   "family"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

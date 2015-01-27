@@ -11,7 +11,8 @@
     "lodash": "latest",
     "jquery-ui": "latest",
     "angular-restmod": "latest",
-    "bootstrap": "latest"
+    "bootstrap": "latest",
+    "bootstrap-tags": "latest"
   },
   "resolutions": {
     "jquery": "2.1.1"

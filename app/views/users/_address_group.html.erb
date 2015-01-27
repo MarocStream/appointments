@@ -1,0 +1,7 @@
+<% f.object.addresses.each.with_index do |address, index| %>
+  <%= f.fields_for :addresses, address do |a| %>
+    <div class="selector-addresses">
+      <%= render partial: 'address_fields', locals: {f: a, parent_f: f, render_delete: index != 0, render_add: index == 0} %>
+    </div>
+  <% end %>
+<% end %>

@@ -13,5 +13,6 @@ asset 'lodash'
 asset 'jquery-ui'
 asset 'angular-restmod'
 asset 'bootstrap'
+asset 'bootstrap-tags'
 
 resolution "jquery", "2.1.1"
