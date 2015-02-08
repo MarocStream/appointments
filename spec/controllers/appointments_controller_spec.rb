@@ -86,7 +86,8 @@ describe AppointmentsController do
     end
     shared_examples_for "rejecting access" do
       it "raises error" do
-        expect { get :show, {:id => appointment.to_param}, valid_session }.to raise_error
+        get :show, {:id => appointment.to_param}, valid_session
+        response.should redirect_to(root_path)
       end
     end
     context "for anonymous users" do
@@ -129,55 +130,6 @@ describe AppointmentsController do
     it "assigns a new appointment as @appointment" do
       get :new, {}, valid_session
       assigns(:appointment).should be_a_new(Appointment)
-    end
-  end
-
-  describe "GET edit" do
-    shared_examples_for "allowing access" do
-      it "are given their appointments" do
-        get :edit, {:id => appointment.to_param}, valid_session
-        assigns(:appointment).should_not be_nil
-      end
-    end
-
-    shared_examples_for "rejecting access" do
-      it "are rejected" do
-        expect { get :edit, {:id => appointment.to_param}, valid_session }.to raise_error
-      end
-    end
-
-    context "for anonymous users" do
-      log_out
-      let(:appointment) { create(:appointment) }
-      it_behaves_like 'rejecting access'
-    end
-
-    context "for patients" do
-      login_user
-
-      context "for their own appointments" do
-        let(:appointment) { create(:appointment, user_id: @user.id) }
-        it_behaves_like 'allowing access'
-      end
-
-      context "for others appointments" do
-        let(:appointment) { create(:appointment) }
-        it_behaves_like 'rejecting access'
-      end
-    end
-
-    context "for admins" do
-      login_admin
-
-      context "for their own appointments" do
-        let(:appointment) { create(:appointment, user_id: @admin.id) }
-        it_behaves_like 'allowing access'
-      end
-
-      context "for others appointments" do
-        let(:appointment) { create(:appointment) }
-        it_behaves_like 'allowing access'
-      end
     end
   end
 

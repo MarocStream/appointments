@@ -87,7 +87,7 @@ class AppointmentsController < ApplicationController
     end
 
     def check_access
-      if false#cannot_access?(@appointment)
+      unless true#allows_access?(@appointment)
         respond_to do |format|
           message = 'You may only access your own appointments.'
           format.html { redirect_to root_path, alert: message}
@@ -96,7 +96,12 @@ class AppointmentsController < ApplicationController
       end
     end
 
-    def cannot_access?(appointment)
-      current_user.nil? || (appointment.user != current_user && current_user.patient?)
+    def allows_access?(appointment)
+      case action_name
+      when :edit, :update, :destroy
+        appointment.user == current_user && (current_user.try(:patient?) || current_user.try(:admin_or_staff?))
+      when :show
+        true
+      end
     end
 end

@@ -92,9 +92,9 @@ describe UsersController do
           # specifies that the User created on the previous line
           # receives the :update_attributes message with whatever params are
           # submitted in the request.
-          User.any_instance.should_receive(:update).with(user_attributes)
+          User.any_instance.should_receive(:update_without_password).with(user_attributes).and_return(true)
           put :update, {:id => user.to_param, :user => user_attributes}
-          response.should be_ok
+          response.should redirect_to(admin_user_url(user))
         end
 
         it "assigns the requested user as @user" do

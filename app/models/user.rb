@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   enum role: {patient: 0, staff: 1, admin: 2}
   enum gender: {male: 0, female: 1}
 
-  reformat_date :dob
+  reformat_date :dob, "%m/%d/%Y"
 
   accepts_nested_attributes_for :phones, :addresses, allow_destroy: true
 

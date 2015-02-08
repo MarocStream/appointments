@@ -1,7 +1,5 @@
 class Appointment < ActiveRecord::Base
 
-  # start DateTime
-
   belongs_to :user
   belongs_to :appointment_type
 

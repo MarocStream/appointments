@@ -2,9 +2,10 @@ require 'spec_helper'
 
 describe "users/index" do
   before(:each) do
+    phone = mock_model(Phone)
     assign(:users, [
-      stub_model(User),
-      stub_model(User)
+      mock_model(User, phones: [phone], reverse_display: 'Last, First'),
+      mock_model(User, phones: [phone], reverse_display: 'Last, First')
     ])
   end
 

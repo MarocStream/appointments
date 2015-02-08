@@ -2,11 +2,11 @@
 
 FactoryGirl.define do
   factory :address do
-    street "MyString"
-    apt "MyString"
-    postcode "MyString"
-    city "MyString"
-    state "MyString"
-    country "MyString"
+    street "123 Some St."
+    apt "Apt 456"
+    postcode "12345"
+    city "Cityville"
+    state "ST"
+    country "USA"
   end
 end
