@@ -19,7 +19,7 @@ angular.module('calendarApp')
   AppointmentTypes.$search().$then (types)->
     $scope.types = types
 
-    Appointments.$search().$then (appointments)->
+    Appointments.$search(start: moment().startOf('week'), duration: 7).$then (appointments)->
       apps = []
       _.each appointments, (a)->
         apps.push reformAppointment(a)
@@ -37,6 +37,7 @@ angular.module('calendarApp')
       appt.$save().$then (a)->
         existing = _.findWhere $scope.appointments[0], (p)-> p.appointment.id == a.id
         if existing
+          delete existing._id
           reformAppointment(a, existing)
         else
           $scope.appointments[0].push reformAppointment(a)

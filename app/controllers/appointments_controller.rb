@@ -5,7 +5,13 @@ class AppointmentsController < ApplicationController
   # GET /appointments
   # GET /appointments.json
   def index
-    @appointments = Appointment.includes(:user, :appointment_type).all.to_a.map! do |appointment|
+    scope = Appointment.includes(:user, :appointment_type)
+    if params[:start] && params[:duration]
+      scope = scope.for_period(Date.parse(params[:start]), params[:duration].to_i)
+    else
+      scope = scope.all
+    end
+    @appointments = scope.to_a.map! do |appointment|
       appointment.user = nil unless allows_access?(appointment)
       appointment
     end

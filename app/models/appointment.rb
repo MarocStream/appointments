@@ -15,4 +15,8 @@ class Appointment < ActiveRecord::Base
     end
   }
 
+  scope :for_period, ->(start, duration) {
+    where("start > ? AND start <= ?", start, start + duration.days)
+  }
+
 end

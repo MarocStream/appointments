@@ -1,31 +1,3 @@
-<!-- <h1>Listing appointments</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Start</th>
-      <th>Appointment type</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @appointments.each do |appointment| %>
-      <tr>
-        <td><%= appointment.user.display %></td>
-        <td><%= time_ago_in_words(appointment.start) %> <%= appointment.start > Time.now ? "" : "overdue" %> (<%= appointment.start %>)</td>
-        <td><%= appointment.appointment_type.name %></td>
-        <td><%= link_to 'Show', appointment %></td>
-        <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Destroy', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to 'New Appointment', new_appointment_path %> -->
-
 <div id="calendarApp" ng-app="calendarApp">
   <div ng-view=""></div>
 </div>
