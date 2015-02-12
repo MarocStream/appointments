@@ -1,8 +1,8 @@
 <div id="announcement" class="row well">
   <div class="col-sm-12">
     <h2>
-      <%= @announcement.name %> <small>(<%= @announcement.end_date.strftime("%m/%d/%Y %I:%m %p") %>)</small>
-      <%= link_to 'Edit', edit_announcement_path(@announcement), class: 'btn btn-primary' %>
+      <%= @announcement.name %> <small>(<%= @announcement.end_date.try(:strftime, "%m/%d/%Y %I:%m %p") || 'No date set' %>)</small>
+      <%= link_to 'Edit', edit_admin_announcement_path(@announcement), class: 'btn btn-primary' %>
     </h2>
   </div>
   <div class="col-sm-12">

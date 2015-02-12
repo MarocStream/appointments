@@ -15,12 +15,12 @@ describe "appointment_types/edit" do
     render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "form[action=?][method=?]", appointment_type_path(@appointment_type), "post" do
+    assert_select "form[action=?][method=?]", admin_appointment_type_path(@appointment_type), "post" do
       assert_select "input#appointment_type_name[name=?]", "appointment_type[name]"
       assert_select "input#appointment_type_duration[name=?]", "appointment_type[duration]"
       assert_select "input#appointment_type_prep_duration[name=?]", "appointment_type[prep_duration]"
       assert_select "input#appointment_type_post_duration[name=?]", "appointment_type[post_duration]"
-      assert_select "input#appointment_type_color_class[name=?]", "appointment_type[color_class]"
+      assert_select "select#appointment_type_color_class[name=?]", "appointment_type[color_class]"
     end
   end
 end

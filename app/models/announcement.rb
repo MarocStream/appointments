@@ -7,4 +7,6 @@ class Announcement < ActiveRecord::Base
   reformat_date :end_date, "%m/%d/%Y %H:%M %p"
 
   enum kind: {patient: 0, staff: 1, both: 2}
+
+  validates_presence_of :name
 end

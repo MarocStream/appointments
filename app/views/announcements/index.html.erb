@@ -28,9 +28,9 @@
         </td>
         <td><%= announcement.kind.to_s.titleize %></td>
         <td><%= time_ago_in_words(announcement.end_date) %> <%= announcement.end_date >= Time.now ? 'from now' : 'ago' %> (<%= announcement.end_date.strftime("%m/%d/%Y %I:%m %p") %>)</td>
-        <td><%= link_to 'Show', announcement %></td>
-        <td><%= link_to 'Edit', edit_announcement_path(announcement) %></td>
-        <td><%= link_to 'Destroy', announcement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', admin_announcement_path(announcement) %></td>
+        <td><%= link_to 'Edit', edit_admin_announcement_path(announcement) %></td>
+        <td><%= link_to 'Destroy', admin_announcement_path(announcement), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

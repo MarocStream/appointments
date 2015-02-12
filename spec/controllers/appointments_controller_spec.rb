@@ -30,7 +30,7 @@ describe AppointmentsController do
       log_out
 
       it "without the user_id" do
-        appointment = create(:appointment)
+        create(:appointment)
         get :index, {}, valid_session
         assigns(:appointments).first.user_id.should be_nil
       end
@@ -265,7 +265,8 @@ describe AppointmentsController do
 
     shared_examples_for "rejecting_access" do
       it "raises error" do
-        expect { put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session }.to raise_error
+        put :update, {:id => appointment.to_param, :appointment => attributes_for(:appointment)}, valid_session
+        response.should redirect_to(root_path)
       end
     end
 
@@ -323,9 +324,8 @@ describe AppointmentsController do
 
     shared_examples_for "rejecting access" do
       it 'raises error' do
-        expect {
-          delete :destroy, {:id => appointment.to_param}, valid_session
-        }.to raise_error
+        delete :destroy, {:id => appointment.to_param}, valid_session
+        response.should redirect_to(root_url)
       end
     end
 

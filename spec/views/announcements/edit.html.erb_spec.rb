@@ -12,9 +12,9 @@ describe "announcements/edit" do
     render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "form[action=?][method=?]", announcement_path(@announcement), "post" do
+    assert_select "form[action=?][method=?]", admin_announcement_path(@announcement), "post" do
       assert_select "input#announcement_name[name=?]", "announcement[name]"
-      assert_select "input#announcement_content[name=?]", "announcement[content]"
+      assert_select "textarea#announcement_content[name=?]", "announcement[content]"
     end
   end
 end

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :announcements
 
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   devise_for :users

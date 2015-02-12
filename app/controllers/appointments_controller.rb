@@ -6,12 +6,8 @@ class AppointmentsController < ApplicationController
   # GET /appointments.json
   def index
     @appointments = Appointment.includes(:user, :appointment_type).all.to_a.map! do |appointment|
-      if cannot_access?(appointment)
-        appointment.user = nil
-        appointment
-      else
-        appointment
-      end
+      appointment.user = nil unless allows_access?(appointment)
+      appointment
     end
   end
 
@@ -87,7 +83,7 @@ class AppointmentsController < ApplicationController
     end
 
     def check_access
-      unless true#allows_access?(@appointment)
+      unless allows_access?(@appointment)
         respond_to do |format|
           message = 'You may only access your own appointments.'
           format.html { redirect_to root_path, alert: message}
@@ -97,11 +93,7 @@ class AppointmentsController < ApplicationController
     end
 
     def allows_access?(appointment)
-      case action_name
-      when :edit, :update, :destroy
-        appointment.user == current_user && (current_user.try(:patient?) || current_user.try(:admin_or_staff?))
-      when :show
-        true
-      end
+      # Logged in  &&  (      owned by current user      &&       patient        ||    admin or staff)
+      current_user && (appointment.user == current_user && current_user.patient? || current_user.admin_or_staff?)
     end
 end
