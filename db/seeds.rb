@@ -18,6 +18,9 @@ unless Rails.env.test?
     gender: 'male',
     phones_attributes: [
       {country: 1, number: 12345678, kind: 0}
+    ],
+    addresses_attributes: [
+      {street: '123 Some St.', postcode: '12345', city: 'City', state: 'ST', country: 'US'}
     ])
   puts "Created test@test.com/#{password} as a patient account."
   User.create!(
@@ -32,6 +35,9 @@ unless Rails.env.test?
     gender: 'female',
     phones_attributes: [
       {country: 1, number: 12345678, kind: 0}
+    ],
+    addresses_attributes: [
+      {street: '123 Some St.', postcode: '12345', city: 'City', state: 'ST', country: 'US'}
     ])
   puts "Created staff@test.com/#{password} as a staff account."
   User.create!(
@@ -46,6 +52,9 @@ unless Rails.env.test?
     gender: 'female',
     phones_attributes: [
       {country: 1, number: 12345678, kind: 0}
+    ],
+    addresses_attributes: [
+      {street: '123 Some St.', postcode: '12345', city: 'City', state: 'ST', country: 'US'}
     ])
   puts "Created admin@test.com/#{password} as an admin account."
 
