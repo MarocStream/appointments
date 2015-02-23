@@ -12,7 +12,9 @@ class AppointmentsController < ApplicationController
       scope = scope.all
     end
     @appointments = scope.to_a.map! do |appointment|
-      appointment.user = nil unless allows_access?(appointment)
+      unless allows_access?(appointment)
+        appointment.user = nil
+      end
       appointment
     end
   end

@@ -1,3 +1,4 @@
-<div id="calendarApp" ng-app="calendarApp">
-  <div ng-view=""></div>
+<div id="calendarApp" ng-app="calendarApp" ng-init="appointment_types = <%= AppointmentType.all.to_json %>">
+  <div ng-view="">
+  </div>
 </div>

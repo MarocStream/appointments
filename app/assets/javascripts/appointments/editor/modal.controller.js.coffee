@@ -17,7 +17,7 @@ angular.module('calendarApp')
     $scope.types = types
     $scope.appointment.appointmentTypeId ||= types[0].id
 
-  $scope.appointment.userId ||= $rootScope.user.id
+  $scope.appointment.userId ||= $rootScope.user?.id
 
   $scope.ok = ()->
     console.log "Closing appointment with start date of #{$scope.appointment.start}"

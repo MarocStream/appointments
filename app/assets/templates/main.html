@@ -1,7 +1,17 @@
 <div ng-controller="AppointmentsCtrl">
   <div class="row-fluid">
-    <div id="add-appointment-button" class="col-md-12">
+    <div id="add-appointment-button" class="col-md-8">
       <a href="#" ng-click="editAppointment()" class="btn btn-primary">Make Appointment</a>
+    </div>
+    <div class="col-md-4">
+      <div class="pull-right well">
+        <div ng-repeat="type in appointment_types track by type.id">
+          <i class="glyphicon glyphicon-stop" style="color: {{type.color_class}}"></i>{{type.name}}
+        </div>
+        <div>
+          <i class="glyphicon glyphicon-stop" style="color: black;"></i>Slot taken by another patient
+        </div>
+      </div>
     </div>
   </div>
   <div class="row-fluid">

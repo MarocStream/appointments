@@ -1,12 +1,16 @@
 angular.module('calendarApp')
 
-.controller 'AppointmentsCtrl', ['$modal', '$scope', 'Appointments', 'AppointmentTypes', ($modal, $scope, Appointments, AppointmentTypes)->
+.controller 'AppointmentsCtrl', ['$modal', '$scope', 'Appointments', 'AppointmentTypes', '$rootScope', ($modal, $scope, Appointments, AppointmentTypes, $rootScope)->
 
   $scope.appointments = []
 
   reformAppointment = (appt, existing)->
     type = _.findWhere $scope.types, id: appt.appointmentTypeId
+    if !$rootScope.user? || ($rootScope.user.isPatient() && $rootScope.user.id != appt.user?.id)
+      type = angular.extend(type, {name: 'Slot Taken', colorClass: 'black', textColor: 'white'})
     existing ||= {title: type.name, color: type.colorClass, textColor: type.textColor, allDay: false, appointment: appt}
+    if $rootScope.user? && ($rootScope.user.isStaffOrAdmin() || ($rootScope.user.isPatient() && $rootScope.user.id != appt.user?.id))
+      existing.editable = true
     start = moment(appt.start)
     if existing.start
       existing.start.hours(start.hours()).minutes(start.minutes())
@@ -46,10 +50,9 @@ angular.module('calendarApp')
         index = $scope.appointments[0].indexOf(appt)
         $scope.appointments[0].splice(index, 1)
 
-
   $scope.calendar =
     height: 850
-    editable: true
+    editable: false
     header:
       left: 'month agendaWeek agendaDay'
       center: 'title'
@@ -74,4 +77,9 @@ angular.module('calendarApp')
     defaultView: 'agendaWeek'
     minTime: '06:00:00'
     maxTime: '20:00:00'
+
+  $rootScope.user_promise.$then (user)->
+    angular.extend $scope.calendar,
+      editable: user?.isStaffOrAdmin?()
+
 ]
