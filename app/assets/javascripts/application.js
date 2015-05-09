@@ -31,7 +31,6 @@
 //= require lodash
 //= require moment
 //= require fullcalendar
-//= require angular-ui-calendar
 //= require calendar
 //= require main/main
 //= require main/main.controller

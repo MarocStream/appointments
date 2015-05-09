@@ -6,8 +6,7 @@ angular.module 'calendarApp', [
   'ui.bootstrap',
   'ngRoute',
   # 'btford.socket-io',
-  'restmod',
-  'ui.calendar'
+  'restmod'
 ]
 .config ['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider)->
   $routeProvider
