@@ -12,8 +12,9 @@ default: &default
 development:
   <<: *default
   database: appointments_development
-  host: localhost
+  host: 127.0.0.1
   username: root
+  password: rootpass
   socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and

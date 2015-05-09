@@ -28,6 +28,6 @@ angular.module('calendarApp')
 
   $scope.remove = ()->
     $scope.appointment.$destroy()
-    $modalInstance.dismiss(true)
+    $modalInstance.dismiss()
 
 ]

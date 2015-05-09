@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
   get "/users/profile", controller: :users, action: :profile, as: :profile
   put "/users/profile", controller: :users, action: :update_profile, as: :update_profile
+  get '/reauth/:token', controller: :reauth, action: :reauth
   scope "/admin" do
     get "/", controller: :admin, action: :index, as: :admin_index
     resources :users, except: [:create], as: :admin_users

@@ -1,33 +1,18 @@
 angular.module('calendarApp')
 
-.controller 'AppointmentsCtrl', ['$modal', '$scope', 'Appointments', 'AppointmentTypes', '$rootScope', '$timeout', ($modal, $scope, Appointments, AppointmentTypes, $rootScope, $timeout)->
-
-  reformAppointment = (appt, existing)->
-    existing ||= {}
-    type = _.findWhere $scope.types, id: appt.appointmentTypeId
-    if !$rootScope.user? || ($rootScope.user.isPatient() && $rootScope.user.id != appt.user?.id)
-      type = angular.extend(type, {name: 'Slot Taken', colorClass: 'black', textColor: 'white'})
-    angular.extend(existing, {title: type.name, color: type.colorClass, textColor: type.textColor, allDay: false, appointment: appt})
-    if $rootScope.user? && ($rootScope.user.isStaffOrAdmin() || ($rootScope.user.isPatient() && $rootScope.user.id != appt.user?.id))
-      existing.editable = true
-    start = moment(appt.start)
-    if existing.start
-      existing.start.hours(start.hours()).minutes(start.minutes())
-    else
-      existing.start = start
-    existing.end = moment(appt.start)
-    existing.end.minutes(existing.end.minutes() + type.duration)
-    existing
+.controller 'AppointmentsCtrl', ['$modal', '$scope', 'Appointments', 'AppointmentTypes', 'AppointmentSync', '$rootScope', '$timeout', '$window', ($modal, $scope, Appointments, AppointmentTypes, AppointmentSync, $rootScope, $timeout, $window)->
 
   AppointmentTypes.$search().$then (types)->
     $scope.types = types
-
-    Appointments.$search(start: moment().startOf('week'), duration: 7).$then (appointments)->
-      apps = []
-      _.each appointments, (a)->
-        apps.push reformAppointment(a)
-
-      $scope.calendar.fullCalendar('addEventSource', apps)
+    AppointmentSync.setup($scope.calendar, $scope.types)
+    userPromise = $rootScope.user_promise.$asPromise()
+    userPromise.then((user)->
+      angular.extend $scope.calendarConfig,
+        editable: user?.isStaffOrAdmin?()
+    , ()-> )
+    userPromise.finally ->
+      $scope.calendar.fullCalendar($scope.calendarConfig)
+      AppointmentSync.watch start: moment().startOf('week').add(1, 'day'), duration: 5
 
   $scope.editAppointment = (appt)->
     modalInstance = $modal.open
@@ -37,18 +22,9 @@ angular.module('calendarApp')
         appointment: ()-> appt
 
     modalInstance.result.then (appt)->
-      appt.$save().$then (a)->
-        existing = $scope.calendar.fullCalendar('clientEvents', (e)-> e.appointment.id == a.id)[0]
-        if existing && a.id
-          calAppt = angular.extend(existing, reformAppointment(a, existing))
-          $scope.calendar.fullCalendar 'updateEvent', calAppt
-        else
-          calAppt = reformAppointment(a)
-          $scope.calendar.fullCalendar('renderEvent', calAppt)
-    , (destroyed)->
-      if destroyed
-        $scope.calendar.fullCalendar 'removeEvents', (e)-> e.appointment.id == appt.id
+      appt.$save()
 
+  # FullCalendar Configuration
   $scope.calendar = $('#appointment-calendar')
   $scope.calendarConfig =
     height: 850
@@ -69,6 +45,14 @@ angular.module('calendarApp')
       correctedDate = moment(event.start).utc().add((new Date()).getTimezoneOffset(), 'minutes').valueOf()
       appointment.start = new Date(moment(correctedDate).valueOf())
       appointment.$save().$then null, -> revertFunc()
+    viewRender: (view, element)->
+      switch view.intervalDuration._days
+        when 0 # Month
+          AppointmentSync.watch start: moment().startOf('month'), duration: 31
+        when 1 # Day
+          AppointmentSync.watch start: moment().startOf('day'), duration: 1
+        when 7 # Week
+          AppointmentSync.watch start: moment().startOf('week').add(1, 'day'), duration: 5
     aspectRatio: 2
     timezone: 'America/New_York'
     eventLimit: true
@@ -84,11 +68,5 @@ angular.module('calendarApp')
     maxTime: '20:00:00'
     weekends: false
     eventResize: (event, delta, revertFunc)-> revertFunc()
-
-
-  $rootScope.user_promise.$then (user)->
-    angular.extend $scope.calendarConfig,
-      editable: user?.isStaffOrAdmin?()
-    $scope.calendar.fullCalendar($scope.calendarConfig)
 
 ]

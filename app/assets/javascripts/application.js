@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require turbolinks
+//= require phoenix
 //= require angular
 //= require angular-rails-templates
 //= require_tree ../templates
@@ -35,6 +36,7 @@
 //= require main/main
 //= require main/main.controller
 //= require users.service
+//= require appointments/appointment_sync.service
 //= require appointments/appointments.service
 //= require appointments/appointments.controller
 //= require appointments/types.service

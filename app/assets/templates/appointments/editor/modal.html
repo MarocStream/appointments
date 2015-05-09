@@ -1,5 +1,9 @@
 <div class="modal-header">
-  <h3 class="modal-title">Make Appointment</h3>
+  <h3 class="modal-title">
+    <span ng-if="appointment.id">View</span>
+    <span ng-if="!appointment.id">Make</span>
+    Appointment
+  </h3>
 </div>
 <div class="modal-body appointment-modal">
   <div class="row">
@@ -28,7 +32,7 @@
       <span class="pull-left">{{appointment.start | date: 'longDate'}}</span>
     </div>
   </div>
-  <div class="row">
+  <div class="row" ng-if="user != null">
     <div class="col-md-6 text-right">
       <label for="new_appointment_type_id">Type of visit:</label>
     </div>
@@ -36,7 +40,7 @@
       <select ng-init="appointment.appointmentTypeId = appointment.appointmentTypeId || types[0].id" class="pull-left" id="new_appointment_type_id2" ng-model="appointment.appointmentTypeId" ng-options="type.id as type.name for type in types"/>
     </div>
   </div>
-  <div class="row">
+  <div class="row" ng-if="user != null">
     <div class="col-md-6 text-right start">
       <label for="new_appointment_start">Start:</label>
     </div>
@@ -46,7 +50,7 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-danger pull-left"  ng-click="remove()" ng-show="appointment.id">Remove</button>
+  <button class="btn btn-danger pull-left" ng-if="user != null" ng-click="remove()" ng-show="appointment.id && (appointment.user.id == user.id || user.isStaffOrAdmin())">Remove</button>
   <span title="Please login or sign up!" data-toggle="{{user == null ? 'tooltip' : null}}" data-placement="top" style="display: inline-block;margin-right: 5px;">
     <button class="btn btn-primary" ng-click="ok()" ng-disabled="user == null">OK</button>
   </span>

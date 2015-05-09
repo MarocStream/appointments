@@ -4,7 +4,13 @@
   <title>Appointments</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <script type="text/javascript">
+    window.__auth_token__ = <%= Rails.application.message_verifier(:session_auth).generate(session.id).to_json.html_safe %>;
+    window.__ws_url__ = <%= Rails.application.config.phoenix_url.to_json.html_safe %>
+    console.log("Session id: ", <%= session.id.inspect.html_safe %>);
+  </script>
   <%= csrf_meta_tags %>
+  <base href="/"/>
 </head>
 <body id="washington-travel">
 
