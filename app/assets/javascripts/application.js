@@ -40,6 +40,7 @@
 //= require appointments/appointments.service
 //= require appointments/appointments.controller
 //= require appointments/types.service
+//= require appointments/settings.service
 //= require appointments/editor/modal.controller
 //= require bootstrap-datetimepicker
 //= require bootstrap-tags

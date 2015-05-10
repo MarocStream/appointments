@@ -63,6 +63,6 @@ unless Rails.env.test?
   AppointmentType.create!(name: 'TB Test', duration: 15, prep_duration: 5, post_duration: 0, color_class: 'yellow', text_color: 'black')
   AppointmentType.create!(name: 'Travel-Related Visit', duration: 20, prep_duration: 0, post_duration: 5, color_class: 'orange', text_color: 'black')
 
-  Setting.create!(name: 'Open Time', desc: 'Enter the opening hour in 24 hour format as an integer only. No letters (i.e. "9" rather than "9am")', value: '9')
-  Setting.create!(name: 'Close Time', desc: 'Enter the closing hour in 24 hour format as an integer only. No letters (i.e. "17" rather than "5pm")', value: '17')
+  Setting.create!(name: 'Open Time', desc: 'Enter the opening hour in 24 hour format as in "09:00:00" for 9am.', value: '09:00:00')
+  Setting.create!(name: 'Close Time', desc: 'Enter the closing hour in 24 hour format as in "17:00:00" for 5pm.', value: '17:00:00')
 end

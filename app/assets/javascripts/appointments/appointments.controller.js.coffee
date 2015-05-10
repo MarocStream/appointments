@@ -11,8 +11,13 @@ angular.module('calendarApp')
         editable: user?.isStaffOrAdmin?()
     , ()-> )
     userPromise.finally ->
-      $scope.calendar.fullCalendar($scope.calendarConfig)
-      AppointmentSync.watch start: moment().startOf('week').add(1, 'day'), duration: 5
+      $rootScope.settings_promise.$then ->
+        # $rootScope.settings has been created
+        $scope.calendarConfig.businessHours.start = $rootScope.settings.openTime if $rootScope.settings.openTime
+        $scope.calendarConfig.scrollTime = $rootScope.settings.openTime if $rootScope.settings.openTime
+        $scope.calendarConfig.businessHours.end = $rootScope.settings.closeTime if $rootScope.settings.closeTime
+        $scope.calendar.fullCalendar($scope.calendarConfig)
+        AppointmentSync.watch start: moment().startOf('week').add(1, 'day'), duration: 5
 
   $scope.editAppointment = (appt)->
     modalInstance = $modal.open
@@ -58,8 +63,8 @@ angular.module('calendarApp')
     eventLimit: true
     allDaySlot: false
     businessHours:
-      start: '09:00:00'
-      end: '17:00:00'
+      start: '09:00:00' # Default, is replaced by settings
+      end: '17:00:00'   # Default, is replaced by settings
     axisFormat: 'h:mma'
     scrollTime: '08:00:00'
     slotDuration: '00:15:01'
