@@ -4,6 +4,14 @@ class Appointment < ActiveRecord::Base
   belongs_to :appointment_type
 
   validates_presence_of :user, :appointment_type, :start
+  validate :no_conflicts, unless: ->(app){ app.allow_conflict? }
+
+  before_validation do
+    if start && appointment_type
+      self.min = start - appointment_type.prep_duration.minutes
+      self.max = start + appointment_type.duration.minutes + appointment_type.post_duration.minutes
+    end
+  end
 
   scope :for_user, ->(user) {
     if user && user.patient?
@@ -18,5 +26,18 @@ class Appointment < ActiveRecord::Base
   scope :for_period, ->(start, duration) {
     where("start > ? AND start <= ?", start, start + duration.days)
   }
+
+  def allow_conflict!
+    @allow_conflict = true
+  end
+  def allow_conflict?
+    @allow_conflict
+  end
+
+  def no_conflicts
+    if start && Appointment.where("(min < ? AND max > ?) OR (min < ? AND max > ?)", max, max, min, min).exists?
+      errors.add(:start, 'conflicts with another appointment.')
+    end
+  end
 
 end

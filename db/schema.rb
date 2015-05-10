@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150510041726) do
+ActiveRecord::Schema.define(version: 20150510063150) do
 
   create_table "addresses", force: true do |t|
     t.string   "street"
@@ -51,9 +51,13 @@ ActiveRecord::Schema.define(version: 20150510041726) do
     t.integer  "appointment_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "min"
+    t.datetime "max"
   end
 
   add_index "appointments", ["appointment_type_id"], name: "index_appointments_on_appointment_type_id", using: :btree
+  add_index "appointments", ["min", "max"], name: "index_appointments_on_min_and_max", using: :btree
+  add_index "appointments", ["start"], name: "index_appointments_on_start", using: :btree
   add_index "appointments", ["user_id"], name: "index_appointments_on_user_id", using: :btree
 
   create_table "phones", force: true do |t|

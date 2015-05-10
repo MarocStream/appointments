@@ -40,7 +40,7 @@ describe AppointmentsController do
       login_user
 
       before :each do
-        appointments = [create(:appointment), create(:appointment, user_id: @user.id)]
+        appointments = [create(:appointment), create(:appointment, start: 1.day.from_now, user_id: @user.id)]
         get :index, {}, valid_session
       end
 
@@ -62,7 +62,7 @@ describe AppointmentsController do
       login_admin
 
       before :each do
-        appointments = [create(:appointment), create(:appointment)]
+        appointments = [create(:appointment), create(:appointment, start: 1.day.from_now)]
         get :index, {}, valid_session
       end
 

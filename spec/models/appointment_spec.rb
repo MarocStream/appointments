@@ -22,6 +22,37 @@ describe Appointment do
       appointment.errors.keys.should == [:start]
     end
 
+    it 'cannot conflict with another start date' do
+      appointment = create(:appointment)
+      new_appointment = build(:appointment, start: '2014-09-28 21:44:36') # 2 mins after
+      new_appointment.valid?.should be_false
+    end
+
+     it 'cannot conflict with a prep_duration before the start date' do
+       appointment = create(:appointment)
+       new_appointment = build(:appointment, start: '2014-09-28 21:40:36') # 2 mins before start
+       new_appointment.valid?.should be_false
+     end
+
+     it 'cannot conflict with a post_duration after the start date' do
+       appointment = create(:appointment)
+       new_appointment = build(:appointment, start: '2014-09-28 21:53:36') # 11 mins after start
+       new_appointment.valid?.should be_false
+     end
+
+     it 'cannot conflict the prep_duration with the post_duration of another' do
+       appointment = create(:appointment)
+       new_appointment = build(:appointment, start: '2014-09-28 21:56:36') # 14 mins after start
+       new_appointment.valid?.should be_false
+     end
+
+     it 'can conflict if allow_conflicts is on' do
+       appointment = create(:appointment)
+       new_appointment = build(:appointment, start: '2014-09-28 21:45:36') # 3 mins after start
+       new_appointment.allow_conflict!
+       new_appointment.valid?.should be_true
+     end
+
   end
 
   context :scopes do
