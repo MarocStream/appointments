@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "Settings" do
+  before { pending "Requests not set up" }
   describe "GET /settings" do
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers

@@ -14,6 +14,7 @@ describe "settings/index" do
         :value => "Value"
       )
     ])
+    allow(view).to receive(:current_user).and_return(stub_model(User, admin?: true))
   end
 
   it "renders a list of settings" do

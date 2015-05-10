@@ -25,6 +25,7 @@ test:
   database: appointments_test
   host: localhost
   username: root
+  password: rootpass
   socket: /tmp/mysql.sock
 
 staging:

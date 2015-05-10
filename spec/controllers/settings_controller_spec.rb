@@ -20,6 +20,8 @@ require 'spec_helper'
 
 describe SettingsController do
 
+  login_admin
+
   # This should return the minimal set of attributes required to create a valid
   # Setting. As you add validations to Setting, be sure to
   # adjust the attributes here as well.
@@ -77,7 +79,7 @@ describe SettingsController do
 
       it "redirects to the created setting" do
         post :create, {:setting => valid_attributes}, valid_session
-        response.should redirect_to(Setting.last)
+        response.should redirect_to([:admin, Setting.last])
       end
     end
 
@@ -119,7 +121,7 @@ describe SettingsController do
       it "redirects to the setting" do
         setting = Setting.create! valid_attributes
         put :update, {:id => setting.to_param, :setting => valid_attributes}, valid_session
-        response.should redirect_to(setting)
+        response.should redirect_to([:admin, setting])
       end
     end
 
@@ -153,7 +155,7 @@ describe SettingsController do
     it "redirects to the settings list" do
       setting = Setting.create! valid_attributes
       delete :destroy, {:id => setting.to_param}, valid_session
-      response.should redirect_to(settings_url)
+      response.should redirect_to(admin_settings_url)
     end
   end
 
