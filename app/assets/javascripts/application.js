@@ -33,6 +33,7 @@
 //= require moment
 //= require fullcalendar
 //= require calendar
+//= require angular-ui-select
 //= require main/main
 //= require main/main.controller
 //= require users.service
@@ -42,6 +43,7 @@
 //= require appointments/types.service
 //= require appointments/settings.service
 //= require appointments/editor/modal.controller
+//= require appointments/editor/user_selection.directive
 //= require bootstrap-datetimepicker
 //= require bootstrap-tags
 //= require user_profile

@@ -12,7 +12,8 @@
     "jquery-ui": "latest",
     "angular-restmod": "latest",
     "bootstrap": "latest",
-    "bootstrap-tags": "latest"
+    "bootstrap-tags": "latest",
+    "angular-ui-select": "latest"
   },
   "resolutions": {
     "jquery": "2.1.1"

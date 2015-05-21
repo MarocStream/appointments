@@ -9,3 +9,7 @@ angular.module('calendarApp')
         isStaffOrAdmin: ->
           @role == "staff" || @role == "admin"
 ]
+
+.service 'PatientLookup', ['restmod', (restmod)->
+  restmod.model('/admin/users')
+]

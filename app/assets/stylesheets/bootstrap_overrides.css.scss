@@ -1,10 +1,25 @@
-body {
+body#washington-travel {
   .modal-backdrop {
     height: 100%;
     position: fixed;
   }
   #main {
     padding-top: 5px;
+  }
+
+  .zero-left-padding {
+    padding-left: 0px;
+  }
+
+  #user-selection {
+    ul.ui-select-choices.ui-select-choices-content {
+      width: 380px;
+    }
+  }
+
+  .side-padding {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
   #family {

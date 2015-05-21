@@ -26,8 +26,8 @@ class User < ActiveRecord::Base
       where(Array.new(dates.size) { "dob  = ? " }.join("OR "), *dates)
     else
       q_reg = "%#{q}%"
-      joins(:phones).where("first LIKE ? OR middle LIKE ? OR last LIKE ? OR phones.number LIKE ?",
-      q_reg, q_reg, q_reg, q_reg)
+      joins(:phones).where("first LIKE ? OR middle LIKE ? OR last LIKE ? OR phones.number LIKE ? OR email LIKE ?",
+      q_reg, q_reg, q_reg, q_reg, q_reg)
     end
   }
 

@@ -1,0 +1,18 @@
+<div class="col-md-10 zero-left-padding">
+  <ui-select ng-model="user" theme="bootstrap" id="user-selection" on-select="update($select.selected)" ng-required="$root.user.isStaffOrAdmin()">
+    <ui-select-match allow-clear="true" placeholder="Name, Phone, Email, DOB">{{$select.selected.display}}</ui-select-match>
+    <ui-select-choices repeat="item in user_results" refresh="fetch($select.search)">
+      <div>
+        <span ng-bind-html="item.reverse_display | highlight: $select.search"></span>
+        <span ng-bind-html="item.last | highlight: $select.search" class="pull-right"></span>
+      </div>
+      <small>
+        <span ng-bind-html="item.email | highlight: $select.search"></span>
+        <span ng-bind-html="item.dob | date:'MM/dd/yyyy' | highlight: $select.search" class="pull-right"></span>
+      </small>
+    </ui-select-choices>
+  </ui-select>
+</div>
+<button class="btn btn-primary">
+  <i class="glyphicon glyphicon-plus"></i>
+</button>

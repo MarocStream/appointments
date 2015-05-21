@@ -15,6 +15,7 @@
  *= require bootstrap-datetimepicker
  *= require fullcalendar/dist/fullcalendar
  *= require bootstrap-tags
+ *= require angular-ui-select/dist/select
  *= require_self
  */
 
