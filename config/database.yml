@@ -14,7 +14,7 @@ development:
   database: appointments_development
   host: 127.0.0.1
   username: root
-  password: rootpass
+  # password: rootpass
   socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
