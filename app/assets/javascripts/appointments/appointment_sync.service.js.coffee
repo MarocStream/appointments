@@ -8,7 +8,7 @@ angular.module('calendarApp')
     types = tps
 
   {Socket} = Phoenix
-  socket = new Socket("ws://#{$window.__ws_url__ || "#{$window.location.hostname}:#{$window.location.port}"}/ws")
+  socket = new Socket("ws://#{$window.__ws_url__ || "#{$window.location.hostname}:#{$window.location.port}"}#{$window.__ws_path__}")
   socket.connect()
   channel = null
 
