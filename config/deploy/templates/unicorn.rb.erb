@@ -4,6 +4,7 @@ stdout_path "<%= unicorn_log_file %>"
 stderr_path "<%= unicorn_error_log_file %>"
 
 listen "/tmp/unicorn.<%= fetch(:nginx_config_name) %>.sock"
+listen 3000
 worker_processes <%= fetch(:unicorn_workers) %>
 timeout 30
 
