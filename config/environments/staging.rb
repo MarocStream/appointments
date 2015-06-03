@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   config.phoenix_url = nil # Will default to current host:port
-  config.phoenix_path = '/p/ws'
+  config.phoenix_path = '/ws'
 
   # Code is not reloaded between requests.
   config.cache_classes = true
