@@ -6,7 +6,7 @@
   </div>
   <% if defined?(render_add) && render_add %>
     <div class="col-sm-1">
-      <%= link_to_add_fields parent_f, :addresses, class: "btn btn-default btn-lg", title: "Add address", selector: '$(this).closest(".selector-addresses").siblings(".selector-addresses").andSelf().last()', wrap: '<div class="selector-addresses"/>' do %>
+      <%= link_to_add_fields parent_f, :addresses, class: "btn btn-default btn-lg", title: "Add address", selector: '$(this).closest(".selector-addresses").siblings(".selector-addresses").andSelf().last()', wrap: '<div class="selector-addresses"/>', partial: 'users/address_fields' do %>
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
       <% end %>
     </div>
