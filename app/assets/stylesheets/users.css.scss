@@ -4,6 +4,12 @@
   }
 }
 
+#washington-travel {
+  .ng-invalid:not(ng-form) {
+    border: 1px solid red;
+  }
+}
+
 // Unsure why this is needed
 .form-group.form-group-lg .input-group.date {
   padding-right: 15px;

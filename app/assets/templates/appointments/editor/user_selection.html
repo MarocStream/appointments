@@ -1,18 +1,21 @@
-<div class="col-md-10 zero-left-padding">
-  <ui-select ng-model="user" theme="bootstrap" id="user-selection" on-select="update($select.selected)" ng-required="$root.user.isStaffOrAdmin()">
+<div class="col-md-9 zero-left-padding">
+  <ui-select ng-model="user" theme="bootstrap" id="user-selection" on-select="update($select.selected)" on-remove="update()" ng-required="$root.user.isStaffOrAdmin()">
     <ui-select-match allow-clear="true" placeholder="Name, Phone, Email, DOB">{{$select.selected.display}}</ui-select-match>
     <ui-select-choices repeat="item in user_results" refresh="fetch($select.search)">
       <div>
-        <span ng-bind-html="item.reverse_display | highlight: $select.search"></span>
+        <span ng-bind-html="item.first || '??' | highlight: $select.search"></span>
         <span ng-bind-html="item.last | highlight: $select.search" class="pull-right"></span>
       </div>
       <small>
-        <span ng-bind-html="item.email | highlight: $select.search"></span>
+        <span ng-bind-html="item.email || 'No Email' | highlight: $select.search"></span>
         <span ng-bind-html="item.dob | date:'MM/dd/yyyy' | highlight: $select.search" class="pull-right"></span>
       </small>
     </ui-select-choices>
   </ui-select>
 </div>
-<button class="btn btn-primary">
+<button class="btn btn-default" ng-click="editUser(user)" ng-show="appointment.user">
+  <i class="glyphicon glyphicon-pencil"></i>
+</button>
+<button class="btn btn-primary" ng-click="editUser()">
   <i class="glyphicon glyphicon-plus"></i>
 </button>

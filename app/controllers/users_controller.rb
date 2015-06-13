@@ -32,6 +32,19 @@ class UsersController < ApplicationController
     update
   end
 
+  def create
+    @user = User.new(user_params)
+    logger.info user_params.inspect
+    @user.edited_by_staff = current_user.admin_or_staff? # Just to be safe
+    respond_to do |format|
+      if @user.save
+        format.json { render :show, status: :ok, location: admin_user_url(@user)}
+      else
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
@@ -39,6 +52,7 @@ class UsersController < ApplicationController
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
+    @user.edited_by_staff = current_user.admin_or_staff?
     respond_to do |format|
       if (current_user.patient? || current_user == @user) && user_params[:current_password].blank?
         @user.errors.add(:current_password, 'cannot be blank')
@@ -73,7 +87,7 @@ class UsersController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.includes(:phones, :addresses).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

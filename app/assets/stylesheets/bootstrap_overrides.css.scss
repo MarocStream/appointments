@@ -17,6 +17,22 @@ body#washington-travel {
     }
   }
 
+  .no-left-padding {
+    padding-left: 0px;
+  }
+  .no-right-padding {
+    padding-right: 0px;
+  }
+  .no-padding {
+    padding: 0px;
+  }
+
+  ng-form[name="userForm"], ng-form[name="appointmentForm"] {
+    .form-group {
+      padding-right: 15px;
+    }
+  }
+
   .side-padding {
     padding-left: 15px;
     padding-right: 15px;

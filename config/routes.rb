@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get '/reauth/:token', controller: :reauth, action: :reauth
   scope "/admin" do
     get "/", controller: :admin, action: :index, as: :admin_index
-    resources :users, except: [:create], as: :admin_users
+    resources :users, as: :admin_users
     resources :appointment_types, as: :admin_appointment_types
     resources :appointments, as: :admin_appointments
     resources :announcements, as: :admin_announcements

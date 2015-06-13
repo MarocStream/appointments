@@ -1,6 +1,6 @@
 angular.module('calendarApp')
 
-.directive 'userSelection', ['PatientLookup', (PatientLookup)->
+.directive 'userSelection', ['PatientLookup', '$modal', (PatientLookup, $modal)->
   restrict: 'E'
   transclude: true
   scope: {
@@ -10,7 +10,8 @@ angular.module('calendarApp')
   link: ($scope, $element, $attrs)->
     if $scope.appointment.user?.id || $scope.appointment.userId
       PatientLookup.$find($scope.appointment.user?.id || $scope.appointment.userId).$then (user)->
-        $scope.user = user.user
+        user.dob = moment(user.dob).format("MM/DD/YYYY")
+        $scope.user = user
 
     $scope.user_results = []
     $scope.fetch = (search)->
@@ -18,7 +19,20 @@ angular.module('calendarApp')
         $scope.user_results = results
 
     $scope.update = (selected)->
-      if selected
-        $scope.appointment.userId = selected.id
-        $scope.user = selected
+      $scope.appointment.userId = selected?.id
+      $scope.appointment.user = $scope.user = selected
+
+    $scope.editUser = (user)->
+      modalInstance = $modal.open
+        templateUrl: 'users/form.html'
+        controller: 'UserController'
+        resolve:
+          user: ()-> user || PatientLookup.$buildRaw()
+
+      modalInstance.result.then (user)->
+        user.$save().$then (saved_user)->
+          $scope.update(saved_user)
+        , (reject)->
+          $scope.editUser(user)
+
 ]

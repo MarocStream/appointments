@@ -1,0 +1,133 @@
+<div class="modal-header">
+  <h3 class="modal-title">
+    {{user.id ? 'Edit' : 'Add'}} Patient
+  </h3>
+</div>
+<ng-form name="userForm" class="modal-body user-modal">
+  <div class="form-group row">
+    <div class="col-md-3 text-right">
+      <label>Business:</label>
+    </div>
+    <div class="col-md-9">
+      <input type="text" ng-model="user.business" class="form-control" placeholder="A Company (optional)" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-3 text-right">
+      <label>Name:</label>
+    </div>
+    <div class="col-md-9">
+      <div class="col-md-4 no-left-padding">
+        <input type="text" ng-model="user.first" class="form-control" placeholder="First" ng-required="true" />
+      </div>
+      <div class="col-md-3 no-padding">
+        <input type="text" ng-model="user.middle" class="form-control" placeholder="MI" />
+      </div>
+      <div class="col-md-5 no-right-padding">
+        <input type="text" ng-model="user.last" class="form-control" placeholder="Last" ng-required="true" />
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-3 text-right">
+      <label>Date of Birth:</label>
+    </div>
+    <div class="col-md-9">
+      <div class="input-group date">
+        <input type="text" class="form-control", ng-model="user.dob" data-date="true" ng-required="true"/>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-3 text-right">
+      <label>Gender:</label>
+    </div>
+    <div class="col-md-9">
+      <select class="form-control" ng-model="user.gender" ng-required="true">
+        <% User.genders.each do |gender, value| %>
+          <option value="<%= gender %>"><%= gender.titleize %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row" ng-repeat="phone in user.phones">
+    <div class="col-md-3 text-right">
+      <label ng-if="$first">Phone:</label>
+    </div>
+    <div class="col-md-2">
+      <select class="form-control" ng-model="phone.kind" ng-required="true">
+        <% Phone.kinds.each do |kind, value| %>
+          <option value="<%= kind %>"><%= kind.titleize %></option>
+        <% end %>
+      </select>
+    </div>
+    <div class="col-md-1 no-right-padding">
+      <input type="text" class="form-control" ng-model="phone.country" ng-init="phone.country || (phone.country = '1')" />
+    </div>
+    <div class="col-md-2 no-right-padding">
+      <input type="text" class="form-control" ng-model="phone.number" placeholder="Phone" ng-required="true" />
+    </div>
+    <div class="col-md-2 no-right-padding">
+      <div class="input-group">
+        <span class="input-group-addon">x</span>
+        <input type="text" class="form-control" ng-model="phone.extension" placeholder="Ext" />
+      </div>
+    </div>
+    <div class="col-md-1 no-right-padding">
+      <button class="btn btn-default btn-large" ng-if="$first" ng-click="add('phones')">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">
+        </span>
+      </button>
+      <button ng-if="!$first" class="btn btn-danger btn-large" ng-click="remove('phones', $index)">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true">
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="form-group row" ng-repeat="address in user.addresses">
+    <div class="col-md-3 text-right">
+      <label ng-if="$first">Address:</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group row">
+        <div class="col-md-10">
+          <input type="text" class="form-control" ng-model="address.street" placeholder="Street" ng-required="true"/>
+        </div>
+        <div class="col-md-1 no-padding">
+          <button class="btn btn-default btn-large" ng-if="$first" ng-click="add('addresses')">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">
+            </span>
+          </button>
+          <button ng-if="!$first" class="btn btn-danger btn-large" ng-click="remove('addresses', $index)">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true">
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-12">
+          <input type="text" class="form-control" ng-model="address.apt" placeholder="Apt #" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3">
+          <input type="text" class="form-control" ng-model="address.postcode" placeholder="Zip" ng-required="true"/>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" ng-model="address.city" placeholder="City" ng-required="true"/>
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" ng-model="address.state" placeholder="State" ng-required="true"/>
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control" ng-model="address.country" ng-init="address.country || (address.country = 'US')" />
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-form>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()" ng-disabled="userForm.$invalid">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

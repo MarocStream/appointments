@@ -44,6 +44,7 @@
 //= require appointments/settings.service
 //= require appointments/editor/modal.controller
 //= require appointments/editor/user_selection.directive
+//= require users/user.controller
 //= require bootstrap-datetimepicker
 //= require bootstrap-tags
 //= require user_profile

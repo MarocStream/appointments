@@ -11,5 +11,19 @@ angular.module('calendarApp')
 ]
 
 .service 'PatientLookup', ['restmod', (restmod)->
-  restmod.model('/admin/users')
+  restmod.model('/admin/users').mix('AMSApi').mix
+    phones: { hasMany: 'Phone' }
+    addresses: { hasMany: 'Address'}
+    $extend:
+      Model:
+        pack: (user, raw)->
+          {user: angular.extend(raw, {phones_attributes: user.phones.$wrap(), addresses_attributes: user.addresses.$wrap()})}
+]
+
+.service 'Phone', ['restmod', (restmod)->
+  restmod.model('/admin/users/:user_id/phones')
+]
+
+.service 'Address', ['restmod', (restmod)->
+  restmod.model('/admin/users/:user_id/addresses')
 ]

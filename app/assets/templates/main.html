@@ -4,7 +4,7 @@
       <a href="#" ng-click="editAppointment()" class="btn btn-primary">Make Appointment</a>
     </div>
     <div class="col-md-4 col-xs-6">
-      <div class="pull-right well">
+      <div id="legend" class="pull-right well">
         <div ng-repeat="type in appointment_types track by type.id">
           <i class="glyphicon glyphicon-stop" style="color: {{type.color_class}}"></i>{{type.name}}
         </div>
