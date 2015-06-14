@@ -1,0 +1,10 @@
+<%= CSV.generate_line ['Type', 'Patient', 'Email', 'DOB', 'Start', 'Duration (mins)'] %><%-
+%><%- @appointments.each do |appointment| %><%-
+%><%= CSV.generate_line [appointment.appointment_type.name,
+                       appointment.user.reverse_display,
+                       appointment.user.email,
+                       appointment.user.dob,
+                       appointment.start,
+                       appointment.appointment_type.duration
+                     ] %><%-
+%><%- end %>

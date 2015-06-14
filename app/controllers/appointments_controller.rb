@@ -17,6 +17,16 @@ class AppointmentsController < ApplicationController
       end
       appointment
     end
+    respond_to do |format|
+      format.json
+      format.html
+      format.csv do
+        filename = params[:start] && params[:duration] ? "appointments-#{params[:start]}-#{params[:duration]}.csv" : "appointments-latest.csv"
+        headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+        headers['Content-Type'] ||= 'text/csv'
+        render :index
+      end
+    end
   end
 
   # GET /appointments/1

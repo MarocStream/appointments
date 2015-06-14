@@ -40,6 +40,7 @@
 //= require appointments/appointment_sync.service
 //= require appointments/appointments.service
 //= require appointments/appointments.controller
+//= require appointments/export.controller
 //= require appointments/types.service
 //= require appointments/settings.service
 //= require appointments/editor/modal.controller

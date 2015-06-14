@@ -63,6 +63,11 @@
         </li>
       </ul>
       <div id="globe">
+        <div style="position: absolute; left: 50%; top: 60px;">
+          <div style="position: relative; left: -50%;">
+            <%= render partial: "layouts/flash_messages", flash: flash %>
+          </div>
+        </div>
         <%= image_tag "logo.png", class: 'no-border', width: 45, height: 45 %>
         <% if @announcements.present? %>
           <div class="well announcement">
@@ -79,7 +84,6 @@
   	<div id="content-wrap">
     	<%= image_tag "headerphoto15.jpg", width: 1100, height: 120, class: 'no-border' %>
     	<div id="main">
-        <%= render partial: "layouts/flash_messages", flash: flash %>
         <div class="container-fluid">
           <%= yield %>
         </div>

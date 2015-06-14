@@ -8,6 +8,8 @@ angular.module('calendarApp')
           @role == null || @role == "patient"
         isStaffOrAdmin: ->
           @role == "staff" || @role == "admin"
+        isAdmin: ->
+          @role == "admin"
 ]
 
 .service 'PatientLookup', ['restmod', (restmod)->

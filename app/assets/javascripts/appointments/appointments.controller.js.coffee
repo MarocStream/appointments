@@ -9,6 +9,7 @@ angular.module('calendarApp')
     userPromise.then((user)->
       angular.extend $scope.calendarConfig,
         editable: user?.isStaffOrAdmin?()
+      $scope.user = user
     , ()-> )
     userPromise.finally ->
       $rootScope.settings_promise.$then ->
@@ -28,6 +29,11 @@ angular.module('calendarApp')
 
     modalInstance.result.then (appt)->
       appt.$save()
+
+  $scope.export = ()->
+    modalInstance = $modal.open
+      templateUrl: 'appointments/export.html'
+      controller: 'ExportController'
 
   # FullCalendar Configuration
   $scope.calendar = $('#appointment-calendar')
