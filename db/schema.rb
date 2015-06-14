@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150613054305) do
+ActiveRecord::Schema.define(version: 20150614051815) do
 
   create_table "addresses", force: true do |t|
     t.string   "street"
@@ -59,6 +59,14 @@ ActiveRecord::Schema.define(version: 20150613054305) do
   add_index "appointments", ["min", "max"], name: "index_appointments_on_min_and_max", using: :btree
   add_index "appointments", ["start"], name: "index_appointments_on_start", using: :btree
   add_index "appointments", ["user_id"], name: "index_appointments_on_user_id", using: :btree
+
+  create_table "closings", force: true do |t|
+    t.datetime "date"
+    t.boolean  "all_day"
+    t.string   "desc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "phones", force: true do |t|
     t.integer  "user_id"

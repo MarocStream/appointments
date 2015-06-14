@@ -9,3 +9,8 @@ json.appointments do
     # json.url appointment_url(appointment, format: :json)
   end
 end
+json.closings do
+  json.array!(@closings) do |closing|
+    json.extract! closing, :id, :date, :all_day
+  end
+end

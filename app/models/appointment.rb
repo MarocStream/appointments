@@ -13,6 +13,13 @@ class Appointment < ActiveRecord::Base
     end
   end
 
+  validate do |appointment|
+    if appointment.start < Time.parse(Setting.find_by(name: 'Open Time').value) ||
+      appointment.start + appointment_type.duration.minutes > Time.parse(Setting.find_by(name: 'Close Time').value)
+      appointment.errors.add(:start, 'must be within business hours')
+    end
+  end
+
   scope :for_user, ->(user) {
     if user && user.patient?
       where(user_id: user.id)

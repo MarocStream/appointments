@@ -8,8 +8,10 @@ class AppointmentsController < ApplicationController
     scope = Appointment.includes(:user, :appointment_type)
     if params[:start] && params[:duration]
       scope = scope.for_period(Date.parse(params[:start]), params[:duration].to_i)
+      @closings = Closing.for_period(Date.parse(params[:start]), params[:duration].to_i)
     else
       scope = scope.all
+      @closings = Closing.all
     end
     @appointments = scope.to_a.map! do |appointment|
       unless allows_access?(appointment)

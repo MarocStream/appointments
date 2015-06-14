@@ -42,6 +42,7 @@
 //= require appointments/appointments.controller
 //= require appointments/export.controller
 //= require appointments/types.service
+//= require appointments/closings.service
 //= require appointments/settings.service
 //= require appointments/editor/modal.controller
 //= require appointments/editor/user_selection.directive

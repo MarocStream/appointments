@@ -1,6 +1,6 @@
 angular.module('calendarApp')
 
-.service 'AppointmentSync', ['$window', '$rootScope', 'Appointments', ($window, $rootScope, Appointments)->
+.service 'AppointmentSync', ['$window', '$rootScope', 'Appointments', 'Closings', ($window, $rootScope, Appointments, Closings)->
 
   calendar = types = null
   @setup = (cal, tps)=>
@@ -23,20 +23,38 @@ angular.module('calendarApp')
       channel = socket.chan(@current_watch, $window.__auth_token__)
       channel.on 'data:update', (data)->
         console.log "Got updated data:", data.appointments
-        _.each data.appointments, (a)->
-          existing = calendar.fullCalendar('clientEvents', (e)-> e.appointment.id == a.id)[0]
+        _.each data.appointments.concat(data.closings), (a)->
+          existing = calendar.fullCalendar('clientEvents', (e)-> e.appointment?.id == a.id || e.closing?.id == a.id)[0]
           if existing && a.id
             # Update existing
-            calAppt = angular.extend(existing, reformAppointment(a, existing))
+            if a.start # appointment
+              calAppt = angular.extend(existing, reformAppointment(a, existing))
+            else # closing
+              calAppt = angular.extend(existing, reformClosing(a, existing))
             calendar.fullCalendar 'updateEvent', calAppt
           else
             # Add new
-            calAppt = reformAppointment(a)
+            if a.start
+              calAppt = reformAppointment(a)
+            else
+              calAppt = reformClosing(a)
             calendar.fullCalendar('renderEvent', calAppt)
         # Remove deleted
         apptIds = _.map data.appointments, (a)-> a.id
-        calendar.fullCalendar('removeEvents', (e)-> e.appointment.id not in apptIds)
+        closingIds = _.map data.closings, (c)-> c.id
+        calendar.fullCalendar('removeEvents', (e)-> e.appointment?.id not in apptIds && e.closing?.id not in closingIds)
       channel.join()
+
+  reformClosing = (closing, existing)->
+    existing ||= {}
+    closing = Closings.$buildRaw(closing) unless closing.$pk
+    type = {name: "Closed#{if closing.desc then closing.desc else ''}", colorClass: 'black', textColor: 'white'}
+    angular.extend(existing, {title: type.name, color: type.colorClass, textColor: type.textColor, allDay: closing.all_day, closing: closing})
+    if $rootScope.user?.isStaffOrAdmin()
+      existing.editable = true
+    existing.start ||= moment(closing.date)
+    existing.end ||= moment(existing.start).minutes(existing.start.minutes() + closing.duration)
+    existing
 
   reformAppointment = (appt, existing)->
     existing ||= {}

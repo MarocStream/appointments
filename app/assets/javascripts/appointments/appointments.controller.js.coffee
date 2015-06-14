@@ -1,6 +1,6 @@
 angular.module('calendarApp')
 
-.controller 'AppointmentsCtrl', ['$modal', '$scope', 'Appointments', 'AppointmentTypes', 'AppointmentSync', '$rootScope', '$timeout', '$window', ($modal, $scope, Appointments, AppointmentTypes, AppointmentSync, $rootScope, $timeout, $window)->
+.controller 'AppointmentsCtrl', ['$modal', '$scope', 'Appointments', 'Closings', 'AppointmentTypes', 'AppointmentSync', '$rootScope', '$timeout', '$window', ($modal, $scope, Appointments, Closings, AppointmentTypes, AppointmentSync, $rootScope, $timeout, $window)->
 
   AppointmentTypes.$search().$then (types)->
     $scope.types = types
@@ -17,18 +17,25 @@ angular.module('calendarApp')
         $scope.calendarConfig.businessHours.start = $rootScope.settings.openTime if $rootScope.settings.openTime
         $scope.calendarConfig.scrollTime = $rootScope.settings.openTime if $rootScope.settings.openTime
         $scope.calendarConfig.businessHours.end = $rootScope.settings.closeTime if $rootScope.settings.closeTime
+        unless $scope.user?.isAdmin()
+          $scope.calendarConfig.minTime = $scope.calendarConfig.businessHours.start
+          $scope.calendarConfig.maxTime = $scope.calendarConfig.businessHours.end
+        if $scope.user?.isStaffOrAdmin()
+          $scope.calendarConfig.allDaySlot = true
         $scope.calendar.fullCalendar($scope.calendarConfig)
         AppointmentSync.watch start: moment().startOf('week').add(1, 'day'), duration: 5
 
-  $scope.editAppointment = (appt)->
+  $scope.editAppointment = (appt, errors)->
     modalInstance = $modal.open
       templateUrl: 'appointments/editor/modal.html'
       controller: 'AppointmentModalController'
       resolve:
         appointment: ()-> appt
+        appointmentErrors: ()-> errors
 
     modalInstance.result.then (appt)->
-      appt.$save()
+      appt.$save().$then (-> ), (rejected)->
+        $scope.editAppointment(appt, rejected.$response.data)
 
   $scope.export = ()->
     modalInstance = $modal.open
@@ -48,9 +55,13 @@ angular.module('calendarApp')
     dayClick: (date, jsEvent, view)->
       console.log "Got date #{date}"
       correctedDate = moment(date).utc().add((new Date()).getTimezoneOffset(), 'minutes').valueOf()
-      $scope.editAppointment Appointments.$build(start: new Date(moment(correctedDate).valueOf()))
+      allDay = moment(correctedDate).hours() == 0 && moment(correctedDate).minutes() == 0
+      if allDay
+        $scope.editAppointment Closings.$build(duration: 24, date: new Date(moment(correctedDate).valueOf()), all_day: true)
+      else
+        $scope.editAppointment Appointments.$build(start: new Date(moment(correctedDate).valueOf()))
     eventClick: (event, jsEvent, view)->
-      $scope.editAppointment event.appointment
+      $scope.editAppointment event.appointment || event.closing
     eventDrop: (event, delta, revertFunc)->
       appointment = event.appointment
       correctedDate = moment(event.start).utc().add((new Date()).getTimezoneOffset(), 'minutes').valueOf()

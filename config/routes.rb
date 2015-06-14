@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get "/users/profile", controller: :users, action: :profile, as: :profile
   put "/users/profile", controller: :users, action: :update_profile, as: :update_profile
   get '/settings', controller: :settings, action: :index, as: :settings
+  get '/closings', controller: :closings, action: :index, as: :closings
   get '/reauth/:token', controller: :reauth, action: :reauth
   scope "/admin" do
     get "/", controller: :admin, action: :index, as: :admin_index
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
     resources :appointments, as: :admin_appointments
     resources :announcements, as: :admin_announcements
     resources :settings, as: :admin_settings
+    resources :closings, as: :admin_closings
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
