@@ -69,6 +69,6 @@ class ClosingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def closing_params
-      params.require(:closing).permit(:date, :all_day, :desc)
+      params.require(:closing).permit(:date, :all_day, :desc, :duration)
     end
 end

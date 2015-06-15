@@ -48,12 +48,12 @@ angular.module('calendarApp')
   reformClosing = (closing, existing)->
     existing ||= {}
     closing = Closings.$buildRaw(closing) unless closing.$pk
-    type = {name: "Closed#{if closing.desc then closing.desc else ''}", colorClass: 'black', textColor: 'white'}
+    type = {name: "Closed#{if closing.desc then " - #{closing.desc}" else ''}", colorClass: 'black', textColor: 'white'}
     angular.extend(existing, {title: type.name, color: type.colorClass, textColor: type.textColor, allDay: closing.all_day, closing: closing})
     if $rootScope.user?.isStaffOrAdmin()
       existing.editable = true
-    existing.start ||= moment(closing.date)
-    existing.end ||= moment(existing.start).minutes(existing.start.minutes() + closing.duration)
+    existing.start = moment(closing.date)
+    existing.end = moment(existing.start).hours(existing.start.hours() + closing.duration)
     existing
 
   reformAppointment = (appt, existing)->

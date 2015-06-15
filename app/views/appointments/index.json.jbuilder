@@ -11,6 +11,6 @@ json.appointments do
 end
 json.closings do
   json.array!(@closings) do |closing|
-    json.extract! closing, :id, :date, :all_day
+    json.extract! closing, :id, :date, :all_day, :desc, :duration
   end
 end

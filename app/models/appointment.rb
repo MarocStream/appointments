@@ -14,9 +14,24 @@ class Appointment < ActiveRecord::Base
   end
 
   validate do |appointment|
-    if appointment.start < Time.parse(Setting.find_by(name: 'Open Time').value) ||
-      appointment.start + appointment_type.duration.minutes > Time.parse(Setting.find_by(name: 'Close Time').value)
+    s = appointment.start
+    open = Time.parse(Setting.find_by(name: 'Open Time').value)
+    open = Time.mktime(s.year, s.month, s.day, open.hour, open.min)
+    close = Time.parse(Setting.find_by(name: 'Close Time').value)
+    close = Time.mktime(s.year, s.month, s.day, close.hour, close.min)
+    unless s >= open && s + appointment_type.duration.minutes <= close
       appointment.errors.add(:start, 'must be within business hours')
+    end
+  end
+
+  validate do |appointment|
+    closings = Closing.where('date >= ? AND date <= ?', appointment.start.beginning_of_day, appointment.start.end_of_day)
+    appointment_end = appointment.start + appointment.appointment_type.duration.minutes
+    closings.each do |closing|
+      closing_end = closing.date + closing.duration.hours
+      if (appointment.start > closing.date && closing_end > appointment.start) || (appointment_end > closing.date && closing_end > appointment_end)
+        appointment.errors.add(:start, "conflicts with an office closing")
+      end
     end
   end
 

@@ -24,8 +24,9 @@ angular.module('calendarApp')
     $scope[name] = $filter('date')($scope[obj][name], 'MM/dd/yyyy')
 
   $scope.allDayClosing = ->
-    $scope.closing.duration = 24
-    $scope.closing.date = moment($scope.closing.date).startOf('day')
+    if $scope.closing.all_day
+      $scope.closing.duration = 24
+      $scope.closing.date = moment($scope.closing.date).startOf('day')
 
   $scope.ok = ()->
     console.log "Closing appointment/closing with start date of #{$scope.appointment?.start || $scope.closing.date}"
@@ -42,7 +43,6 @@ angular.module('calendarApp')
   $scope.appointmentErrors = appointmentErrors
   if appointment.date
     $scope.closing = appointment
-    $scope.closing.date = moment($scope.closing.date).format('MM/DD/YYYY')
     $scope.allDay = $scope.closing.all_day
     $scope.setDate('closing', 'date')
   else
