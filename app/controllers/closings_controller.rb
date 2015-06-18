@@ -1,25 +1,5 @@
 class ClosingsController < ApplicationController
-  before_action :set_closing, only: [:show, :edit, :update, :destroy]
-
-  # GET /closings
-  # GET /closings.json
-  def index
-    @closings = Closing.all
-  end
-
-  # GET /closings/1
-  # GET /closings/1.json
-  def show
-  end
-
-  # GET /closings/new
-  def new
-    @closing = Closing.new
-  end
-
-  # GET /closings/1/edit
-  def edit
-  end
+  before_action :set_closing, only: [:update, :destroy]
 
   # POST /closings
   # POST /closings.json
@@ -28,10 +8,8 @@ class ClosingsController < ApplicationController
 
     respond_to do |format|
       if @closing.save
-        format.html { redirect_to [:admin, @closing], notice: 'Closing was successfully created.' }
         format.json { render :show, status: :created, location: [:admin, @closing] }
       else
-        format.html { render :new }
         format.json { render json: @closing.errors, status: :unprocessable_entity }
       end
     end
@@ -42,10 +20,8 @@ class ClosingsController < ApplicationController
   def update
     respond_to do |format|
       if @closing.update(closing_params)
-        format.html { redirect_to [:admin, @closing], notice: 'Closing was successfully updated.' }
         format.json { render :show, status: :ok, location: [:admin, @closing] }
       else
-        format.html { render :edit }
         format.json { render json: @closing.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +32,6 @@ class ClosingsController < ApplicationController
   def destroy
     @closing.destroy
     respond_to do |format|
-      format.html { redirect_to admin_closings_url, notice: 'Closing was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

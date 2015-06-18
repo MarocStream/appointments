@@ -24,7 +24,7 @@ describe UsersController do
     end
 
     it "routes to #create" do
-      post("/admin/users").should_not route_to("users#create")
+      post("/admin/users").should route_to("users#create")
     end
 
     it "routes to #update" do

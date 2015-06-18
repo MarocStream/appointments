@@ -24,6 +24,9 @@ describe AppointmentsController do
   # in order to pass any filters (e.g. authentication) defined in
   # AppointmentsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+  let(:one_day) {
+    1.day.from_now.beginning_of_day + 16.hours
+  }
 
   describe "GET index" do
     context "for anonymous users gives back appointments" do
@@ -40,7 +43,7 @@ describe AppointmentsController do
       login_user
 
       before :each do
-        appointments = [create(:appointment), create(:appointment, start: 1.day.from_now, user_id: @user.id)]
+        appointments = [create(:appointment), create(:appointment, start: one_day, user_id: @user.id)]
         get :index, {}, valid_session
       end
 
@@ -62,7 +65,7 @@ describe AppointmentsController do
       login_admin
 
       before :each do
-        appointments = [create(:appointment), create(:appointment, start: 1.day.from_now)]
+        appointments = [create(:appointment), create(:appointment, start: one_day)]
         get :index, {}, valid_session
       end
 

@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe "Closings" do
-  describe "GET /closings" do
+  before { pending "Requests not set up" }
+  describe "GET /admin/closings" do
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get closings_path
+      get admin_closings_path
       response.status.should be(200)
     end
   end

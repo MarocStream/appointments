@@ -30,54 +30,18 @@ describe ClosingsController do
   # ClosingsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all closings as @closings" do
-      closing = Closing.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:closings).should eq([closing])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested closing as @closing" do
-      closing = Closing.create! valid_attributes
-      get :show, {:id => closing.to_param}, valid_session
-      assigns(:closing).should eq(closing)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new closing as @closing" do
-      get :new, {}, valid_session
-      assigns(:closing).should be_a_new(Closing)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested closing as @closing" do
-      closing = Closing.create! valid_attributes
-      get :edit, {:id => closing.to_param}, valid_session
-      assigns(:closing).should eq(closing)
-    end
-  end
-
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Closing" do
         expect {
-          post :create, {:closing => valid_attributes}, valid_session
+          post :create, {:closing => valid_attributes, format: :json}, valid_session
         }.to change(Closing, :count).by(1)
       end
 
       it "assigns a newly created closing as @closing" do
-        post :create, {:closing => valid_attributes}, valid_session
+        post :create, {:closing => valid_attributes, format: :json}, valid_session
         assigns(:closing).should be_a(Closing)
         assigns(:closing).should be_persisted
-      end
-
-      it "redirects to the created closing" do
-        post :create, {:closing => valid_attributes}, valid_session
-        response.should redirect_to(Closing.last)
       end
     end
 
@@ -85,15 +49,8 @@ describe ClosingsController do
       it "assigns a newly created but unsaved closing as @closing" do
         # Trigger the behavior that occurs when invalid params are submitted
         Closing.any_instance.stub(:save).and_return(false)
-        post :create, {:closing => { "date" => "invalid value" }}, valid_session
+        post :create, {:closing => { "date" => "invalid value" }, format: :json}, valid_session
         assigns(:closing).should be_a_new(Closing)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Closing.any_instance.stub(:save).and_return(false)
-        post :create, {:closing => { "date" => "invalid value" }}, valid_session
-        response.should render_template("new")
       end
     end
   end
@@ -107,19 +64,13 @@ describe ClosingsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Closing.any_instance.should_receive(:update).with({ "date" => "2015-06-14 01:18:15" })
-        put :update, {:id => closing.to_param, :closing => { "date" => "2015-06-14 01:18:15" }}, valid_session
+        put :update, {:id => closing.to_param, :closing => { "date" => "2015-06-14 01:18:15" }, format: :json}, valid_session
       end
 
       it "assigns the requested closing as @closing" do
         closing = Closing.create! valid_attributes
-        put :update, {:id => closing.to_param, :closing => valid_attributes}, valid_session
+        put :update, {:id => closing.to_param, :closing => valid_attributes, format: :json}, valid_session
         assigns(:closing).should eq(closing)
-      end
-
-      it "redirects to the closing" do
-        closing = Closing.create! valid_attributes
-        put :update, {:id => closing.to_param, :closing => valid_attributes}, valid_session
-        response.should redirect_to(closing)
       end
     end
 
@@ -128,16 +79,8 @@ describe ClosingsController do
         closing = Closing.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Closing.any_instance.stub(:save).and_return(false)
-        put :update, {:id => closing.to_param, :closing => { "date" => "invalid value" }}, valid_session
+        put :update, {:id => closing.to_param, :closing => { "date" => "invalid value" }, format: :json}, valid_session
         assigns(:closing).should eq(closing)
-      end
-
-      it "re-renders the 'edit' template" do
-        closing = Closing.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Closing.any_instance.stub(:save).and_return(false)
-        put :update, {:id => closing.to_param, :closing => { "date" => "invalid value" }}, valid_session
-        response.should render_template("edit")
       end
     end
   end
@@ -146,14 +89,8 @@ describe ClosingsController do
     it "destroys the requested closing" do
       closing = Closing.create! valid_attributes
       expect {
-        delete :destroy, {:id => closing.to_param}, valid_session
+        delete :destroy, {:id => closing.to_param, format: :json}, valid_session
       }.to change(Closing, :count).by(-1)
-    end
-
-    it "redirects to the closings list" do
-      closing = Closing.create! valid_attributes
-      delete :destroy, {:id => closing.to_param}, valid_session
-      response.should redirect_to(closings_url)
     end
   end
 

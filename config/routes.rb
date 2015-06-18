@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     resources :appointments, as: :admin_appointments
     resources :announcements, as: :admin_announcements
     resources :settings, as: :admin_settings
-    resources :closings, as: :admin_closings
+    resources :closings, only: [:create, :update, :destroy], as: :admin_closings
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

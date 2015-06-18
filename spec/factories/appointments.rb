@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :appointment do
-    start "2014-09-28 21:42:36"
+    start "2014-09-28 13:42:36"
     association :user, factory: :user
     association :appointment_type, factory: :appointment_type
   end

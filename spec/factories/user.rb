@@ -5,6 +5,8 @@ FactoryGirl.define do
     sequence(:email) {|n| "user#{n}@example.com" }
     password 'password'
     password_confirmation 'password'
+    dob 20.years.ago.to_datetime.strftime('%m/%d/%Y')
+    gender 0
     ignore do
       phones_count 1
       addresses_count 1
@@ -23,6 +25,8 @@ FactoryGirl.define do
     role User.roles[:staff]
     password 'password'
     password_confirmation 'password'
+    dob 20.years.ago.to_datetime.strftime('%m/%d/%Y')
+    gender 0
     ignore do
       phones_count 1
       addresses_count 1
@@ -41,6 +45,8 @@ FactoryGirl.define do
     role User.roles[:admin]
     password 'password'
     password_confirmation 'password'
+    dob 20.years.ago.to_datetime.strftime('%m/%d/%Y')
+    gender 0
     ignore do
       phones_count 1
       addresses_count 1

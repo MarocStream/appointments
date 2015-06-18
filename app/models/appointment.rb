@@ -14,23 +14,27 @@ class Appointment < ActiveRecord::Base
   end
 
   validate do |appointment|
-    s = appointment.start
-    open = Time.parse(Setting.find_by(name: 'Open Time').value)
-    open = Time.mktime(s.year, s.month, s.day, open.hour, open.min)
-    close = Time.parse(Setting.find_by(name: 'Close Time').value)
-    close = Time.mktime(s.year, s.month, s.day, close.hour, close.min)
-    unless s >= open && s + appointment_type.duration.minutes <= close
-      appointment.errors.add(:start, 'must be within business hours')
+    if appointment.start
+      s = appointment.start
+      open = Time.parse(Setting.find_by(name: 'Open Time').try(:value) || '09:00')
+      open = Time.mktime(s.year, s.month, s.day, open.hour, open.min)
+      close = Time.parse(Setting.find_by(name: 'Close Time').try(:value) || '17:00')
+      close = Time.mktime(s.year, s.month, s.day, close.hour, close.min)
+      unless s >= open && s + (appointment_type.try(:duration) || 0).minutes <= close
+        appointment.errors.add(:start, 'must be within business hours')
+      end
     end
   end
 
   validate do |appointment|
-    closings = Closing.where('date >= ? AND date <= ?', appointment.start.beginning_of_day, appointment.start.end_of_day)
-    appointment_end = appointment.start + appointment.appointment_type.duration.minutes
-    closings.each do |closing|
-      closing_end = closing.date + closing.duration.hours
-      if (appointment.start > closing.date && closing_end > appointment.start) || (appointment_end > closing.date && closing_end > appointment_end)
-        appointment.errors.add(:start, "conflicts with an office closing")
+    if appointment.start
+      closings = Closing.where('date >= ? AND date <= ?', appointment.start.beginning_of_day, appointment.start.end_of_day)
+      appointment_end = appointment.start + (appointment.appointment_type.try(:duration) || 0).minutes
+      closings.each do |closing|
+        closing_end = closing.date + closing.duration.hours
+        if (appointment.start > closing.date && closing_end > appointment.start) || (appointment_end > closing.date && closing_end > appointment_end)
+          appointment.errors.add(:start, "conflicts with an office closing")
+        end
       end
     end
   end
