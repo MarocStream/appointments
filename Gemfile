@@ -53,7 +53,6 @@ group :development, :test do
   # Testing frameworks
   gem 'rspec-rails'
   gem 'minitest'
-  # gem 'test-unit'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'jasmine-rails'

@@ -1,6 +1,8 @@
 Appointments
 ============
 
+[![Build Status](https://semaphoreci.com/api/v1/projects/22489980-0844-4a8f-ad9a-5ecd5ad12335/458396/badge.svg)](https://semaphoreci.com/mgwidmann/appointments)
+
 A doctor's office appointment based system for the patients with a administrator backend for the staff.
 
 ## Installation
