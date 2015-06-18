@@ -5,7 +5,7 @@ set :application, 'appointments'
 set :repo_url, 'git@github.com:mgwidmann/appointments.git'
 
 # Default branch is :master
-ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+set :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/var/www/appointments'
