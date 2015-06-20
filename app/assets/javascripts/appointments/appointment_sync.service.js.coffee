@@ -14,13 +14,14 @@ angular.module('calendarApp')
 
   @current_watch = null
   @watch = (options)=>
-    params = "start=#{JSON.stringify(options.start).slice(1,-1)}&duration=#{options.duration}"
-    new_watch = "/appointments.json?#{params}"
+    shared = $rootScope.user?.isStaffOrAdmin()
+    params = "start=#{JSON.stringify(options.start).slice(1,-1)}&duration=#{options.duration}#{if shared then '' else "&id=#{$rootScope.user?.id || 'unauthorized'}"}"
+    new_watch = "proxy://appointments.json?#{params}"
     unless @current_watch == new_watch
       channel?.leave()
       @current_watch = new_watch
       console.log "Watching", @current_watch
-      channel = socket.chan(@current_watch, $window.__auth_token__)
+      channel = socket.chan(@current_watch, {session_id: $window.__auth_token__, shared: shared})
       channel.on 'data:update', (data)->
         console.log "Got updated data:", data.appointments
         _.each data.appointments.concat(data.closings), (a)->
