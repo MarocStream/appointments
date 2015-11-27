@@ -52,6 +52,11 @@
     </div>
   </div>
   <div ng-if="!closing">
+    <div class="form-group row" ng-if="appointment.id">
+      <div class="label label-warning">
+        To reschedule this appointment, change the start time below
+      </div>
+    </div>
     <div class="form-group row">
       <div class="col-md-4 text-right">
         <label>Appointment for:</label>
@@ -98,9 +103,9 @@
   </div>
 </ng-form>
 <div class="modal-footer">
-  <button class="btn btn-danger pull-left" ng-if="user != null" ng-click="remove()" ng-show="(appointment || closing).id && (user.isStaffOrAdmin() || appointment.user.id == user.id)">Remove</button>
+  <button class="btn btn-danger pull-left" ng-if="user != null" ng-click="remove()" ng-show="(appointment || closing).id && (user.isStaffOrAdmin() || appointment.user.id == user.id)">Delete Appointment</button>
   <span title="Please login or sign up!" data-toggle="{{user == null && !closing ? 'tooltip' : null}}" data-placement="top" style="display: inline-block;margin-right: 5px;">
     <button class="btn btn-primary" ng-click="ok()" ng-disabled="user == null || form.$invalid">OK</button>
   </span>
-  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>
