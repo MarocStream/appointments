@@ -67,7 +67,7 @@ angular.module('calendarApp')
     else
       angular.extend(existing, {title: appointment.user.display})
     angular.extend(existing, {color: type.colorClass, textColor: type.textColor, allDay: false, appointment: appointment})
-    if $rootScope.user? && ($rootScope.user.isStaffOrAdmin() || ($rootScope.user.isPatient() && $rootScope.user.id != appointment.user?.id))
+    if $rootScope.user? && ($rootScope.user.isStaffOrAdmin() || ($rootScope.user.isPatient() && $rootScope.user.id == (appointment.userId || appointment.user?.id)))
       existing.editable = true
     start = moment(appointment.start)
     if existing.start
