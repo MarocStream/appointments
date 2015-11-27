@@ -63,7 +63,10 @@ angular.module('calendarApp')
     type = _.findWhere types, id: appointment.appointmentTypeId
     if !$rootScope.user? || ($rootScope.user.isPatient() && $rootScope.user.id != (appointment.userId || appointment.user?.id))
       type = angular.extend(type, {name: 'Slot Taken', colorClass: 'black', textColor: 'white'})
-    angular.extend(existing, {title: type.name, color: type.colorClass, textColor: type.textColor, allDay: false, appointment: appointment})
+      angular.extend(existing, {title: type.name})
+    else
+      angular.extend(existing, {title: appointment.user.display})
+    angular.extend(existing, {color: type.colorClass, textColor: type.textColor, allDay: false, appointment: appointment})
     if $rootScope.user? && ($rootScope.user.isStaffOrAdmin() || ($rootScope.user.isPatient() && $rootScope.user.id != appointment.user?.id))
       existing.editable = true
     start = moment(appointment.start)
