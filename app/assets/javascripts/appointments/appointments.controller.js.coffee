@@ -22,6 +22,8 @@ angular.module('calendarApp')
           $scope.calendarConfig.maxTime = $scope.calendarConfig.businessHours.end
         if $scope.user?.isStaffOrAdmin()
           $scope.calendarConfig.allDaySlot = true
+          $scope.calendarConfig.height = 795
+        console.log "Calendar config:", $scope.calendarConfig
         $scope.calendar.fullCalendar($scope.calendarConfig)
         AppointmentSync.watch start: moment().startOf('week').add(1, 'day'), duration: 5
 
@@ -45,7 +47,7 @@ angular.module('calendarApp')
   # FullCalendar Configuration
   $scope.calendar = $('#appointment-calendar')
   $scope.calendarConfig =
-    height: 850
+    height: 752
     editable: false
     header:
       left: 'month agendaWeek agendaDay'
@@ -82,12 +84,13 @@ angular.module('calendarApp')
     businessHours:
       start: '09:00:00' # Default, is replaced by settings
       end: '17:00:00'   # Default, is replaced by settings
-    axisFormat: 'h:mma'
-    scrollTime: '08:00:00'
-    slotDuration: '00:15:01'
+    slotLabelFormat: 'hh:mma'
+    scrollTime: '10:00:00'
+    slotDuration: '00:10:00'
+    slotLabelInterval: '00:10:00'
     defaultView: 'agendaWeek'
-    minTime: '06:00:00'
-    maxTime: '20:00:00'
+    minTime: '00:00:00'
+    maxTime: '24:00:00'
     weekends: false
     eventResize: (event, delta, revertFunc)-> revertFunc()
 
