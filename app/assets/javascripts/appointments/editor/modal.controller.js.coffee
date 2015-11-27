@@ -41,7 +41,7 @@ angular.module('calendarApp')
     $modalInstance.dismiss()
 
   $scope.appointmentErrors = appointmentErrors
-  if appointment.date
+  if appointment?.date
     $scope.closing = appointment
     $scope.allDay = $scope.closing.all_day
     $scope.setDate('closing', 'date')
@@ -52,7 +52,7 @@ angular.module('calendarApp')
       $scope.types = types
       $scope.appointment.appointmentTypeId ||= types[0].id
 
-    if $rootScope.user.isPatient()
+    if $rootScope.user?.isPatient()
       $scope.appointment.userId ||= $rootScope.user?.id
 
 ]
