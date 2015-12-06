@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150615032237) do
+ActiveRecord::Schema.define(version: 20151205230331) do
 
   create_table "addresses", force: true do |t|
     t.string   "street"
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 20150615032237) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "text_color"
+    t.boolean  "group",                 default: false
+    t.integer  "group_time_per_person", default: 10
   end
 
   create_table "appointments", force: true do |t|

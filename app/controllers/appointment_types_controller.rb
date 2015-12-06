@@ -45,7 +45,7 @@ class AppointmentTypesController < ApplicationController
   def update
     respond_to do |format|
       if @appointment_type.update(appointment_type_params)
-        format.html { redirect_to @appointment_type, notice: 'Appointment type was successfully updated.' }
+        format.html { redirect_to admin_appointment_types_path, notice: 'Appointment type was successfully updated.' }
         format.json { render :show, status: :ok, location: @appointment_type }
       else
         format.html { render :edit }
@@ -72,6 +72,6 @@ class AppointmentTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_type_params
-      params.require(:appointment_type).permit(:name, :duration, :prep_duration, :post_duration, :color_class)
+      params.require(:appointment_type).permit(:name, :duration, :prep_duration, :post_duration, :color_class, :group, :group_time_per_person, :text_color)
     end
 end

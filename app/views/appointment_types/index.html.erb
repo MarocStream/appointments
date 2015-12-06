@@ -12,6 +12,7 @@
     <tr>
       <th>Name</th>
       <th>Duration</th>
+      <th>Group</th>
       <th>Prep duration</th>
       <th>Post duration</th>
       <th>Color class</th>
@@ -25,6 +26,7 @@
       <tr>
         <td><%= link_to appointment_type.name, appointment_type %></td>
         <td><%= appointment_type.duration %></td>
+        <td><%= appointment_type.group? ? "+#{appointment_type.group_time_per_person} mins/person" : 'No' %></td>
         <td><%= appointment_type.prep_duration %></td>
         <td><%= appointment_type.post_duration %></td>
         <td><%= appointment_type.color_class %></td>
