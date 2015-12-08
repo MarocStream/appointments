@@ -49,7 +49,9 @@ class AppointmentsController < ApplicationController
   # POST /appointments
   # POST /appointments.json
   def create
-    @appointment = Appointment.new(appointment_params)
+    apt_params = appointment_params
+    logger.info apt_params
+    @appointment = Appointment.new(apt_params)
     @appointment.allow_conflict! if current_user.try(:admin_or_staff?)
     respond_to do |format|
       if @appointment.save
@@ -94,12 +96,17 @@ class AppointmentsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    ## CANT GET STRONG PARAMS TO WORK FOR :group_members_attributes, tried for hours, wasting time now...
     def appointment_params
+      params[:appointment].merge!(group_members_attributes: params[:group_members_attributes] || [])
       if current_user.nil? || current_user.patient?
         user_id = current_user.try(:id) ? current_user.id.to_s : nil # Keep id as a string or nil
-        params.require(:appointment).permit(:start, :appointment_type_id).merge!(user_id: user_id)
+        # params.require(:appointment).permit(:start, :appointment_type_id, group_members_attributes: []).merge!(user_id: user_id)
+        params[:appointment].merge!(user_id: user_id)
+        params[:appointment]
       else
-        params.require(:appointment).permit(:user_id, :start, :appointment_type_id)
+        # params.require(:appointment).permit(:user_id, :start, :appointment_type_id, group_members_attributes: [:id, :_destroy, :first, :last, :dob])
+        params[:appointment]
       end
     end
 

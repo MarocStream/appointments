@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151205230331) do
+ActiveRecord::Schema.define(version: 20151206160805) do
 
   create_table "addresses", force: true do |t|
     t.string   "street"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20151205230331) do
     t.datetime "updated_at"
     t.integer  "kind"
   end
+
+  create_table "appointment_group_members", force: true do |t|
+    t.string   "first"
+    t.string   "last"
+    t.date     "dob"
+    t.integer  "appointment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "appointment_group_members", ["appointment_id"], name: "index_appointment_group_members_on_appointment_id", using: :btree
 
   create_table "appointment_types", force: true do |t|
     t.string   "name"
@@ -120,7 +131,6 @@ ActiveRecord::Schema.define(version: 20151205230331) do
     t.integer  "gender"
     t.string   "business"
     t.string   "phone"
-    t.string   "family"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

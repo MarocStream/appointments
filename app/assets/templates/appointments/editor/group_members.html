@@ -1,0 +1,21 @@
+<div class="col-xs-3 zero-right-padding" ng-class='{"has-error": appointmentErrors["group_members.first"] && !member.first}'>
+  <input class="form-control" ng-model="member.first" placeholder="First"/>
+  <span class="text-danger" ng-if='appointmentErrors["group_members.first"] && !member.first'>
+    First name {{appointmentErrors["group_members.first"][0]}}
+  </span>
+</div>
+<div class="col-xs-3 zero-right-padding" ng-class='{"has-error": appointmentErrors["group_members.last"] && !member.last}'>
+  <input class="form-control" ng-model="member.last" placeholder="Last"/>
+  <span class="text-danger" ng-if='appointmentErrors["group_members.last"] && !member.last'>
+    Last name {{appointmentErrors["group_members.last"][0]}}
+  </span>
+</div>
+<div class="col-xs-3 zero-right-padding" ng-class='{"has-error": appointmentErrors["group_members.dob"] && !member.dob}'>
+  <div class="input-group date">
+    <input class="form-control" ng-model="member.dob" type="text" data-date="true"/>
+    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+  </div>
+  <span class="text-danger" ng-if='appointmentErrors["group_members.dob"] && !member.dob'>
+    DOB {{appointmentErrors["group_members.dob"][0]}}
+  </span>
+</div>

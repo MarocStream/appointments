@@ -74,8 +74,7 @@ angular.module('calendarApp')
       existing.start.hours(start.hours()).minutes(start.minutes())
     else
       existing.start = start
-    existing.end = moment(appointment.start)
-    existing.end.minutes(existing.end.minutes() + type.duration)
+    existing.end = moment(appointment.endTime)
     existing
 
   @

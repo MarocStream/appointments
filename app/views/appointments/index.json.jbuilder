@@ -1,6 +1,7 @@
 json.appointments do
   json.array!(@appointments) do |appointment|
-    json.extract! appointment, :id, :start, :appointment_type_id
+    json.extract! appointment, :id, :start, :end_time, :appointment_type_id
+    json.group_members_attributes appointment.group_members
     json.user do
       json.extract! appointment.user, :id, :display if appointment.user
     end

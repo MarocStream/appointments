@@ -31,6 +31,9 @@ module Appointments
       "<span class='has-error'>#{html_tag}</span>".html_safe
     }
 
+    # This doesnt work...
+    # config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
+
     # I18n.default_locale = 'en-US'
   end
 end

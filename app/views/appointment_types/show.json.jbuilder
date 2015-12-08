@@ -1,1 +1,1 @@
-json.extract! @appointment_type, :id, :name, :duration, :prep_duration, :post_duration, :color_class, :text_color, :created_at, :updated_at
+json.partial! 'show', appointment_type: @appointment_type

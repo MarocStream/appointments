@@ -93,9 +93,9 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       if current_user.admin_or_staff? && @user != current_user
-        params.require(:user).permit(:email, :gender, :dob, :password, :password_confirmation, :business, :first, :middle, :last, :family, phones_attributes: [:id, :kind, :country, :number, :extension, :type, :_destroy], addresses_attributes: [:id, :street, :apt, :postcode, :city, :state, :country])
+        params.require(:user).permit(:email, :gender, :dob, :password, :password_confirmation, :business, :first, :middle, :last, phones_attributes: [:id, :kind, :country, :number, :extension, :type, :_destroy], addresses_attributes: [:id, :street, :apt, :postcode, :city, :state, :country])
       elsif (current_user.patient? && action_name == 'update_profile') || @user == current_user
-        params.require(:user).permit(:email, :current_password, :gender, :dob, :password, :password_confirmation, :business, :first, :middle, :last, :family, phones_attributes: [:id, :kind, :country, :number, :extension, :type, :_destroy], addresses_attributes: [:id, :street, :apt, :postcode, :city, :state, :country])
+        params.require(:user).permit(:email, :current_password, :gender, :dob, :password, :password_confirmation, :business, :first, :middle, :last, phones_attributes: [:id, :kind, :country, :number, :extension, :type, :_destroy], addresses_attributes: [:id, :street, :apt, :postcode, :city, :state, :country])
       end
     end
 end

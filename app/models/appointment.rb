@@ -2,14 +2,16 @@ class Appointment < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :appointment_type
+  has_many :group_members, class_name: 'GroupMember'
 
+  accepts_nested_attributes_for :group_members, allow_destroy: true
   validates_presence_of :user, :appointment_type, :start
   validate :no_conflicts, unless: ->(app){ app.allow_conflict? }
 
   before_validation do
     if start && appointment_type
-      self.min = start - appointment_type.prep_duration.minutes
-      self.max = start + appointment_type.duration.minutes + appointment_type.post_duration.minutes
+      self.min = start_time
+      self.max = end_time
     end
   end
 
@@ -20,7 +22,7 @@ class Appointment < ActiveRecord::Base
       open = Time.mktime(s.year, s.month, s.day, open.hour, open.min)
       close = Time.parse(Setting.find_by(name: 'Close Time').try(:value) || '17:00')
       close = Time.mktime(s.year, s.month, s.day, close.hour, close.min)
-      unless s >= open && s + (appointment_type.try(:duration) || 0).minutes <= close
+      unless s >= open && s + (appointment_type.try(:duration) || 0).minutes + group_time <= close
         appointment.errors.add(:start, 'must be within business hours')
       end
     end
@@ -29,7 +31,7 @@ class Appointment < ActiveRecord::Base
   validate do |appointment|
     if appointment.start
       closings = Closing.where('date >= ? AND date <= ?', appointment.start.beginning_of_day, appointment.start.end_of_day)
-      appointment_end = appointment.start + (appointment.appointment_type.try(:duration) || 0).minutes
+      appointment_end = appointment.end_time
       closings.each do |closing|
         closing_end = closing.date + closing.duration.hours
         if (appointment.start > closing.date && closing_end > appointment.start) || (appointment_end > closing.date && closing_end > appointment_end)
@@ -37,6 +39,18 @@ class Appointment < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def start_time
+    start - appointment_type.prep_duration.minutes
+  end
+
+  def end_time
+    start + appointment_type.duration.minutes + appointment_type.post_duration.minutes + group_time.minutes
+  end
+
+  def group_time
+    appointment_type.group? ? appointment_type.group_time_per_person * group_members.size : 0
   end
 
   scope :for_user, ->(user) {

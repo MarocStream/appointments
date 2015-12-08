@@ -1,8 +1,8 @@
 angular.module('calendarApp')
 
 .controller 'AppointmentModalController',
-['$scope', 'appointment', 'appointmentErrors', '$modalInstance', 'AppointmentTypes', 'Appointments', 'Users', '$rootScope', '$timeout', '$filter'
-( $scope,   appointment,   appointmentErrors,   $modalInstance,   AppointmentTypes,   Appointments,   Users,   $rootScope,   $timeout,   $filter)->
+['$scope', 'appointment', 'appointmentErrors', '$modalInstance', 'Appointments', 'Users', '$rootScope', '$timeout', '$filter'
+( $scope,   appointment,   appointmentErrors,   $modalInstance,  Appointments,   Users,   $rootScope,   $timeout,   $filter)->
 
   $timeout ->
     $('.input-group.date input').datetimepicker({format: 'MM/DD/YYYY'})
@@ -27,7 +27,7 @@ angular.module('calendarApp')
       $scope[obj][name] = new Date(date.valueOf())
       $scope[name] = $filter('date')($scope[obj][name], 'MM/dd/yyyy')
       $scope.$apply()
-    , 5000
+
 
   $scope.allDayClosing = ->
     if $scope.closing.all_day
@@ -61,6 +61,15 @@ angular.module('calendarApp')
     $scope.closing?.$destroy()
     $modalInstance.dismiss()
 
+  $scope.type_for = (id)->
+    _.findWhere $scope.appointment_types, id: id
+
+  $scope.add_member = ->
+    $scope.appointment.groupMembersAttributes.push({})
+    $timeout ->
+      $('.input-group.date input').datetimepicker({format: 'MM/DD/YYYY'})
+    , 100
+
   $scope.appointmentErrors = appointmentErrors
   if appointment?.date
     $scope.closing = appointment
@@ -69,9 +78,8 @@ angular.module('calendarApp')
   else
     $scope.appointment = appointment || Appointments.$build()
     $scope.setDate('appointment', 'start')
-    AppointmentTypes.$search().$then (types)->
-      $scope.types = types
-      $scope.appointment.appointmentTypeId ||= types[0].id
+    $scope.appointment.appointmentTypeId ||= $scope.appointment_types[0].id
+    $scope.appointment.groupMembersAttributes ||= []
 
     if $rootScope.user?.isPatient()
       $scope.appointment.userId ||= $rootScope.user?.id
