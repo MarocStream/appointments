@@ -51,6 +51,7 @@ class AppointmentsController < ApplicationController
   def create
     @appointment = Appointment.new(appointment_params)
     @appointment.allow_conflict! if current_user.try(:admin_or_staff?) || @appointment.appointment_type.try(:overlap?)
+    @appointment.allow_outside_business_hours! if current_user.try(:admin_or_staff?)
     respond_to do |format|
       if @appointment.save
         format.html { redirect_to @appointment, notice: 'Appointment was successfully created.' }
@@ -67,6 +68,7 @@ class AppointmentsController < ApplicationController
   def update
     respond_to do |format|
       @appointment.allow_conflict! if current_user.try(:admin_or_staff?) || @appointment.appointment_type.overlap?
+      @appointment.allow_outside_business_hours! if current_user.try(:admin_or_staff?)
       if @appointment.update(appointment_params)
         format.html { redirect_to @appointment, notice: 'Appointment was successfully updated.' }
         format.json { render :show, status: :ok, location: @appointment }
@@ -84,6 +86,13 @@ class AppointmentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to appointments_url, notice: 'Appointment was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def stage
+    @appointment = Appointment.new(appointment_params)
+    respond_to do |format|
+      format.json { render :show, status: :ok, location: @appointment }
     end
   end
 

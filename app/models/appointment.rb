@@ -16,7 +16,7 @@ class Appointment < ActiveRecord::Base
   end
 
   validate do |appointment|
-    if appointment.start
+    if appointment.start && !appointment.allow_outside_business_hours?
       s = appointment.start
       open = Time.parse(Setting.find_by(name: 'Open Time').try(:value) || '09:00')
       open = Time.mktime(s.year, s.month, s.day, open.hour, open.min)
@@ -71,6 +71,13 @@ class Appointment < ActiveRecord::Base
     @allow_conflict = true
   end
   def allow_conflict?
+    @allow_conflict
+  end
+
+  def allow_outside_business_hours!
+    @allow_conflict = true
+  end
+  def allow_outside_business_hours?
     @allow_conflict
   end
 
