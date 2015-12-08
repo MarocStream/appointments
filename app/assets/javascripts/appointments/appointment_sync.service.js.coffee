@@ -24,6 +24,7 @@ angular.module('calendarApp')
       channel = socket.chan(@current_watch, {session_id: $window.__auth_token__, shared: shared})
       channel.on 'data:update', (data)->
         console.log "Got updated data:", data.appointments
+        data.appointments ||= []
         _.each data.appointments.concat(data.closings), (a)->
           existing = calendar.fullCalendar('clientEvents', (e)-> e.appointment?.id == a.id || e.closing?.id == a.id)[0]
           if existing && a.id

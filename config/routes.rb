@@ -24,7 +24,11 @@ Rails.application.routes.draw do
 
   resources :appointment_types, only: [:index, :show], format: :json
 
-  resources :appointments
+  resources :appointments do
+    collection do
+      get :stage
+    end
+  end
 
 
   # Example of regular route:
