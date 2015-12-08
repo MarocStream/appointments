@@ -50,19 +50,6 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="text-right col-md-3 control-label">Appointment for:</label>
-      <div class="col-md-9">
-        <span ng-if="user.isPatient()" class="pull-left">{{user.display}}</span>
-        <span ng-if="user.isStaffOrAdmin()" class="">
-          <user-selection appointment="appointment">
-          </user-selection>
-        </span>
-        <span ng-if="user == null" class="pull-left">
-          <a href="/users/sign_in">Login</a> or <a href="/users/sign_up">Sign up</a>!
-        </span>
-      </div>
-    </div>
-    <div class="form-group" ng-if="user != null">
       <label for="new_appointment_type_id" class="text-right col-md-3 control-label">Type of visit:</label>
       <div class="col-md-9">
         <select ng-init="appointment.appointmentTypeId = appointment.appointmentTypeId || appointment_types[0].id" class="pull-left form-control" ng-model="appointment.appointmentTypeId" ng-options="type.id as type.name for type in appointment_types"/>
@@ -71,12 +58,12 @@
     <div class="form-group" ng-if="type_for(appointment.appointmentTypeId).group">
       <label for="group_members_attributes" class="text-right col-md-3 control-label">Family Members:</label>
       <div class="col-md-9">
-        <button class="pull-right btn btn-primary" ng-click="add_member()">
+        <button class="pull-right btn btn-primary" ng-click="add_member(); setDate('appointment', 'start');">
           <i class="glyphicon glyphicon-plus"/>
         </button>
         <div class="form-group" ng-repeat="member in appointment.groupMembersAttributes" ng-if="member._destroy != true">
           <div ng-include="'appointments/editor/group_members.html'"/>
-          <button class="btn btn-danger" ng-click="member._destroy = true">
+          <button class="btn btn-danger" ng-click="member._destroy = true; setDate('appointment', 'start');">
             <i class="glyphicon glyphicon-minus"/>
           </button>
         </div>
@@ -89,21 +76,36 @@
         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
       </div>
     </div>
-    <div class="form-group" ng-if="user != null">
+    <div class="form-group">
       <label for="new_appointment_start" class="text-right start col-md-3 control-label">Start:</label>
-      <div class="col-md-7 col-md-offset-2">
-        <timepicker class="pull-left" id="new_appointment_start" ng-model="appointment.start" hour-step="1" minute-step="10" readonly-input="true"/>
+      <div class="col-md-3 col-md-offset-1">
+        <timepicker class="pull-left" id="new_appointment_start" ng-model="appointment.start" hour-step="1" minute-step="10" readonly-input="true" ng-change="setDate('appointment', 'start')"/>
       </div>
       <div class="alert alert-danger" ng-if="appointmentErrors.start" style="width: 90%;margin-left: 35px;">
         Time {{appointmentErrors.start[0]}}
+      </div>
+      <div id="preview-calendar" class="col-md-4">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="text-right col-md-3 control-label">Appointment for:</label>
+      <div class="col-md-9">
+        <span ng-if="user.isPatient()" class="pull-left">{{user.display}}</span>
+        <span ng-if="user.isStaffOrAdmin()" class="">
+          <user-selection appointment="appointment">
+          </user-selection>
+        </span>
+        <span ng-if="user == null" class="pull-left">
+          <a href="/users/sign_in">Login</a> or <a href="/users/sign_up">Sign up</a>!
+        </span>
       </div>
     </div>
   </div>
 </ng-form>
 <div class="modal-footer">
   <button class="btn btn-danger pull-left" ng-if="user != null" ng-click="remove()" ng-show="(appointment || closing).id && (user.isStaffOrAdmin() || appointment.user.id == user.id)">Delete Appointment</button>
-  <span ng-if="editable()" title="Please login or sign up!" data-toggle="{{user == null && !closing ? 'tooltip' : null}}" data-placement="top" style="display: inline-block;margin-right: 5px;">
-    <button class="btn btn-primary" ng-click="ok()" ng-disabled="user == null || form.$invalid">OK</button>
+  <span ng-if="editable()" title="{{user == null && !closing ? 'Please login or sign up!' : ''}}" data-toggle="{{user == null && !closing ? 'tooltip' : null}}" data-placement="top" style="display: inline-block;margin-right: 5px;">
+    <button class="btn btn-primary" ng-click="ok()" ng-disabled="user == null || form.$invalid">Schedule</button>
   </span>
   <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>

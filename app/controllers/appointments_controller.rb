@@ -90,7 +90,8 @@ class AppointmentsController < ApplicationController
   end
 
   def stage
-    @appointment = Appointment.new(appointment_params)
+    @appointment = Appointment.new(appointment_type_id: params[:appointment_type_id], start: params[:start])
+    params[:group_members].to_i.times { @appointment.group_members.build }
     respond_to do |format|
       format.json { render :show, status: :ok, location: @appointment }
     end

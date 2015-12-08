@@ -9,7 +9,7 @@ class GroupMember < ActiveRecord::Base
 
   def as_json(opts)
     json = super(opts)
-    json['dob'] = json['dob'].strftime("%m/%d/%Y")
+    json['dob'] = json['dob'].try(:strftime, "%m/%d/%Y")
     json
   end
 end
