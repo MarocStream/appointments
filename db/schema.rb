@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151206160805) do
+ActiveRecord::Schema.define(version: 20151208022548) do
 
   create_table "addresses", force: true do |t|
     t.string   "street"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20151206160805) do
     t.string   "text_color"
     t.boolean  "group",                 default: false
     t.integer  "group_time_per_person", default: 10
+    t.boolean  "overlap",               default: false
   end
 
   create_table "appointments", force: true do |t|

@@ -25,7 +25,7 @@
     <% @appointment_types.each do |appointment_type| %>
       <tr>
         <td><%= link_to appointment_type.name, appointment_type %></td>
-        <td><%= appointment_type.duration %></td>
+        <td><%= appointment_type.duration %> <%= appointment_type.overlap? ? "w/ overlap" : "" %></td>
         <td><%= appointment_type.group? ? "+#{appointment_type.group_time_per_person} mins/person" : 'No' %></td>
         <td><%= appointment_type.prep_duration %></td>
         <td><%= appointment_type.post_duration %></td>

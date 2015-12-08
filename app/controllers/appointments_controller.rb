@@ -49,10 +49,8 @@ class AppointmentsController < ApplicationController
   # POST /appointments
   # POST /appointments.json
   def create
-    apt_params = appointment_params
-    logger.info apt_params
-    @appointment = Appointment.new(apt_params)
-    @appointment.allow_conflict! if current_user.try(:admin_or_staff?)
+    @appointment = Appointment.new(appointment_params)
+    @appointment.allow_conflict! if current_user.try(:admin_or_staff?) || @appointment.appointment_type.try(:overlap?)
     respond_to do |format|
       if @appointment.save
         format.html { redirect_to @appointment, notice: 'Appointment was successfully created.' }
@@ -68,7 +66,7 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1.json
   def update
     respond_to do |format|
-      @appointment.allow_conflict! if current_user.try(:admin_or_staff?)
+      @appointment.allow_conflict! if current_user.try(:admin_or_staff?) || @appointment.appointment_type.overlap?
       if @appointment.update(appointment_params)
         format.html { redirect_to @appointment, notice: 'Appointment was successfully updated.' }
         format.json { render :show, status: :ok, location: @appointment }
@@ -98,7 +96,7 @@ class AppointmentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     ## CANT GET STRONG PARAMS TO WORK FOR :group_members_attributes, tried for hours, wasting time now...
     def appointment_params
-      params[:appointment].merge!(group_members_attributes: params[:group_members_attributes] || [])
+      params[:appointment].merge!(group_members_attributes: params[:group_members_attributes].presence || [])
       if current_user.nil? || current_user.patient?
         user_id = current_user.try(:id) ? current_user.id.to_s : nil # Keep id as a string or nil
         # params.require(:appointment).permit(:start, :appointment_type_id, group_members_attributes: []).merge!(user_id: user_id)
