@@ -1,6 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
   before_action :check_access, only: [:show, :edit, :update, :destroy]
+  before_action :check_past_appointment!, only: [:update, :destroy]
 
   # GET /appointments
   # GET /appointments.json
@@ -52,6 +53,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new(appointment_params)
     @appointment.allow_conflict! if current_user.try(:admin_or_staff?) || @appointment.appointment_type.try(:overlap?)
     @appointment.allow_outside_business_hours! if current_user.try(:admin_or_staff?)
+    check_past_appointment!
     respond_to do |format|
       if @appointment.save
         format.html { redirect_to @appointment, notice: 'Appointment was successfully created.' }
@@ -106,15 +108,19 @@ class AppointmentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     ## CANT GET STRONG PARAMS TO WORK FOR :group_members_attributes, tried for hours, wasting time now...
     def appointment_params
-      params[:appointment].merge!(group_members_attributes: params[:group_members_attributes].presence || [])
-      if current_user.nil? || current_user.patient?
-        user_id = current_user.try(:id) ? current_user.id.to_s : nil # Keep id as a string or nil
-        # params.require(:appointment).permit(:start, :appointment_type_id, group_members_attributes: []).merge!(user_id: user_id)
-        params[:appointment].merge!(user_id: user_id)
-        params[:appointment]
+      if params[:appointment]
+        params[:appointment].merge!(group_members_attributes: params[:group_members_attributes]) if params[:group_members_attributes].presence
+        if current_user.nil? || current_user.patient?
+          user_id = current_user.try(:id) ? current_user.id.to_s : nil # Keep id as a string or nil
+          # params.require(:appointment).permit(:start, :appointment_type_id, group_members_attributes: []).merge!(user_id: user_id)
+          params[:appointment].merge!(user_id: user_id)
+          params[:appointment].to_hash.with_indifferent_access
+        else
+          # params.require(:appointment).permit(:user_id, :start, :appointment_type_id, group_members_attributes: [:id, :_destroy, :first, :last, :dob])
+          params[:appointment].to_hash.with_indifferent_access
+        end
       else
-        # params.require(:appointment).permit(:user_id, :start, :appointment_type_id, group_members_attributes: [:id, :_destroy, :first, :last, :dob])
-        params[:appointment]
+        {}.with_indifferent_access
       end
     end
 
@@ -131,5 +137,16 @@ class AppointmentsController < ApplicationController
     def allows_access?(appointment)
       # Logged in  &&  (      owned by current user      &&       patient        ||    admin or staff)
       current_user && (appointment.user == current_user && current_user.patient? || current_user.admin_or_staff?)
+    end
+
+    def check_past_appointment!
+      start = appointment_params[:start]
+      if @appointment.start.past? || (start && (Date.parse(start).past? rescue nil))
+        respond_to do |format|
+          message = "Past appointments cannot be changed!"
+          format.html { redirect_to root_path, alert: message}
+          format.json { render json: {errors: {start: [message]}}}
+        end
+      end
     end
 end
