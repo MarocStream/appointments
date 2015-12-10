@@ -34,7 +34,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    logger.info user_params.inspect
     @user.edited_by_staff = current_user.admin_or_staff? # Just to be safe
     respond_to do |format|
       if @user.save

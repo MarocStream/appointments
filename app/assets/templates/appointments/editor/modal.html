@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h3 class="modal-title" ng-if="!closing">
-    <span ng-if="appointment.id">View</span>
-    <span ng-if="!appointment.id">Make</span>
+    <span ng-if="appointment.id != 'new'">View</span>
+    <span ng-if="appointment.id == 'new'">Make</span>
     Appointment
   </h3>
   <h3 class="modal-title" ng-if="closing">
@@ -73,7 +73,7 @@
     <div class="form-group">
       <label class="text-right col-md-3 control-label">On date:</label>
       <div class="col-md-9 side-padding input-group date">
-        <input ng-model="start" type="text" class="form-control" data-date="true" ng-change="setDate('appointment', 'start')"/>
+        <input ng-model="start" type="text" readonly="true" class="form-control" data-date="true" ng-change="setDate('appointment', 'start')"/>
         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
       </div>
     </div>
@@ -91,20 +91,29 @@
     <div class="form-group">
       <label class="text-right col-md-3 control-label">Appointment for:</label>
       <div class="col-md-9">
-        <span ng-if="user.isPatient()" class="pull-left">{{user.display}}</span>
+        <span ng-if="user.isPatient()" class="pull-left">{{user.display || (user.first + " " + user.last)}}</span>
         <span ng-if="user.isStaffOrAdmin()" class="">
           <user-selection appointment="appointment">
           </user-selection>
         </span>
-        <span ng-if="user == null" class="pull-left">
-          <a href="/users/sign_in">Login</a> or <a href="/users/sign_up">Sign up</a>!
+        <span ng-if="user == null">
+          <div class="appointment-login">
+            <a href="/users/sign_in" class="btn btn-primary" target="_self">
+              Login
+            </a>
+          </div>
+          <div class="appointment-signup">
+            <button class="btn btn-primary" ng-click="newUser()">
+              Sign Up <i class="glyphicon glyphicon-plus"></i>
+            </button>
+          </div>
         </span>
       </div>
     </div>
   </div>
 </ng-form>
 <div class="modal-footer">
-  <button class="btn btn-danger pull-left" ng-if="user != null && editable()" ng-click="remove()" ng-show="(appointment || closing).id && (user.isStaffOrAdmin() || appointment.user.id == user.id)">Delete Appointment</button>
+  <button class="btn btn-danger pull-left" ng-if="user != null && editable() && appointment.id != 'new'" ng-click="remove()" ng-show="(appointment || closing).id && (user.isStaffOrAdmin() || appointment.user.id == user.id)">Delete Appointment</button>
   <span ng-if="editable()" title="{{user == null && !closing ? 'Please login or sign up!' : ''}}" data-toggle="{{user == null && !closing ? 'tooltip' : null}}" data-placement="top" style="display: inline-block;margin-right: 5px;">
     <button class="btn btn-primary" ng-click="ok()" ng-disabled="user == null || form.$invalid">Schedule</button>
   </span>

@@ -14,6 +14,9 @@ class ApplicationController < ActionController::Base
         user.permit(:role)
       end
     end
+    devise_parameter_sanitizer.for(:sign_up) do |user|
+      user.permit(:email, :current_password, :gender, :dob, :password, :password_confirmation, :business, :first, :middle, :last, phones_attributes: [:id, :kind, :country, :number, :extension, :type, :_destroy], addresses_attributes: [:id, :street, :apt, :postcode, :city, :state, :country])
+    end
   end
 
   def require_admin!

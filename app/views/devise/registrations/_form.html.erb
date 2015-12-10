@@ -109,7 +109,7 @@
   </div>
 </fieldset>
 
-<% if current_user.admin? && f.object != current_user %>
+<% if current_user.try(:admin?) && f.object != current_user %>
 <fieldset>
   <legend>Role</legend>
   <div class="form-group form-group-lg">

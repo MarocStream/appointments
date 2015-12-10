@@ -1,8 +1,8 @@
 angular.module('calendarApp')
 
 .controller 'AppointmentModalController',
-['$scope', 'appointment', 'appointmentErrors', '$modalInstance', 'Appointments', 'Users', '$rootScope', '$timeout', '$filter', 'AppointmentSync',
-( $scope,   appointment,   appointmentErrors,   $modalInstance,  Appointments,   Users,   $rootScope,   $timeout,   $filter,    AppointmentSync)->
+['$scope', 'appointment', 'appointmentErrors', '$modalInstance', '$modal', 'Appointments', 'Users', '$rootScope', '$timeout', '$filter', 'AppointmentSync',
+( $scope,   appointment,   appointmentErrors,   $modalInstance,   $modal,   Appointments,   Users,   $rootScope,   $timeout,   $filter,    AppointmentSync)->
 
   $timeout ->
     $('.input-group.date input').datetimepicker({format: 'MM/DD/YYYY'})
@@ -48,6 +48,25 @@ angular.module('calendarApp')
       $scope.closing.duration = 24
       $scope.closing.date = moment($scope.closing.date).startOf('day')
 
+  $scope.newUser = (user) ->
+    modalInstance = $modal.open
+      templateUrl: 'users/form.html'
+      controller: 'UserController'
+      resolve:
+        user: ()-> user || Users.$buildRaw({})
+        showEmailPassword: ()-> true
+
+    modalInstance.result.then (user)->
+      console.log "modal returned user", user
+      user.$save().$then (saved_user)->
+        $rootScope.user = saved_user
+        $scope.appointment.userId = saved_user.id
+        $scope.appointment.user = saved_user
+        $scope.reinitializeWatch = true
+      , (reject)->
+        console.log arguments
+        $scope.newUser(reject)
+
   $scope.ok = ()->
     if $scope.appointment && $scope.appointment.id == 'new'
       delete $scope.appointment.id
@@ -55,7 +74,7 @@ angular.module('calendarApp')
     else if $scope.closing?.id == 'new'
       delete $scope.closing.id
     console.log "Closing appointment/closing with start date of #{$scope.appointment?.start || $scope.closing.date}"
-    $modalInstance.close($scope.appointment || $scope.closing)
+    $modalInstance.close($scope.appointment || $scope.closing, $scope.reinitializeWatch)
 
   $scope.cancel = ()->
     $modalInstance.dismiss()
@@ -71,6 +90,23 @@ angular.module('calendarApp')
 
   $scope.type_for = (id)->
     _.findWhere $scope.appointment_types, id: id
+
+  $scope.login = (email, password)->
+    $timeout ->
+      params = {email: email, password: password}
+      console.log params, $scope
+      $.ajax
+        url: '/users/sign_in'
+        contentType: 'application/json'
+        method: 'POST'
+        data: JSON.stringify({session: params})
+        dataType: 'json'
+        complete: (xhr, status) ->
+          if status != 'error' # really jquery?
+            console.log "success", xhr, status
+        error: (xhr, status, error) ->
+          $scope.login_failure = "Invalid email or password"
+          $scope.$apply()
 
   $scope.add_member = ->
     $scope.appointment.groupMembersAttributes.push({})

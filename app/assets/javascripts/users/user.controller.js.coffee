@@ -1,10 +1,11 @@
 angular.module('calendarApp')
 
-.controller 'UserController', ['$scope', '$modalInstance', 'user', '$timeout', ($scope, $modalInstance, user, $timeout)->
+.controller 'UserController', ['$scope', '$modalInstance', 'user', 'showEmailPassword', '$timeout', ($scope, $modalInstance, user, showEmailPassword, $timeout)->
   $timeout ->
     $('ng-form[name="userForm"] .input-group.date input[data-date="true"]').datetimepicker({format: 'MM/DD/YYYY'})
 
   $scope.user = user
+  $scope.showEmailPassword = showEmailPassword
 
   $scope.user.phones.push $scope.user.phones.$build() if $scope.user.phones.length == 0
   $scope.user.addresses.push $scope.user.addresses.$build() if $scope.user.addresses.length == 0

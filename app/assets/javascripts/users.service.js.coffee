@@ -2,7 +2,14 @@ angular.module('calendarApp')
 
 .service 'Users', ['restmod', (restmod)->
   restmod.model('/users').mix('AMSApi').mix
+    phones: { hasMany: 'Phone' }
+    addresses: { hasMany: 'Address'}
     $extend:
+      Model:
+        pack: (user, raw) ->
+          {user: angular.extend(raw, {phones_attributes: user.phones.$wrap(), addresses_attributes: user.addresses.$wrap()})}
+        unpack: (user, raw) ->
+          raw.user || raw
       Record:
         isPatient: ->
           @role == null || @role == "patient"

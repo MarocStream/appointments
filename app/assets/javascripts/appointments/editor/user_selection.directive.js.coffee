@@ -27,7 +27,8 @@ angular.module('calendarApp')
         templateUrl: 'users/form.html'
         controller: 'UserController'
         resolve:
-          user: ()-> user || PatientLookup.$buildRaw()
+          user: ()-> user || PatientLookup.$buildRaw({})
+          showEmailPassword: ()-> false
 
       modalInstance.result.then (user)->
         user.$save().$then (saved_user)->

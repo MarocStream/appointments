@@ -14,11 +14,11 @@ angular.module('calendarApp')
   channel = null
 
   @current_watch = null
-  @watch = (options)=>
+  @watch = (options, force = false)=>
     shared = $rootScope.user?.isStaffOrAdmin()
     params = "start=#{JSON.stringify(options.start).slice(1,-1)}&duration=#{options.duration}#{if shared then '' else "&id=#{$rootScope.user?.id || 'unauthorized'}"}"
     new_watch = "proxy://appointments.json?#{params}"
-    unless @current_watch == new_watch
+    if @current_watch != new_watch || force
       channel?.leave()
       @current_watch = new_watch
       console.log "Watching", @current_watch
@@ -70,17 +70,20 @@ angular.module('calendarApp')
     existing.end = moment(existing.start).hours(existing.start.hours() + closing.duration)
     existing
 
-  @reformAppointment = (appointment, existing)->
+  @can_access = (appointment) ->
+    $rootScope.user? && ($rootScope.user.isStaffOrAdmin() || ($rootScope.user.isPatient() && $rootScope.user.id == (appointment.userId || appointment.user?.id)))
+
+  @reformAppointment = (appointment, existing) =>
     existing ||= {}
     appointment = Appointments.$buildRaw(appointment) unless appointment.$pk
     type = _.clone(_.findWhere types, id: appointment.appointmentTypeId)
-    if !appointment.showType && (!$rootScope.user? || ($rootScope.user.isPatient() && $rootScope.user.id != (appointment.userId || appointment.user?.id)))
+    if !appointment.showType && !@can_access(appointment)
       type = angular.extend(type, {name: 'Slot Taken', colorClass: 'black', textColor: 'white'})
       angular.extend(existing, {title: type.name})
     else
       angular.extend(existing, {title: appointment.user?.display})
     angular.extend(existing, {color: type.colorClass, textColor: type.textColor, allDay: false, appointment: appointment})
-    if !appointment.disableEdit && $rootScope.user? && ($rootScope.user.isStaffOrAdmin() || ($rootScope.user.isPatient() && $rootScope.user.id == (appointment.userId || appointment.user?.id)))
+    if !appointment.disableEdit && @can_access(appointment)
       existing.editable = true
     start = moment(appointment.start)
     if existing.start

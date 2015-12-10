@@ -34,7 +34,7 @@
     </div>
     <div class="col-md-9">
       <div class="input-group date">
-        <input type="text" class="form-control", ng-model="user.dob" data-date="true" ng-required="true"/>
+        <input type="text" class="form-control", readonly="true" ng-model="user.dob" data-date="true" ng-required="true"/>
         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
       </div>
     </div>
@@ -124,6 +124,30 @@
           <input type="text" class="form-control" ng-model="address.country" ng-init="address.country || (address.country = 'US')" />
         </div>
       </div>
+    </div>
+  </div>
+  <div class="form-group row" ng-if="showEmailPassword">
+    <div class="col-md-3 text-right">
+      <label>Email:</label>
+    </div>
+    <div class="col-md-9">
+      <input type="text" class="form-control" ng-model="user.email" placeholder="user@example.com" ng-required="true"/>
+    </div>
+  </div>
+  <div class="form-group row" ng-if="showEmailPassword">
+    <div class="col-md-3 text-right">
+      <label>Password:</label>
+    </div>
+    <div class="col-md-9">
+      <input type="password" class="form-control" ng-model="user.password" ng-required="true"/>
+    </div>
+  </div>
+  <div class="form-group row" ng-if="showEmailPassword">
+    <div class="col-md-3 text-right">
+      <label>Confirm Password:</label>
+    </div>
+    <div class="col-md-9">
+      <input type="password" class="form-control" ng-model="user.password_confirmation" ng-required="true"/>
     </div>
   </div>
 </ng-form>

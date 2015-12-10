@@ -6,6 +6,7 @@ angular.module('calendarApp')
   userPromise.then((user)->
     angular.extend $scope.calendarConfig,
       editable: user?.isStaffOrAdmin?()
+    console.log "userPromise returned:", user
     $scope.user = user
   , ()-> )
   userPromise.finally ->
@@ -22,19 +23,23 @@ angular.module('calendarApp')
         $scope.calendarConfig.height = 795
       console.log "Calendar config:", $scope.calendarConfig
       $scope.calendar.fullCalendar($scope.calendarConfig)
-      AppointmentSync.watch start: moment().startOf('week').add(1, 'day'), duration: 5
+      $scope.watch = {start: moment().startOf('week').add(1, 'day'), duration: 5}
+      AppointmentSync.watch $scope.watch
 
   $scope.editAppointment = (appt, errors)->
-    modalInstance = $modal.open
-      templateUrl: 'appointments/editor/modal.html'
-      controller: 'AppointmentModalController'
-      size: 'lg'
-      resolve:
-        appointment: ()-> appt
-        appointmentErrors: ()-> errors
+    if !appt.id || AppointmentSync.can_access(appt)
+      modalInstance = $modal.open
+        templateUrl: 'appointments/editor/modal.html'
+        controller: 'AppointmentModalController'
+        size: 'lg'
+        resolve:
+          appointment: ()-> appt
+          appointmentErrors: ()-> errors
 
-    modalInstance.result.then (appt)->
-      appt.$save().$then (-> ), (rejected)->
+    modalInstance.result.then (appt, reinitializeWatch)->
+      appt.$save().$then ->
+        $window.location.reload()
+      , (rejected)->
         $scope.editAppointment(appt, rejected.$response.data)
 
   $scope.export = ()->
@@ -67,13 +72,17 @@ angular.module('calendarApp')
       appointment.start = new Date(moment(correctedDate).valueOf())
       appointment.$save().$then null, -> revertFunc()
     viewRender: (view, element)->
+      console.log view
       switch view.intervalDuration._days
         when 0 # Month
-          AppointmentSync.watch start: moment().startOf('month'), duration: 31
+          $scope.watch = {start: view.intervalStart.startOf('month'), duration: 31}
+          AppointmentSync.watch $scope.watch
         when 1 # Day
-          AppointmentSync.watch start: moment().startOf('day'), duration: 1
+          $scope.watch = {start: view.intervalStart.startOf('day'), duration: 1}
+          AppointmentSync.watch $scope.watch
         when 7 # Week
-          AppointmentSync.watch start: moment().startOf('week').add(1, 'day'), duration: 5
+          $scope.watch = {start: view.intervalStart.startOf('week').add(1, 'day'), duration: 5}
+          AppointmentSync.watch $scope.watch
     aspectRatio: 2
     timezone: 'America/New_York'
     eventLimit: true

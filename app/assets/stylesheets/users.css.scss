@@ -5,8 +5,11 @@
 }
 
 #washington-travel {
-  .ng-invalid:not(form) {
+  .ng-invalid:not(ng-form, form) {
     border: 1px solid red;
+  }
+  .form-control[readonly] {
+    cursor: pointer;
   }
 }
 
