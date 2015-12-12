@@ -113,7 +113,8 @@
   </div>
 </ng-form>
 <div class="modal-footer">
-  <button class="btn btn-danger pull-left" ng-if="user != null && editable() && appointment.id != 'new'" ng-click="remove()" ng-show="(appointment || closing).id && (user.isStaffOrAdmin() || appointment.user.id == user.id)">Delete Appointment</button>
+  <button class="btn btn-danger pull-left" ng-if="user != null && editable() && appointment.id != 'new'" ng-click="remove()" ng-show="(appointment || closing).id != 'new' && (user.isStaffOrAdmin() || appointment.user.id == user.id)">Delete Appointment</button>
+  <button class="btn btn-info pull-left" ng-if="appointment.id != 'new'" ng-click="newFromExisting(appointment)" ng-show="(appointment || closing).id != 'new' && (user.isStaffOrAdmin() || appointment.user.id == user.id)">New Appointment From Existing</button>
   <span ng-if="editable()" title="{{user == null && !closing ? 'Please login or sign up!' : ''}}" data-toggle="{{user == null && !closing ? 'tooltip' : null}}" data-placement="top" style="display: inline-block;margin-right: 5px;">
     <button class="btn btn-primary" ng-click="ok()" ng-disabled="user == null || form.$invalid">Schedule</button>
   </span>

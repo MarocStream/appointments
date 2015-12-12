@@ -41,6 +41,10 @@ angular.module('calendarApp')
         $window.location.reload()
       , (rejected)->
         $scope.editAppointment(appt, rejected.$response.data)
+    , (appointment) ->
+      if appointment
+        appointment = Appointments.$buildRaw(_.omit(appointment.$encode(), 'id'))
+        $scope.editAppointment(appointment)
 
   $scope.export = ()->
     modalInstance = $modal.open

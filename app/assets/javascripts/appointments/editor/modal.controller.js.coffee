@@ -79,6 +79,9 @@ angular.module('calendarApp')
   $scope.cancel = ()->
     $modalInstance.dismiss()
 
+  $scope.newFromExisting = (appointment) ->
+    $modalInstance.dismiss(appointment)
+
   $scope.editable = () ->
     date = $scope.appointment?.start || $scope.closing?.date
     moment(date).isAfter(moment())
