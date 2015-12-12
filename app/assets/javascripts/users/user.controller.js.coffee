@@ -11,7 +11,7 @@ angular.module('calendarApp')
   $scope.user.addresses.push $scope.user.addresses.$build() if $scope.user.addresses.length == 0
 
   $scope.add = (field)->
-    $scope.user[field].push {}
+    $scope.user[field].push $scope.user[field].$build()
 
   $scope.remove = (field, index)->
     $scope.user[field].splice(index, 1)
