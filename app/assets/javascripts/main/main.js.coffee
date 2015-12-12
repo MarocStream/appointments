@@ -4,6 +4,8 @@ angular.module('calendarApp')
     .when '/',
       templateUrl: 'main.html'
       controller: 'MainCtrl'
+      reloadOnSearch: false
+
   $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest'
 ]
 
@@ -11,5 +13,4 @@ angular.module('calendarApp')
   (value)->
     date = new Date()
     date.setTime(Date.parse(value))
-    console.log "Parsing #{value} into date: #{date}"
     date

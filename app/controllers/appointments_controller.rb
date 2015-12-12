@@ -7,7 +7,8 @@ class AppointmentsController < ApplicationController
   # GET /appointments.json
   def index
     scope = Appointment.includes(:user, :appointment_type)
-    if params[:start] && params[:duration]
+    logger.info "*********** #{params[:format]}"
+    if params[:start] && params[:duration] && params[:format] == :json
       scope = scope.for_period(Date.parse(params[:start]), params[:duration].to_i)
       @closings = Closing.for_period(Date.parse(params[:start]), params[:duration].to_i)
     else

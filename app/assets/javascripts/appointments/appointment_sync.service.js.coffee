@@ -1,6 +1,6 @@
 angular.module('calendarApp')
 
-.service 'AppointmentSync', ['$window', '$rootScope', 'Appointments', 'Closings', ($window, $rootScope, Appointments, Closings)->
+.service 'AppointmentSync', ['$window', '$rootScope', 'Appointments', 'Closings', '$routeParams', ($window, $rootScope, Appointments, Closings, $routeParams)->
 
   that = @
   @calendar = types = null

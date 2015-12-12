@@ -1,6 +1,6 @@
 angular.module('calendarApp')
 
-.controller 'AppointmentsCtrl', ['$modal', '$scope', 'Appointments', 'Closings', 'AppointmentSync', '$rootScope', '$timeout', '$window', ($modal, $scope, Appointments, Closings, AppointmentSync, $rootScope, $timeout, $window)->
+.controller 'AppointmentsCtrl', ['$modal', '$scope', 'Appointments', 'Closings', 'AppointmentSync', '$rootScope', '$timeout', '$window', '$routeParams', '$route', '$location', ($modal, $scope, Appointments, Closings, AppointmentSync, $rootScope, $timeout, $window, $routeParams, $route, $location)->
 
   userPromise = $rootScope.user_promise.$asPromise()
   userPromise.then((user)->
@@ -22,8 +22,9 @@ angular.module('calendarApp')
         $scope.calendarConfig.allDaySlot = true
         $scope.calendarConfig.height = 795
       console.log "Calendar config:", $scope.calendarConfig
+      $scope.watch = {start: ($routeParams.start && moment(parseInt($routeParams.start, 10)) || moment()).startOf('week').add(1, 'day'), duration: $routeParams.duration || 5}
+      $scope.calendarConfig.defaultDate = $scope.watch.start
       $scope.calendar.fullCalendar($scope.calendarConfig)
-      $scope.watch = {start: moment().startOf('week').add(1, 'day'), duration: 5}
       AppointmentSync.watch $scope.watch
 
   $scope.editAppointment = (appt, errors)->
@@ -38,7 +39,7 @@ angular.module('calendarApp')
 
     modalInstance.result.then (appt, reinitializeWatch)->
       appt.$save().$then ->
-        $window.location.reload()
+        $route.reload()
       , (rejected)->
         $scope.editAppointment(appt, rejected.$response.data)
     , (appointment) ->
@@ -86,7 +87,9 @@ angular.module('calendarApp')
           AppointmentSync.watch $scope.watch
         when 7 # Week
           $scope.watch = {start: view.intervalStart.startOf('week').add(1, 'day'), duration: 5}
+          # $location.search({start: $scope.watch.start.valueOf(), duration: Math.random()}) # Angular doesn't work, GREAT!!!
           AppointmentSync.watch $scope.watch
+      $window.history.pushState(null, "Appointments", "/?start=#{$scope.watch.start.valueOf()}&duration=#{$scope.watch.duration}")
     aspectRatio: 2
     timezone: 'America/New_York'
     eventLimit: true
