@@ -44,7 +44,7 @@ angular.module('calendarApp')
       that.placeEvent(calendar, existing, a)
 
   @placeEvent = (calendar, existing, appointment) ->
-    if existing && appointment.id
+    if existing && appointment.id != 'new'
       # Update existing
       if appointment.start # appointment
         calAppt = angular.extend(existing, that.reformAppointment(appointment, existing))

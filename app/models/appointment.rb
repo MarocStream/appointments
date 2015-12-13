@@ -82,7 +82,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def no_conflicts
-    if start && Appointment.where("(min < ? AND max > ?) OR (min < ? AND max > ?)", max, max, min, min).exists?
+    if start && Appointment.where("(min <= ? AND max >= ?) OR (min <= ? AND max >= ?) OR (min >= ? AND max <= ?)", max, max, min, min, min, max).exists?
       errors.add(:start, 'conflicts with another appointment.')
     end
   end
