@@ -91,6 +91,9 @@ angular.module('calendarApp')
     $scope.closing?.$destroy()
     $modalInstance.dismiss()
 
+  $scope.type_changed = ->
+    renderCalendar()
+
   $scope.type_for = (id)->
     _.findWhere $scope.appointment_types, id: id
 
