@@ -1,9 +1,14 @@
 <div ng-controller="AppointmentsCtrl">
   <div class="row-fluid">
+    <h4 class="text-center">
+      To make an appointment, click on an available slot
+      <div>
+        <small ng-show="user">
+          To reschedule or cancel an appointment, click on it.
+        </small>
+      </div>
+    </h4>
     <div id="add-appointment-button" class="col-md-8 col-xs-6">
-      <span ng-show="user">
-        <a href="#" ng-click="editAppointment()" class="btn btn-primary">Make Appointment</a>
-      </span>
       <span ng-show="!user">
         <a href="/users/sign_in" class="btn btn-primary" target="_self">Login</a>
       </span>
