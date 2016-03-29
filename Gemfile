@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.4'
+gem 'rails', '4.2.6'
 # Use mysql2 as the database for Active Record
 gem 'mysql2'
 gem 'activerecord-session_store'
