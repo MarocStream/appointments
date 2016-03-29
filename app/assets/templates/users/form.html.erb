@@ -56,7 +56,7 @@
       <label ng-if="$first">Phone:</label>
     </div>
     <div class="col-md-2">
-      <select class="form-control" ng-model="phone.kind" ng-required="true">
+      <select class="form-control" ng-model="phone.kind" ng-init="phone.kind = phone.kind || '<%= Phone.kinds.first.first %>'" ng-required="true">
         <% Phone.kinds.each do |kind, value| %>
           <option value="<%= kind %>"><%= kind.titleize %></option>
         <% end %>
