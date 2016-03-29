@@ -26,6 +26,7 @@ angular.module('calendarApp')
       modalInstance = $modal.open
         templateUrl: 'users/form.html'
         controller: 'UserController'
+        size: 'lg'
         resolve:
           user: ()-> user || PatientLookup.$buildRaw({})
           showEmailPassword: ()-> false

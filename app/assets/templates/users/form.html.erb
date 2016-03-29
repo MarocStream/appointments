@@ -95,10 +95,6 @@
           <input type="text" class="form-control" ng-model="address.street" placeholder="Street" ng-required="true"/>
         </div>
         <div class="col-md-1 no-padding">
-          <button class="btn btn-default btn-large" ng-if="$first" ng-click="add('addresses')">
-            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">
-            </span>
-          </button>
           <button ng-if="!$first" class="btn btn-danger btn-large" ng-click="remove('addresses', $index)">
             <span class="glyphicon glyphicon-remove" aria-hidden="true">
             </span>
