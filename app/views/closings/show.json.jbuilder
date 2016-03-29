@@ -1,1 +1,1 @@
-json.extract! @closing, :id, :desc, :date, :all_day
+json.extract! @closing, :id, :desc, :date, :all_day, :recurring

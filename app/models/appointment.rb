@@ -30,9 +30,14 @@ class Appointment < ActiveRecord::Base
 
   validate do |appointment|
     if appointment.start
-      closings = Closing.where('date >= ? AND date <= ?', appointment.start.beginning_of_day, appointment.start.end_of_day)
+      closings = Closing.where('date >= ? AND date <= ? or recurring = 1', appointment.start.beginning_of_day, appointment.start.end_of_day)
       appointment_end = appointment.end_time
       closings.each do |closing|
+        if closing.recurring? # Check if it is same day of the week
+          if closing.date.wday == appointment.start.wday
+            closing.date = closing.date.change(year: appointment.start.year, month: appointment.start.month, day: appointment.start.day)
+          end
+        end
         closing_end = closing.date + closing.duration.hours
         if (appointment.start > closing.date && closing_end > appointment.start) || (appointment_end > closing.date && closing_end > appointment_end)
           appointment.errors.add(:start, "conflicts with an office closing")

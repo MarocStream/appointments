@@ -11,58 +11,58 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208022548) do
+ActiveRecord::Schema.define(version: 20160329011300) do
 
-  create_table "addresses", force: true do |t|
-    t.string   "street"
-    t.string   "apt"
-    t.string   "postcode"
-    t.string   "city"
-    t.string   "state"
-    t.string   "country"
+  create_table "addresses", force: :cascade do |t|
+    t.string   "street",     limit: 255
+    t.string   "apt",        limit: 255
+    t.string   "postcode",   limit: 255
+    t.string   "city",       limit: 255
+    t.string   "state",      limit: 255
+    t.string   "country",    limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "user_id",    limit: 4
   end
 
-  create_table "announcements", force: true do |t|
-    t.string   "name"
-    t.string   "content"
+  create_table "announcements", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "content",    limit: 255
     t.datetime "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "kind"
+    t.integer  "kind",       limit: 4
   end
 
-  create_table "appointment_group_members", force: true do |t|
-    t.string   "first"
-    t.string   "last"
+  create_table "appointment_group_members", force: :cascade do |t|
+    t.string   "first",          limit: 255
+    t.string   "last",           limit: 255
     t.date     "dob"
-    t.integer  "appointment_id"
+    t.integer  "appointment_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "appointment_group_members", ["appointment_id"], name: "index_appointment_group_members_on_appointment_id", using: :btree
 
-  create_table "appointment_types", force: true do |t|
-    t.string   "name"
-    t.integer  "duration"
-    t.integer  "prep_duration"
-    t.integer  "post_duration"
-    t.string   "color_class"
+  create_table "appointment_types", force: :cascade do |t|
+    t.string   "name",                  limit: 255
+    t.integer  "duration",              limit: 4
+    t.integer  "prep_duration",         limit: 4
+    t.integer  "post_duration",         limit: 4
+    t.string   "color_class",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "text_color"
-    t.boolean  "group",                 default: false
-    t.integer  "group_time_per_person", default: 10
-    t.boolean  "overlap",               default: false
+    t.string   "text_color",            limit: 255
+    t.boolean  "group",                             default: false
+    t.integer  "group_time_per_person", limit: 4,   default: 10
+    t.boolean  "overlap",                           default: false
   end
 
-  create_table "appointments", force: true do |t|
-    t.integer  "user_id"
+  create_table "appointments", force: :cascade do |t|
+    t.integer  "user_id",             limit: 4
     t.datetime "start"
-    t.integer  "appointment_type_id"
+    t.integer  "appointment_type_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "min"
@@ -74,28 +74,29 @@ ActiveRecord::Schema.define(version: 20151208022548) do
   add_index "appointments", ["start"], name: "index_appointments_on_start", using: :btree
   add_index "appointments", ["user_id"], name: "index_appointments_on_user_id", using: :btree
 
-  create_table "closings", force: true do |t|
+  create_table "closings", force: :cascade do |t|
     t.datetime "date"
     t.boolean  "all_day"
-    t.string   "desc"
+    t.string   "desc",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "duration"
+    t.integer  "duration",   limit: 4
+    t.boolean  "recurring"
   end
 
-  create_table "phones", force: true do |t|
-    t.integer  "user_id"
-    t.string   "number"
-    t.string   "country"
+  create_table "phones", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.string   "number",     limit: 255
+    t.string   "country",    limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "extension"
-    t.integer  "kind"
+    t.string   "extension",  limit: 255
+    t.integer  "kind",       limit: 4
   end
 
-  create_table "sessions", force: true do |t|
-    t.string   "session_id", null: false
-    t.text     "data"
+  create_table "sessions", force: :cascade do |t|
+    t.string   "session_id", limit: 255,   null: false
+    t.text     "data",       limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -103,35 +104,35 @@ ActiveRecord::Schema.define(version: 20151208022548) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
-  create_table "settings", force: true do |t|
-    t.string   "name"
-    t.text     "desc"
-    t.string   "value"
+  create_table "settings", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.text     "desc",       limit: 65535
+    t.string   "value",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
-    t.string   "email",                  default: ""
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  limit: 255, default: ""
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first"
-    t.string   "last"
-    t.string   "middle"
-    t.integer  "role",                   default: 0
+    t.string   "first",                  limit: 255
+    t.string   "last",                   limit: 255
+    t.string   "middle",                 limit: 255
+    t.integer  "role",                   limit: 4,   default: 0
     t.date     "dob"
-    t.integer  "gender"
-    t.string   "business"
-    t.string   "phone"
+    t.integer  "gender",                 limit: 4
+    t.string   "business",               limit: 255
+    t.string   "phone",                  limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -30,7 +30,7 @@ angular.module('calendarApp')
         data.appointments ||= []
         that.appointments = data.appointments
         that.closings = data.closings
-        that.renderEvents(that.calendar, that.appointments, that.closings)
+        that.renderEvents(that.calendar, that.appointments, that.closings, options.start)
       channel.join()
 
   @cleanupDeleted = (calendar, appointments, closings) ->
@@ -38,28 +38,28 @@ angular.module('calendarApp')
     closingIds = _.map closings, (c)-> c.id
     calendar.fullCalendar('removeEvents', (e)-> e.appointment?.id not in apptIds && e.closing?.id not in closingIds)
 
-  @renderEvents = (calendar, appointments, closings) ->
+  @renderEvents = (calendar, appointments, closings, calendarStart) ->
     _.each appointments.concat(closings), (a)->
       existing = calendar.fullCalendar('clientEvents', (e)-> e.appointment?.id == a.id || e.closing?.id == a.id)[0]
-      that.placeEvent(calendar, existing, a)
+      that.placeEvent(calendar, existing, a, calendarStart)
 
-  @placeEvent = (calendar, existing, appointment) ->
+  @placeEvent = (calendar, existing, appointment, calendarStart) ->
     if existing && appointment.id != 'new'
       # Update existing
       if appointment.start # appointment
         calAppt = angular.extend(existing, that.reformAppointment(appointment, existing))
       else # closing
-        calAppt = angular.extend(existing, that.reformClosing(appointment, existing))
+        calAppt = angular.extend(existing, that.reformClosing(appointment, existing, calendarStart))
       calendar.fullCalendar 'updateEvent', calAppt
     else
       # Add new
       if appointment.start
         calAppt = that.reformAppointment(appointment)
       else
-        calAppt = that.reformClosing(appointment)
+        calAppt = that.reformClosing(appointment, undefined, calendarStart)
       calendar.fullCalendar('renderEvent', calAppt)
 
-  @reformClosing = (closing, existing)->
+  @reformClosing = (closing, existing, calendarStart)->
     existing ||= {}
     closing = Closings.$buildRaw(closing) unless closing.$pk
     type = {name: "Closed#{if closing.desc then " - #{closing.desc}" else ''}", colorClass: 'black', textColor: 'white'}
@@ -67,6 +67,14 @@ angular.module('calendarApp')
     if $rootScope.user?.isStaffOrAdmin()
       existing.editable = true
     existing.start = moment(closing.date)
+    if closing.recurring
+      newMoment = moment(calendarStart).startOf('week')
+      s = existing.start.clone()
+      s.year(newMoment.year())
+        .month(newMoment.month())
+        .date(newMoment.date())
+        .add(existing.start.day(), 'days')
+      existing.start = s
     existing.end = moment(existing.start).hours(existing.start.hours() + closing.duration)
     existing
 
