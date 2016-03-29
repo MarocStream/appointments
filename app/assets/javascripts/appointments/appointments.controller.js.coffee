@@ -104,6 +104,7 @@ angular.module('calendarApp')
     defaultView: 'agendaWeek'
     minTime: '00:00:00'
     maxTime: '24:00:00'
+    eventDurationEditable: false
     weekends: false
     eventResize: (event, delta, revertFunc)-> revertFunc()
 

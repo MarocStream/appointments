@@ -185,6 +185,7 @@ angular.module('calendarApp')
       minTime: '00:00:00'
       maxTime: '24:00:00'
       weekends: false
+      eventDurationEditable: false
       viewRender: (view, element)->
         renderCalendar()
       eventResize: (event, delta, revertFunc)-> revertFunc()
