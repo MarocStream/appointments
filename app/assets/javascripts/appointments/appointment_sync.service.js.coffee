@@ -89,7 +89,7 @@ angular.module('calendarApp')
       type = angular.extend(type, {name: 'Slot Taken', colorClass: 'black', textColor: 'white'})
       angular.extend(existing, {title: type.name})
     else
-      angular.extend(existing, {title: appointment.user?.display})
+      angular.extend(existing, {title: "#{appointment.user?.display}#{if appointment.groupMembersAttributes.length then " (#{appointment.groupMembersAttributes.length})" else ""}"})
     angular.extend(existing, {color: type.colorClass, textColor: type.textColor, allDay: false, appointment: appointment})
     if !appointment.disableEdit && @can_access(appointment)
       existing.editable = true
