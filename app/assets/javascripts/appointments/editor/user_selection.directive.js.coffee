@@ -35,6 +35,7 @@ angular.module('calendarApp')
         user.$save().$then (saved_user)->
           $scope.update(saved_user)
         , (reject)->
+          user.errors = reject.$response.data
           $scope.editUser(user)
 
 ]

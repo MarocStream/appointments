@@ -41,6 +41,17 @@
   </div>
   <div class="form-group row">
     <div class="col-md-3 text-right">
+      <label>Email:</label>
+    </div>
+    <div class="col-md-9" ng-class="{'has-error': user.errors.email}">
+      <input type="text" class="form-control" ng-model="user.email" placeholder="user@example.com (optional)"/>
+      <span ng-if="user.errors.email">
+        Email {{user.errors.email[0]}}
+      </span>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-3 text-right">
       <label>Gender:</label>
     </div>
     <div class="col-md-9">
