@@ -1,0 +1,27 @@
+<div class="well">
+  <div class="row">
+    <div class="col-sm-10">
+      <h3>
+        <%= @appointment_type.name %> <small>(<%= @appointment_type.duration %> mins <%= @appointment_type.overlap? ? "w/ overlap" : "" %><%= @appointment_type.group? ? " +#{@appointment_type.group_time_per_person} mins/person" : 'Group not allowed' %>)</small>
+        <%= link_to 'Edit', edit_admin_appointment_type_path(@appointment_type), class: 'btn btn-primary pull-right' %>
+      </h3>
+    </div>
+    <div class="col-sm-2 small">
+      Prep Time: <%= @appointment_type.prep_duration %><br/>
+      Post Appt Time: <%= @appointment_type.post_duration %><br/>
+      Background Color: <%= @appointment_type.color_class %><br/>
+      Text Color: <%= @appointment_type.text_color %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h4>
+        <%= @appointment_type.description %>
+      </h4>
+    </div>
+  </div>
+</div>
+
+<div class="">
+
+</div>

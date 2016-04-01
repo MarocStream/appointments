@@ -27,6 +27,9 @@ angular.module('calendarApp')
       $scope.calendar.fullCalendar($scope.calendarConfig)
       AppointmentSync.watch $scope.watch
 
+  $timeout ->
+    $('[data-toggle="tooltip"]').tooltip()
+
   $scope.editAppointment = (appt, errors)->
     if !appt.id || AppointmentSync.can_access(appt)
       modalInstance = $modal.open

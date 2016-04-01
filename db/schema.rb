@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329011300) do
+ActiveRecord::Schema.define(version: 20160401030220) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "street",     limit: 255
@@ -54,9 +54,10 @@ ActiveRecord::Schema.define(version: 20160329011300) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "text_color",            limit: 255
-    t.boolean  "group",                             default: false
-    t.integer  "group_time_per_person", limit: 4,   default: 10
-    t.boolean  "overlap",                           default: false
+    t.boolean  "group",                               default: false
+    t.integer  "group_time_per_person", limit: 4,     default: 10
+    t.boolean  "overlap",                             default: false
+    t.text     "description",           limit: 65535
   end
 
   create_table "appointments", force: :cascade do |t|

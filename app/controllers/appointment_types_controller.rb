@@ -72,6 +72,6 @@ class AppointmentTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_type_params
-      params.require(:appointment_type).permit(:name, :duration, :prep_duration, :post_duration, :color_class, :group, :group_time_per_person, :text_color, :overlap)
+      params.require(:appointment_type).permit(:name, :duration, :prep_duration, :post_duration, :color_class, :group, :group_time_per_person, :text_color, :overlap, :description)
     end
 end

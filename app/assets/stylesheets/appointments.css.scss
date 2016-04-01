@@ -111,6 +111,9 @@
 
 #legend {
   margin-top: -120px;
+  .legend-item {
+    cursor: pointer;
+  }
 }
 
 #appointment-calendar .fc-day:hover {
