@@ -117,7 +117,7 @@ angular.module('calendarApp')
   $scope.add_member = ->
     $scope.appointment.groupMembersAttributes.push({})
     $timeout ->
-      $('.input-group.date input').datetimepicker({format: 'MM/DD/YYYY'})
+      $('input[data-date="true"]').datetimepicker({format: 'MM/DD/YYYY'})
     , 100
 
   calendarInitialized = false

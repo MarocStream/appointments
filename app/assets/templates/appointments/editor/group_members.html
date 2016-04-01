@@ -11,10 +11,7 @@
   </span>
 </div>
 <div class="col-xs-3 zero-right-padding" ng-class='{"has-error": appointmentErrors["group_members.dob"] && !member.dob}'>
-  <div class="input-group date">
-    <input class="form-control" ng-model="member.dob" type="text" data-date="true"/>
-    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-  </div>
+  <input class="form-control" ng-model="member.dob" type="text" placeholder="DOB" data-date="true"/>
   <span class="text-danger" ng-if='appointmentErrors["group_members.dob"] && !member.dob'>
     DOB {{appointmentErrors["group_members.dob"][0]}}
   </span>
