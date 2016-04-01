@@ -42,6 +42,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'unicorn'
 gem 'devise'
 
+gem 'sidekiq'
+gem 'sinatra', require: nil
+
 group :development, :test do
   gem 'capistrano-unicorn-nginx'
 

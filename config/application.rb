@@ -31,9 +31,16 @@ module Appointments
       "<span class='has-error'>#{html_tag}</span>".html_safe
     }
 
+    config.active_job.queue_adapter = :sidekiq
+
     # This doesnt work...
     # config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
 
     # I18n.default_locale = 'en-US'
+
+    config.action_mailer.delivery_method = :sendmail
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.default_options = {from: 'no-reply@dev.washingtontravelclinic.com'}
   end
 end

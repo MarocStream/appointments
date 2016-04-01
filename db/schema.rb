@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160401030220) do
+ActiveRecord::Schema.define(version: 20160401034927) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "street",     limit: 255
@@ -134,8 +134,16 @@ ActiveRecord::Schema.define(version: 20160401030220) do
     t.integer  "gender",                 limit: 4
     t.string   "business",               limit: 255
     t.string   "phone",                  limit: 255
+    t.string   "confirmation_token",     limit: 255
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.integer  "failed_attempts",        limit: 4,   default: 0,  null: false
+    t.string   "unlock_token",           limit: 255
+    t.datetime "locked_at"
+    t.string   "unconfirmed_email",      limit: 255
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 

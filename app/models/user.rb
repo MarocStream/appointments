@@ -1,9 +1,9 @@
 class User < ActiveRecord::Base
   include DateParse
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :omniauthable
-  devise :database_authenticatable, :registerable, :timeoutable,
-         :recoverable, :rememberable, :trackable, :validatable
+  # :omniauthable
+  devise :database_authenticatable, :registerable, :timeoutable, :confirmable,
+         :recoverable, :rememberable, :trackable, :validatable, :lockable
 
   has_many :appointments
   has_many :phones
@@ -69,6 +69,10 @@ class User < ActiveRecord::Base
     d += "#{first} " if first
     d += middle || ""
     d.blank? ? "(No Name)" : d
+  end
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
   end
 
 end

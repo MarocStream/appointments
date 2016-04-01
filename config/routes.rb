@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
@@ -15,6 +17,9 @@ Rails.application.routes.draw do
     resources :announcements, as: :admin_announcements
     resources :settings, as: :admin_settings
     resources :closings, only: [:create, :update, :destroy], as: :admin_closings
+    authenticate :user, lambda { |u| u.admin_or_staff? } do
+      mount Sidekiq::Web => '/sidekiq'
+    end
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
