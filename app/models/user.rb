@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   include DateParse
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  # :confirmable, :lockable, :omniauthable
+  devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :appointments
@@ -42,6 +42,10 @@ class User < ActiveRecord::Base
   end
 
   attr_accessor :edited_by_staff
+
+  def timeout_in
+    admin_or_staff? ? 10.years : 10.minutes
+  end
 
   def email_required?
     !edited_by_staff
