@@ -46,6 +46,30 @@ class Appointment < ActiveRecord::Base
     end
   end
 
+  after_create do
+    AppointmentMailer.confirmation_mailer(self.id).deliver_later if self.user.appointment_confirmation_email
+  end
+
+  # Cancel sidekiq job if it exists
+  before_save do
+    if self.reminder_job
+      queue = Sidekiq::Queue.new("mailer")
+      queue.each do |job|
+        job.delete if job.jid == self.reminder_job
+      end
+    end
+  end
+
+  after_save do
+    if self.user.appointment_reminder_email && !@queued_job
+      delivery_time = (self.start - 1.day).past? ? Time.current : self.start - 1.day
+      job = AppointmentMailer.delay_until(delivery_time).reminder_mailer(self.id)
+      self.reminder_job = job
+      @queued_job = true
+      self.save
+    end
+  end
+
   def start_time
     start - appointment_type.prep_duration.minutes
   end

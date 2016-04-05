@@ -82,6 +82,25 @@
 </fieldset>
 
 <fieldset>
+  <legend>Notifications</legend>
+
+  <div class="form-group form-group-lg">
+    <div class="col-sm-6 checkbox">
+      <%= f.label :appointment_confirmation_email do %>
+        <%= f.check_box :appointment_confirmation_email %>
+        Send Confirmation Email for each Appointment
+      <% end %>
+    </div>
+    <div class="col-sm-6 checkbox">
+      <%= f.label :appointment_reminder_email do %>
+        <%= f.check_box :appointment_reminder_email %>
+        Send Reminder Email 1 day before for each Appointment
+      <% end %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset>
   <legend>Password</legend>
   <% if f.object == current_user || current_user.try(:patient?) %>
     <div class="form-group form-group-lg">
