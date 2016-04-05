@@ -38,9 +38,24 @@ module Appointments
 
     # I18n.default_locale = 'en-US'
 
-    config.action_mailer.delivery_method = :sendmail
+    config.to_prepare { Devise::Mailer.layout "mailer" }
+
+    config.action_mailer.delivery_method = :smtp
+
+    config.action_mailer.smtp_settings = {
+                   address: 'smtp.gmail.com',
+                      port: '587',
+                    domain: 'gmail.com',
+                 user_name: ENV['email_user_name'],
+                  password: ENV['email_password'],
+            authentication: 'plain',
+      enable_starttls_auto: true
+    }
+
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.default charset: 'utf-8'
     config.action_mailer.default_options = {from: 'no-reply@dev.washingtontravelclinic.com'}
+    config.action_mailer.asset_host = "http://localhost:3000/"
   end
 end

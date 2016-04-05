@@ -16,3 +16,6 @@
 /tmp
 .idea/
 vendor/assets/bower_components/
+
+# Ignore application configuration
+/config/application.yml
