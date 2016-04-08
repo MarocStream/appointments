@@ -10,7 +10,7 @@
     "fullcalendar": "latest",
     "lodash": "latest",
     "jquery-ui": "latest",
-    "angular-restmod": "latest",
+    "angular-restmod": "1.1.11",
     "bootstrap": "latest",
     "bootstrap-tags": "latest",
     "angular-ui-select": "latest"
