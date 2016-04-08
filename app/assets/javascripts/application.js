@@ -29,7 +29,8 @@
 //= require angular-ui-bootstrap-bower/ui-bootstrap.js
 //= require angular-ui-bootstrap-bower/ui-bootstrap-tpls
 //= require bootstrap
-//= require lodash
+//= require underscore
+//= require underscore.string
 //= require moment
 //= require fullcalendar
 //= require calendar

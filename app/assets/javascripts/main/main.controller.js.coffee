@@ -13,7 +13,7 @@ angular.module('calendarApp')
     $rootScope.user = user
   $rootScope.settings_promise.$then (settings)->
     $rootScope.settings = _.reduce settings, (combined, setting)->
-      combined[_.camelCase(setting.name)] = setting.value
+      combined[_.camelize(setting.name)] = setting.value
       combined
     , {}
 
