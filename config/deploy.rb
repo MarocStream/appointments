@@ -23,7 +23,7 @@ set :deploy_to, '/var/www/appointments'
 set :pty, false
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml db/staging.sqlite3}
+set :linked_files, %w{config/database.yml db/staging.sqlite3 config/application.yml}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
