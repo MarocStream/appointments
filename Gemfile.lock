@@ -65,6 +65,9 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
+    capistrano-sidekiq (0.5.4)
+      capistrano
+      sidekiq (>= 3.4)
     capistrano-unicorn-nginx (3.4.0)
       capistrano (>= 3.1)
       sshkit (>= 1.2.0)
@@ -261,6 +264,7 @@ DEPENDENCIES
   capistrano-bower
   capistrano-rails
   capistrano-rvm
+  capistrano-sidekiq
   capistrano-unicorn-nginx
   coffee-rails (~> 4.0.0)
   database_cleaner

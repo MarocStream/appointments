@@ -53,6 +53,7 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
   gem 'capistrano-bower'
+  gem 'capistrano-sidekiq'
 
   # Testing frameworks
   gem 'rspec-rails'

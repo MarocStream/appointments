@@ -20,7 +20,7 @@ set :deploy_to, '/var/www/appointments'
 # set :log_level, :debug
 
 # Default value for :pty is false
-set :pty, true
+set :pty, false
 
 # Default value for :linked_files is []
 set :linked_files, %w{config/database.yml db/staging.sqlite3}
@@ -30,6 +30,8 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 
 # Default value for default_env is {}
 set :default_env, ENV.to_hash.slice("DEVISE_SECRET", "SECRET_KEY_BASE")
+
+set :sidekiq_options_per_process, ["--queue high", "--queue default", "--queue low", "--queue mailers"]
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
