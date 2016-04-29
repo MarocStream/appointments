@@ -4,8 +4,11 @@ angular.module('calendarApp')
 ['$scope', 'appointment', 'appointmentErrors', '$modalInstance', '$modal', 'Appointments', 'Users', '$rootScope', '$timeout', '$filter', 'AppointmentSync',
 ( $scope,   appointment,   appointmentErrors,   $modalInstance,   $modal,   Appointments,   Users,   $rootScope,   $timeout,   $filter,    AppointmentSync)->
 
+  appointmentDateInput = null
+
   $timeout ->
-    $('.input-group.date input').datetimepicker({format: 'MM/DD/YYYY'}).on 'dp.change', (e) ->
+    appointmentDateInput = $('.input-group.date input')
+    appointmentDateInput.datetimepicker({format: 'MM/DD/YYYY'}).on 'dp.change', (e) ->
       $(e.currentTarget).change()
   , 100
 
@@ -26,7 +29,7 @@ angular.module('calendarApp')
       date.subtract(date.minutes() % 10, 'minutes')
       date.seconds(0)
       $scope[obj][name] = new Date(date.valueOf())
-      $scope[name] = $('[data-date=true]').val() || date.format('MM/DD/YYYY') # WTF angular, update stuff
+      $scope[name] = appointmentDateInput.val() || date.format('MM/DD/YYYY') # WTF angular, update stuff
       merge_date_time()
       $scope.$apply()
       renderCalendar()

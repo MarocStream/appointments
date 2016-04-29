@@ -90,7 +90,7 @@ angular.module('calendarApp')
       angular.extend(existing, {title: type.name || ''})
     else
       groupMembers = _.reject(appointment.groupMembersAttributes, (g) -> g.destroy)
-      angular.extend(existing, {title: "#{appointment.user?.display || ''}#{if groupMembers.length then " (#{groupMembers.length})" else ""}"})
+      angular.extend(existing, {title: "#{appointment.user?.display || ''}#{if groupMembers.length && appointment.user?.display then " (#{groupMembers.length})" else ""}"})
     angular.extend(existing, {color: type.colorClass, textColor: type.textColor, allDay: false, appointment: appointment})
     if !appointment.disableEdit && @can_access(appointment)
       existing.editable = true
