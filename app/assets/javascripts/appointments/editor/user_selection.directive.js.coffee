@@ -1,10 +1,12 @@
 angular.module('calendarApp')
 
-.directive 'userSelection', ['PatientLookup', '$modal', (PatientLookup, $modal)->
+.directive 'userSelection', ['PatientLookup', '$modal', '$timeout', (PatientLookup, $modal, $timeout)->
   restrict: 'E'
   transclude: true
+  require: '^ngModel'
   scope: {
-    appointment: '='
+    appointment: '=ngModel',
+    ngChange: '&'
   }
   templateUrl: 'appointments/editor/user_selection.html'
   link: ($scope, $element, $attrs)->
@@ -21,6 +23,7 @@ angular.module('calendarApp')
     $scope.update = (selected)->
       $scope.appointment.userId = selected?.id
       $scope.appointment.user = $scope.user = selected
+      $timeout($scope.ngChange) if $scope.ngChange
 
     $scope.editUser = (user)->
       modalInstance = $modal.open

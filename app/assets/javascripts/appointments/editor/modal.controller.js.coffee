@@ -121,6 +121,9 @@ angular.module('calendarApp')
       $('input[data-date="true"]').datetimepicker({format: 'MM/DD/YYYY'})
     , 100
 
+  $scope.update = ->
+    renderCalendar()
+
   calendarInitialized = false
   renderCalendar = ->
     if calendarInitialized

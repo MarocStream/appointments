@@ -97,7 +97,7 @@
       <div class="col-md-9">
         <span ng-if="user.isPatient()" class="pull-left">{{user.display || (user.first + " " + user.last)}}</span>
         <span ng-if="user.isStaffOrAdmin()" class="">
-          <user-selection appointment="appointment">
+          <user-selection ng-model="appointment" ng-change="update()">
           </user-selection>
         </span>
         <span ng-if="user == null">
