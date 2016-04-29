@@ -5,7 +5,8 @@ angular.module('calendarApp')
 ( $scope,   appointment,   appointmentErrors,   $modalInstance,   $modal,   Appointments,   Users,   $rootScope,   $timeout,   $filter,    AppointmentSync)->
 
   $timeout ->
-    $('.input-group.date input').datetimepicker({format: 'MM/DD/YYYY'})
+    $('.input-group.date input').datetimepicker({format: 'MM/DD/YYYY'}).on 'dp.change', (e) ->
+      $(e.currentTarget).change()
   , 100
 
   $scope.setDate = (obj, name)->
