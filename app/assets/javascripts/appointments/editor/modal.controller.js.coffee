@@ -172,7 +172,7 @@ angular.module('calendarApp')
         left: ''
         center: 'today prev,next'
         right: ''
-      defaultDate: _.clone($scope.closing?.date || $scope.appointment?.start)
+      defaultDate: moment($scope.closing?.date || $scope.appointment?.start)
       timezone: 'America/New_York'
       allDaySlot: false
       businessHours:
