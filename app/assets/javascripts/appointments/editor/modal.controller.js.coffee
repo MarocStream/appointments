@@ -121,7 +121,8 @@ angular.module('calendarApp')
   $scope.add_member = ->
     $scope.appointment.groupMembersAttributes.push({})
     $timeout ->
-      $('input[data-date="true"]').datetimepicker({format: 'MM/DD/YYYY'})
+      $('input[data-date="true"]').datetimepicker({format: 'MM/DD/YYYY'}).on 'dp.change', (e) ->
+        $(e.currentTarget).change()
     , 100
 
   $scope.update = ->
