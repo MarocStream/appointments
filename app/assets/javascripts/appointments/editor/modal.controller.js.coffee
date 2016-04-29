@@ -127,6 +127,7 @@ angular.module('calendarApp')
   calendarInitialized = false
   renderCalendar = ->
     if calendarInitialized
+      dateToView = $scope.appointment?.start || $scope.closing?.date
       appointments = AppointmentSync.appointments
       closings = AppointmentSync.closings
       if $scope.closing
@@ -136,6 +137,7 @@ angular.module('calendarApp')
         console.log "rendering", appointments
         AppointmentSync.cleanupDeleted($scope.calendar)
         AppointmentSync.renderEvents($scope.calendar, appointments, closings)
+        $scope.calendar.fullCalendar('gotoDate', dateToView)
 
       if $scope.appointment
         $scope.appointment.showType = true
