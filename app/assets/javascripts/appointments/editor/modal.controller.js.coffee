@@ -29,7 +29,7 @@ angular.module('calendarApp')
       date.subtract(date.minutes() % 10, 'minutes')
       date.seconds(0)
       $scope[obj][name] = new Date(date.valueOf())
-      $scope[name] = appointmentDateInput.val() || date.format('MM/DD/YYYY') # WTF angular, update stuff
+      $scope[name] = appointmentDateInput?.val() || date.format('MM/DD/YYYY') # WTF angular, update stuff
       merge_date_time()
       $scope.$apply()
       renderCalendar()

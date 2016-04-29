@@ -2,7 +2,8 @@ angular.module('calendarApp')
 
 .controller 'UserController', ['$scope', '$modalInstance', 'user', 'showEmailPassword', '$timeout', ($scope, $modalInstance, user, showEmailPassword, $timeout)->
   $timeout ->
-    $('ng-form[name="userForm"] input[data-date="true"]').datetimepicker({format: 'MM/DD/YYYY'})
+    $('ng-form[name="userForm"] input[data-date="true"]').datetimepicker({format: 'MM/DD/YYYY'}).on 'dp.change', (e) ->
+      $(e.currentTarget).change()
 
   $scope.user = user
   $scope.showEmailPassword = showEmailPassword
