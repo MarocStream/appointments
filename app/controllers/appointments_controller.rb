@@ -24,6 +24,7 @@ class AppointmentsController < ApplicationController
       format.json
       format.html
       format.csv do
+        raise 'Not Authorized' unless current_user.admin?
         filename = params[:start] && params[:duration] ? "appointments-#{params[:start]}-#{params[:duration]}.csv" : "appointments-latest.csv"
         headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
         headers['Content-Type'] ||= 'text/csv'
@@ -135,8 +136,8 @@ class AppointmentsController < ApplicationController
     end
 
     def allows_access?(appointment)
-      # Logged in  &&  (      owned by current user      &&       patient        ||    admin or staff)
-      current_user && (appointment.user == current_user && current_user.patient? || current_user.admin_or_staff?)
+      # Logged in  &&  (      (owned by current user     &&       patient)         ||    admin or staff)
+      current_user && ((appointment.user == current_user && current_user.patient?) || current_user.admin_or_staff?)
     end
 
     def check_past_appointment!
