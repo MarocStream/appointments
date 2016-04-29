@@ -46,7 +46,7 @@ angular.module('calendarApp')
       , (rejected)->
         $scope.editAppointment(appt, rejected.$response.data)
     , (appointment) ->
-      if appointment && not appointment in ['backdrop click', 'escape key press']
+      if appointment && not (appointment in ['backdrop click', 'escape key press'])
         appointment = Appointments.$buildRaw(_.omit(appointment.$encode(), 'id'))
         $scope.editAppointment(appointment)
 
