@@ -54,3 +54,49 @@ Either:
 Or visit the following URL after starting the web server:
 
     http://localhost:8080/specs
+
+# Deployment
+
+Create a user to run everything (i.e. `web`).
+
+Use `ssh-copy-id` (install via Homebrew) to setup passwordless SSH key login.
+
+Install dependencies:
+
+```
+sudo apt-get install nodejs-legacy npm redis-server nginx mysql-server git libmysqlclient-dev
+sudo apt-get install esl-erlang=1:17.5.3
+sudo apt-get install elixir=1.1.1-2
+```
+
+Run the following (don't forget to fill in `<ENVIRONMENT>` with `staging`/`production` etc.):
+
+```
+sudo visudo -f /etc/sudoers.d/nginx-overrides
+```
+
+Paste the following content:
+```
+web ALL = (root) NOPASSWD: /etc/init.d/nginx restart
+web ALL = (root) NOPASSWD: /etc/init.d/nginx reload
+web ALL = (root) NOPASSWD: /bin/mv /tmp/appointments_<ENVIRONMENT> /etc/nginx/sites-available
+web ALL = (root) NOPASSWD: /bin/ln -fs /etc/nginx/sites-available/appointments_<ENVIRONMENT> /etc/nginx/sites-enabled/appointments_<ENVIRONMENT>
+```
+
+```
+sudo visudo -f /etc/sudoers.d/unicorn-overrides
+```
+
+```
+web ALL = (root) NOPASSWD: /bin/mv /tmp/unicorn_appointments_<ENVIRONMENT> /etc/init.d
+web ALL = (root) NOPASSWD: /usr/sbin/update-rc.d -f unicorn_appointments_<ENVIRONMENT> defaults
+web ALL = (root) NOPASSWD: /usr/sbin/service unicorn_appointments_production start
+web ALL = (root) NOPASSWD: /usr/sbin/service unicorn_appointments_production restart
+web ALL = (root) NOPASSWD: /usr/sbin/service unicorn_appointments_production stop
+```
+
+Then setup the server with capistrano
+
+```
+cap <ENVIRONMENT> setup
+```

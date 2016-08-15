@@ -83,7 +83,18 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.asset_host = "http://washingtontravelclinic.com"
-  config.action_mailer.default_url_options = { host: 'washingtontravelclinic.com' }
-  config.action_mailer.default_options = {from: 'no-reply@washingtontravelclinic.com'}
+  # Email
+  config.action_mailer.smtp_settings = {
+                 address: 'mail.washingtondoc.com',
+                    port: '26',
+                  domain: 'washingtondoc.com',
+               user_name: ENV['email_user_name'],
+                password: ENV['email_password'],
+          authentication: :login,
+    enable_starttls_auto: false
+  }
+
+  config.action_mailer.asset_host = "http://www.washingtondoc.com"
+  config.action_mailer.default_url_options = { host: 'washingtondoc.com' }
+  config.action_mailer.default_options = {from: 'appointments@washingtondoc.com'}
 end
