@@ -41,7 +41,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
 gem 'unicorn'
-gem 'devise', '>= 4.7.1'
+gem 'devise'
 
 gem 'sidekiq'
 gem 'sinatra', require: nil
