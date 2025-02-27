@@ -4,19 +4,15 @@ class User < ActiveRecord::Base
   # :omniauthable
   devise :database_authenticatable, :registerable, :timeoutable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
-
   has_many :appointments
   has_many :phones
   has_many :addresses
-
   validates :phones, presence: true
   validates :addresses, presence: true
   validates_presence_of :first, :last, :dob, :gender
-
-  enum role: {patient: 0, staff: 1, admin: 2}
-  enum gender: {male: 0, female: 1}
-
-  reformat_date :dob, "%m/%d/%Y"
+  enum :role, {patient: 0, staff: 1, admin: 2}
+  enum :gender, {male: 0, female: 1}
+  #reformat_date :dob, "%m/%d/%Y"
 
   accepts_nested_attributes_for :phones, :addresses, allow_destroy: true
 
