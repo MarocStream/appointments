@@ -1,9 +1,9 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :setting do
-    name "MyString"
-    desc "MyString"
-    value "MyString"
+    name {"MyString"}
+    desc {"MyString"}
+    value {"MyString"}
   end
 end

@@ -100,3 +100,6 @@ Then setup the server with capistrano
 ```
 cap <ENVIRONMENT> setup
 ```
+
+for jasmine npn replacement 
+npm install --save-dev jasmine

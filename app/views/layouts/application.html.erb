@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Appointments</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
   <script type="text/javascript">
     window.__auth_token__ = <%= Rails.application.message_verifier(:session_auth).generate(session.id).to_json.html_safe %>;
     window.__ws_url__ = <%= Rails.application.config.phoenix_url.to_json.html_safe %>

@@ -1,9 +1,9 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :closing do
-    date "2015-06-14 01:18:15"
-    all_day false
-    desc "MyString"
+    date {"2015-06-14 01:18:15"}
+    all_day {false}
+    desc {"MyString"}
   end
 end

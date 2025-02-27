@@ -14,7 +14,7 @@ development:
   database: appointments_development
   host: 127.0.0.1
   username: root
-  password: rootpass
+  password: rootPass
   socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
@@ -23,23 +23,23 @@ development:
 test:
   <<: *default
   database: appointments_test
-  host: localhost
+  host: 127.0.0.1
   username: root
-  # password: rootpass
+  password: rootPass
   socket: /tmp/mysql.sock
 
 staging:
   <<: *default
   database: appointments
-  host: localhost
-  username: user
-  password:
+  host: 127.0.0.1
+  username: root
+  password: rootPass
   socket: /tmp/mysql.sock
 
 production:
   <<: *default
   database: appointments
-  host: localhost
-  username: user
-  password:
+  host: 127.0.0.1
+  username: root
+  password: rootPass
   socket: /tmp/mysql.sock
