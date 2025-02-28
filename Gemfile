@@ -23,6 +23,8 @@ gem 'coffee-rails'
 gem 'therubyracer',  platforms: :ruby
 gem "less-rails"
 gem 'figaro'
+gem 'momentjs-rails'
+gem 'fullcalendar-rails'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'bootstrap3-datetimepicker-rails'
@@ -53,7 +55,6 @@ gem 'devise'
 gem 'sidekiq'
 gem 'sinatra', require: nil
 gem 'sprockets'
-#, '~> 3.7.2'
 group :development, :test do
   gem 'capistrano-unicorn-nginx'
 

@@ -25,8 +25,8 @@ module Appointments
     # config.i18n.default_locale = :de
 
    # config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
-   config.assets.precompile << /\.(?:svg|eot|woff|ttf)\z/
-   # config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
+   #config.assets.precompile << /\.(?:svg|eot|woff|ttf)\z/
+    config.assets.precompile [ /\w+\.(?!js|css).+/, /application.(css|js)$/ ]
     config.action_view.field_error_proc = Proc.new { |html_tag, instance|
       "<span class='has-error'>#{html_tag}</span>".html_safe
     }

@@ -2,9 +2,8 @@
 <html>
 <head>
   <title>Appointments</title>
-  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
- <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
-  
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <script type="text/javascript">
     window.__auth_token__ = <%= Rails.application.message_verifier(:session_auth).generate(session.id).to_json.html_safe %>;
     window.__ws_url__ = <%= Rails.application.config.phoenix_url.to_json.html_safe %>
@@ -68,9 +67,7 @@
             <%= render partial: "layouts/flash_messages", flash: flash %>
           </div>
         </div>
-
-
-        <%= image_tag("logo.png", class: 'no-border', width: 45, height: 45)%>
+        <%= image_tag "logo.png", class: 'no-border', width: 45, height: 45 %>
         <% if @announcements.present? %>
           <div class="well announcement">
             <% (@announcements || []).each do |a| %>
@@ -84,7 +81,7 @@
 
 
   	<div id="content-wrap">
-    	<%= image_tag("headerphoto15.jpg", width: 1100, height: 120, class: 'no-border')%>
+    	<%= image_tag "headerphoto15.jpg", width: 1100, height: 120, class: 'no-border' %>
     	<div id="main">
         <div class="container-fluid">
           <%= yield %>
